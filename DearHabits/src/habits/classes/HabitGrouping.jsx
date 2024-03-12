@@ -9,7 +9,7 @@ export default class HabitGrouping {
     #visual;
     #stats = [];
     #values = [];
-    constructor(label, type, low=null, high=null, interval=null) {
+    constructor(label, type, high="", low="", interval=0) {
         this.#label = label;
         this.#type = type;
         this.#low = low;
@@ -21,13 +21,16 @@ export default class HabitGrouping {
     set label(label) { this.#label = label; }
 
     get type() { return this.#type; }
-    changeType = (type, low=null, high=null, interval=null) => {
-        this.#type = type;
-        this.#low = low;
-        this.#high = high;
-        this.#interval = interval;
-    }
-    getScale = () => [this.#low, this.#high, this.#interval];
+    set type(type) { this.#type = type; }
+
+    get high() { return this.#high; }
+    set high(high) { this.#high = high; }
+
+    get low() { return this.#low; }
+    set low(low) { this.#low = low; }
+
+    get interval() { return this.#interval; }
+    set interval(interval) { this.#interval = interval; }
 
     get visual() { return this.#visual; }
     set visual(visual) { this.#visual = visual; }

@@ -23,10 +23,11 @@ const MainCreate = props => {
 
     return (
         <>
-            <h1>Create a Habit</h1>
+            <h2>Create a Habit</h2>
             <form onSubmit={e => submissionHandler()}>
                 <HabitCreate updateFunc={updateHabit} />
                 <hr />
+                <h3>Activities</h3>
                 <GroupingCreate updateFunc={updateGrouping} />
                 <hr />
                 <button onClick={e => submissionHandler()} type="button">Fake Submit</button>
@@ -94,7 +95,7 @@ const HabitCreate = ({updateFunc, ...props}) => {
 const GroupingCreate = ({updateFunc, ... props}) => {
     const [grouping, setGrouping] = useState(blankGroup);
 
-    const groupHandler = e => {
+    const addHandler = e => {
         if (grouping.length === 20) {
             alert("Maximum Habit Groupings reached");
         } else {
@@ -106,6 +107,18 @@ const GroupingCreate = ({updateFunc, ... props}) => {
             });
         }
     };
+
+    const removeHandler = (e, index) => {
+        if (grouping.length === 1) {
+            alert("Must have at least One Activity")
+        } else {
+            setGrouping(oldGrouping => {
+                const newGrouping = oldGrouping.filter((_, idx) => idx != index);
+                updateFunc(newGrouping);
+                return newGrouping
+            })
+        }
+    }
 
     const indiHandler = (e, index) => {
         setGrouping(oldGrouping => {
@@ -185,10 +198,12 @@ const GroupingCreate = ({updateFunc, ... props}) => {
                             </label>
                         </section>
                     ) : null}
+                    <br />
+                    <button onClick={e => removeHandler(e, index)} type="button">-</button>
                     <hr />
                 </section>)
             })}
-            <button onClick={groupHandler} type="button">+</button>
+            <button onClick={addHandler} type="button">+</button>
         </>
     )
 };
