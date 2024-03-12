@@ -1,33 +1,40 @@
 export default class HabitGrouping {
+    #label;
+    #type;
+
+    #low;
+    #high;
+    #interval;
+    
+    #visual;
+    #stats = [];
+    #values = [];
     constructor(label, type, low=null, high=null, interval=null) {
-        this.label = label;
-        this.type = type;
-        this.low = low;
-        this.high = high;
-        this.interval = interval;
-
-        this.visual = null;
-        this.stats = [];
-        this.value = [];
+        this.#label = label;
+        this.#type = type;
+        this.#low = low;
+        this.#high = high;
+        this.#interval = interval;
     }
 
-    get label() { return this.label; }
-    set label(label) { this.label = label; }
+    get label() { return this.#label; }
+    set label(label) { this.#label = label; }
 
-    get type() { return this.type; }
+    get type() { return this.#type; }
     changeType = (type, low=null, high=null, interval=null) => {
-        this.type = type;
-        this.low = low;
-        this.high = high;
-        this.interval = interval;
+        this.#type = type;
+        this.#low = low;
+        this.#high = high;
+        this.#interval = interval;
     }
+    getScale = () => [this.#low, this.#high, this.#interval];
 
-    get Visual() { return this.visual; }
-    set Visual(visual) { this.visual = visual; }
+    get visual() { return this.#visual; }
+    set visual(visual) { this.#visual = visual; }
 
-    get Stats() { return this.stats; }
-    set Stats(stats) { this.stats = stats; }
+    get stats() { return this.#stats; }
+    set stats(stats) { this.#stats = stats; }
 
-    get Value() { return this.value; }
-    incrementValue = value => this.value.push(value);
+    get values() { return this.#values; }
+    incrementValue = value => this.#values.push(value);
 }

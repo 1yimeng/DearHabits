@@ -1,28 +1,31 @@
 export default class Habit {
+    #name;
+    #freq;
+    #privacy;
+    #streak = 0;
+    #grouping = [];
+
     constructor(name, freq, privacy) {
-        this.name = name;
-        this.freq = freq;
-        this.privacy = privacy;
-        
-        this.streak = 0;
-        this.grouping = [];
+        this.#name = name;
+        this.#freq = freq;
+        this.#privacy = privacy;
     }
 
-    get Name() { return this.name; }
-    set Name(name) { this.name = name; }
+    get name() { return this.#name; }
+    set name(name) { this.#name = name; }
 
-    get Frequency() { return this.freq; }
-    set Frequency(freq) { this.freq = freq; }
+    get frequency() { return this.#freq; }
+    set frequency(freq) { this.#freq = freq; }
 
-    get Privacy() { return this.privacy; }
-    set Privacy(privacy) { this.privacy = privacy; }
+    get privacy() { return this.#privacy; }
+    set privacy(privacy) { this.#privacy = privacy; }
 
-    get Streak() { return this.streak; }
-    incrementStreak = () => this.streak++;
-    resetStreak = () => this.streak = 0;
+    get streak() { return this.#streak; }
+    incrementStreak = () => this.#streak++;
+    resetStreak = () => this.#streak = 0;
 
-    get Group() { return this.grouping; }
-    addGroup = grouping => this.grouping.push(grouping);
-    delGroup = grouping => this.grouping.filter(group => group.Label() != grouping.Label());
-    updateGroup = grouping => this.grouping = grouping;
+    get group() { return this.#grouping; }
+    addGroup = grouping => this.#grouping.push(grouping);
+    delGroup = grouping => this.#grouping.filter(group => group.Label() != grouping.Label());
+    updateGroup = grouping => this.#grouping = grouping;
 }

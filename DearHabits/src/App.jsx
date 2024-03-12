@@ -3,7 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-import CreateHabit from './Habits/CreateHabit'
+// import CreateHabit from './habits/CreateHabit'
+import MainCreate from './habits/CreateHabit'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -31,9 +32,9 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <section>
-        <CreateHabit />
+        {/* <CreateHabit /> */}
+        <MainCreate />
       </section>
-      <h1>Hello2</h1>
     </>
   )
 }
