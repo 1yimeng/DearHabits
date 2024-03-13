@@ -4,10 +4,23 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 // import CreateHabit from './habits/CreateHabit'
-import MainCreate from './habits/CreateHabit'
+import { MainCreate } from './habits/CreateHabit'
+import MainView from './habits/ViewHabit'
+
+import Habit from './habits/classes/Habit'
+import HabitGrouping from './habits/classes/HabitGrouping'
+
+const group = [new HabitGrouping("Running", "Numerical"), 
+               new HabitGrouping("Mood", "Scale", "Good", "Bad", 3), 
+               new HabitGrouping("Weights", "Text"),
+               new HabitGrouping("Plank", "Checkmark")];
+const habit = new Habit("Exercise", "Daily", "Private");
+habit.updateGroup(group);
 
 function App() {
   const [count, setCount] = useState(0)
+
+
 
   return (
     <>
@@ -34,6 +47,7 @@ function App() {
       <section>
         {/* <CreateHabit /> */}
         <MainCreate />
+        <MainView habit={habit} />
       </section>
     </>
   )

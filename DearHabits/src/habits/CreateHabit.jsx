@@ -4,10 +4,11 @@ import HabitGrouping from './classes/HabitGrouping.jsx'
 
 
 const blankHabit = new Habit("", "Daily", "Private");
-const blankGroup = [new HabitGrouping("Test", "Text")];
+const blankGroup = [new HabitGrouping("", "Text")];
 
-const MainCreate = props => {
-    let habit = new Habit("", "")
+export const MainCreate = props => {
+    let habit = new Habit("", "Daily", "Private");
+    let grouping = [new HabitGrouping("", "Text")];
 
     const updateHabit = newHabit => {
         habit = newHabit;
@@ -25,10 +26,11 @@ const MainCreate = props => {
         <>
             <h2>Create a Habit</h2>
             <form onSubmit={e => submissionHandler()}>
-                <HabitCreate updateFunc={updateHabit} />
+                <HabitCreate initial={habit} updateFunc={updateHabit} />
                 <hr />
                 <h3>Activities</h3>
-                <GroupingCreate updateFunc={updateGrouping} />
+                <hr />
+                <GroupingCreate initial={grouping} updateFunc={updateGrouping} />
                 <hr />
                 <button onClick={e => submissionHandler()} type="button">Fake Submit</button>
                 <input type="submit" />
@@ -37,8 +39,8 @@ const MainCreate = props => {
     )
 }
 
-const HabitCreate = ({updateFunc, ...props}) => {
-    const [habit, setHabit] = useState(blankHabit);
+export const HabitCreate = ({initial, updateFunc, ...props}) => {
+    const [habit, setHabit] = useState(initial);
 
     const formHandler = e => {
         setHabit(oldHabit => {
@@ -55,45 +57,49 @@ const HabitCreate = ({updateFunc, ...props}) => {
     return (
         <>
             <label>
-                Name 
-                <input type="text" 
-                    required 
-                    name="habitName"
-                    value={habit.name}
-                    onChange={formHandler}
-                />
+                <h2>
+                    <input type="text" 
+                        required 
+                        name="habitName"
+                        placeholder="Habit Name"
+                        value={habit.name}
+                        onChange={formHandler}
+                    />
+                </h2>
             </label>
-            <hr />
             <label>
-                Frequency 
-                <select
-                    required
-                    name="habitFreq"
-                    value={habit.frequency}
-                    onChange={formHandler}>
-                    <option value="Daily">Daily</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Monthly">Monthly</option>
-                </select>
+                <h4>
+                    Frequency 
+                    <select
+                        required
+                        name="habitFreq"
+                        value={habit.frequency}
+                        onChange={formHandler}>
+                        <option value="Daily">Daily</option>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
+                    </select>
+                </h4>
             </label>
-            <hr />
             <label>
-                Privacy 
-                <select
-                    required
-                    name="habitPrivacy"
-                    value={Habit.privacy}
-                    onChange={formHandler}>
-                    <option value="Private">Private</option>
-                    <option value="Public">Public</option>
-                </select>
+                <h4>
+                    Privacy 
+                    <select
+                        required
+                        name="habitPrivacy"
+                        value={Habit.privacy}
+                        onChange={formHandler}>
+                        <option value="Private">Private</option>
+                        <option value="Public">Public</option>
+                    </select>
+                </h4>
             </label>
         </>
     );
 };
 
-const GroupingCreate = ({updateFunc, ... props}) => {
-    const [grouping, setGrouping] = useState(blankGroup);
+export const GroupingCreate = ({initial, updateFunc, ... props}) => {
+    const [grouping, setGrouping] = useState(initial);
 
     const addHandler = e => {
         if (grouping.length === 20) {
@@ -143,17 +149,16 @@ const GroupingCreate = ({updateFunc, ... props}) => {
             {grouping.map((group, index) => {
                 return(<section key={index.toString()}>
                     <label>
-                        Label
                         <input 
                         type="text" 
                         required
                         name="groupLabel"
+                        placeholder="Activity Name"
                         value={group.label}
                         onChange={e => indiHandler(e, index)} />
                     </label>
                     <br />
                     <label>
-                        Type
                         <select
                         required
                         name="groupType"
@@ -168,21 +173,21 @@ const GroupingCreate = ({updateFunc, ... props}) => {
                     {(group.type === "Scale") ? (
                         <section>
                             <label>
-                                Upper Bound
                                 <input 
                                 type="text" 
                                 required
                                 name="groupHigh"
+                                placeholder="Upper Bound"
                                 value={group.high}
                                 onChange={e => indiHandler(e, index)} />
                             </label>
                             <br />
                             <label>
-                                Lower Bound
                                 <input 
                                 type="text" 
                                 required
                                 name="groupLow"
+                                placeholder="Lower Bound"
                                 value={group.low}
                                 onChange={e => indiHandler(e, index)} />
                             </label>
@@ -190,10 +195,13 @@ const GroupingCreate = ({updateFunc, ... props}) => {
                             <label>
                                 Number of Intervals
                                 <input 
-                                type="text" 
+                                type="number" 
                                 required
                                 name="groupInter"
                                 value={group.interval}
+                                min="2"
+                                max="10"
+                                step="1"
                                 onChange={e => indiHandler(e, index)} />
                             </label>
                         </section>
@@ -359,6 +367,3 @@ const CreateHabit = props => {
         </>
     )
 }
-
-// export default CreateHabit;
-export default MainCreate;
