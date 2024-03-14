@@ -9,12 +9,15 @@ import MainView from './habits/ViewHabit'
 
 import Habit from './habits/classes/Habit'
 import HabitGrouping from './habits/classes/HabitGrouping'
+import ListHabits from './habits/ListHabits'
+import Home from './Home'
 
 const group = [new HabitGrouping("Running", "Numerical"), 
                new HabitGrouping("Mood", "Scale", "Good", "Bad", 3), 
                new HabitGrouping("Weights", "Text"),
                new HabitGrouping("Plank", "Checkmark")];
-const habit = new Habit("Exercise", "Daily", "Private");
+const habit = new Habit("Exercise", "Weekly", "Private");
+const habits = [habit, new Habit("Sleep", "Daily", "Private"), new Habit("Eating", "Daily", "Public")];
 habit.updateGroup(group);
 
 function App() {
@@ -45,9 +48,10 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <section>
-        {/* <CreateHabit /> */}
-        <MainCreate />
-        <MainView habit={habit} />
+        {/* <MainCreate />
+        <MainView habit={habit} /> */}
+        {/* <ListHabits habits={habits} /> */}
+        <Home habits={habits} />
       </section>
     </>
   )

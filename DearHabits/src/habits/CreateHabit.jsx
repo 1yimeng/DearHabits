@@ -20,12 +20,14 @@ export const MainCreate = props => {
 
     const submissionHandler = e => {
         console.log(habit);
+        props.submitCreate(habit);
+        e.preventDefault();
     }
 
     return (
         <>
             <h2>Create a Habit</h2>
-            <form onSubmit={e => submissionHandler()}>
+            <form onSubmit={e => submissionHandler(e)}>
                 <HabitCreate initial={habit} updateFunc={updateHabit} />
                 <hr />
                 <h3>Activities</h3>
@@ -69,7 +71,7 @@ export const HabitCreate = ({initial, updateFunc, ...props}) => {
             </label>
             <label>
                 <h4>
-                    Frequency 
+                    {"Frequency: "} 
                     <select
                         required
                         name="habitFreq"
@@ -83,7 +85,7 @@ export const HabitCreate = ({initial, updateFunc, ...props}) => {
             </label>
             <label>
                 <h4>
-                    Privacy 
+                    {"Privacy: "} 
                     <select
                         required
                         name="habitPrivacy"
@@ -159,6 +161,7 @@ export const GroupingCreate = ({initial, updateFunc, ... props}) => {
                     </label>
                     <br />
                     <label>
+                        Type
                         <select
                         required
                         name="groupType"
