@@ -7,7 +7,7 @@ export default class HabitGrouping {
     #interval;
     
     #visual;
-    #stats = [];
+    #stats = [0, 0];
     #values = [];
     constructor(label, type, high="", low="", interval=2) {
         this.#label = label;
@@ -36,7 +36,10 @@ export default class HabitGrouping {
     set visual(visual) { this.#visual = visual; }
 
     get stats() { return this.#stats; }
-    set stats(stats) { this.#stats = stats; }
+    incrementStreak() {
+        this.#stats[0]++;
+        if (this.#stats[0] > this.#stats[1]) { this.#stats[1] = this.#stats[0]; }
+    }
 
     get values() { return this.#values; }
     set values(values) { this.#values = values; }

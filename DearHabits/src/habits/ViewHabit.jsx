@@ -3,6 +3,30 @@ import Habit from './classes/Habit.jsx'
 import HabitGrouping from './classes/HabitGrouping.jsx'
 import {HabitCreate, GroupingCreate} from './CreateHabit.jsx'
 
+const Stats = ({options, group, ...props}) => {
+    const [stat, setStat] = useState(options[0]);
+
+    const changeStat = e => setStat(() => e.target.value);
+
+    const calculateStat = type => {
+        const numbers = group.values.map(num => parseFloat(num));
+        if (type === "Longest Streak") { return group.stats[1]; }
+        if (group.values.length === 0) { return 0; }
+        if (type === "Highest") { return numbers.reduce((largest, cur) => (cur > largest) ? cur : largest); }
+        if (type === "Lowest") { return numbers.reduce((lowest, cur) => (cur < lowest) ? cur : lowest); }
+        if (type === "Average") { return (numbers.reduce((total, cur) => total + cur) / group.values.length); }
+    }
+
+    return (
+        <>
+            <select value={stat} onChange={changeStat}>
+                {options.map(option => <option key={option} value={option}>{option}</option>)}
+            </select>
+            {calculateStat(stat)}
+        </>
+    );
+};
+
 const EditMode = ({original, switchFunc, ...props}) => {
     let oldHabit = original;
     let oldGroup = original.group;
@@ -25,8 +49,8 @@ const EditMode = ({original, switchFunc, ...props}) => {
 
     const submissionHandler = (e, old, updatedHabit, updatedGroup) => {
         updatedHabit.updateGroup(updatedGroup);
-        switchFunc()
         props.submitUpdate(old, updatedHabit);
+        switchFunc()
         e.preventDefault();
     }
 
@@ -48,8 +72,9 @@ const EditMode = ({original, switchFunc, ...props}) => {
 const ViewMode = ({habit, switchFunc, ...props}) => {
     const [activity, setActivity] = useState(() => {
         return habit.group.map(g => {
-            if (g.values.length > 0) { g.values.push(null); }
-            return g.values;
+            const temp = [...g.values]
+            if (temp.length > 0) { temp.push(null); }
+            return temp;
         });
     });
 
@@ -65,10 +90,12 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
     const submissionHandler = (e, habit) => {
         const newHabit = habit;
         newHabit.updateGroup(habit.group.map((g, index) =>{
-            if (activity[index][activity[index].length - 1] === null) { activity[index].pop(); }
+            (activity[index][activity[index].length - 1] === void(0)) ? activity[index].pop() : g.incrementStreak();
             g.values = activity[index];
             return g;
         }));
+        newHabit.complete();
+        newHabit.incrementStreak();
         props.submitUpdate(habit, newHabit);
         e.preventDefault();
     }
@@ -77,6 +104,7 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
         <>
             <button type="button" onClick={switchFunc}>Edit</button>
             <h2>{habit.name}</h2>
+            <h3>{"Streak: " + habit.streak}</h3>
             <h4>{"Frequency: " + habit.frequency}</h4>
             <h4>{"Privacy: " + habit.privacy}</h4>
             <hr />
@@ -86,21 +114,41 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
                 return (
                     <section key={group.label}>
                         <h4>{group.label}</h4>
-                        {(group.type === "Text") ? (<textarea value={activity[index].slice(-1)} onChange={e => updateActivity(e, index)}/>) : null}
-                        {(group.type === "Numerical") ? (<input type="number" value={activity[index].slice(-1)} step="0.1" onChange={e => updateActivity(e, index)}/>) : null}
+                        {(group.type === "Text") ? (
+                            <label>
+                                <textarea value={activity[index].slice(-1)} onChange={e => updateActivity(e, index)} disabled={(habit.completed) ? true : false}/>
+                                <br />
+                                <Stats options={["Longest Streak"]} group={group}/>
+                            </label>
+                        ) : null}
+                        {(group.type === "Numerical") ? (
+                            <label>
+                                <input type="number" value={activity[index].slice(-1)} step="0.1" onChange={e => updateActivity(e, index)} disabled={(habit.completed) ? true : false}/>
+                                <br />
+                                <Stats options={["Longest Streak", "Highest", "Lowest", "Average"]} group={group} />
+                            </label>
+                        ) : null}
                         {(group.type === "Scale") ? (
                             <label>
                                 {group.low}
-                                <input type="range" min="1" max={group.interval} step="1" value={activity[index].slice(-1)} onChange={e => updateActivity(e, index)}/>
+                                <input type="range" min="1" max={group.interval} step="1" value={activity[index].slice(-1)} onChange={e => updateActivity(e, index)} disabled={(habit.completed) ? true : false}/>
                                 {group.high}
+                                <br />
+                                <Stats options={["Longest Streak", "Highest", "Lowest", "Average"]} group={group} />
                             </label>
                         ) : null}
-                        {(group.type === "Checkmark") ? (<input type="checkbox" value={activity[index].slice(-1)} onChange={e => updateActivity(e, index)}/>) : null}
+                        {(group.type === "Checkmark") ? (
+                            <label>
+                                <input type="checkbox" value={activity[index].slice(-1)} onChange={e => updateActivity(e, index)} disabled={(habit.completed) ? true : false}/>
+                                <br />
+                                <Stats options={["Longest Streak"]} group={group}/>
+                            </label>
+                        ) : null}
                         <hr />
                     </section>
                 )
             })}
-            <button onClick={e => submissionHandler(e, habit)} type="button">Submit</button>
+            {(habit.completed) ? (<button onClick={e => submissionHandler(e, habit)} type="button" disabled={true}>Submit</button>) : (<button onClick={e => submissionHandler(e, habit)} type="button">Submit</button>)}
         </>
     );
 };

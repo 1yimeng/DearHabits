@@ -18,6 +18,7 @@ const group = [new HabitGrouping("Running", "Numerical"),
                new HabitGrouping("Plank", "Checkmark")];
 const habit = new Habit("Exercise", "Weekly", "Private");
 const habits = [habit, new Habit("Sleep", "Daily", "Private"), new Habit("Eating", "Daily", "Public")];
+group[0].values = ["2", "5", "3", "6"];
 habit.updateGroup(group);
 
 function App() {

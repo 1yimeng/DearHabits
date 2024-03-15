@@ -34,8 +34,7 @@ export const MainCreate = props => {
                 <hr />
                 <GroupingCreate initial={grouping} updateFunc={updateGrouping} />
                 <hr />
-                <button onClick={e => submissionHandler()} type="button">Fake Submit</button>
-                <input type="submit" />
+                <button onClick={e => submissionHandler()} type="button">Submit</button>
             </form>
         </>
     )
@@ -49,7 +48,9 @@ export const HabitCreate = ({initial, updateFunc, ...props}) => {
             const newHabit = new Habit(
                 (e.target.name === "habitName") ? e.target.value : oldHabit.name, 
                 (e.target.name === "habitFreq") ? e.target.value : oldHabit.frequency, 
-                (e.target.name === "habitPrivacy") ? e.target.value : oldHabit.privacy
+                (e.target.name === "habitPrivacy") ? e.target.value : oldHabit.privacy,
+                oldHabit.streak,
+                oldHabit.completed
             )
             updateFunc(newHabit);
             return newHabit;
@@ -138,6 +139,8 @@ export const GroupingCreate = ({initial, updateFunc, ... props}) => {
                 (e.target.name === "groupLow") ? e.target.value : oldGroup.low,
                 (e.target.name === "groupInter") ? e.target.value : oldGroup.interval
             );
+            newGroup.values = [...oldGroup.values];
+            newGroup.stats = [...oldGroup.stats];
             
             const newGrouping = [...oldGrouping];
             newGrouping[index] = newGroup;

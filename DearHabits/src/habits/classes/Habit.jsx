@@ -2,13 +2,16 @@ export default class Habit {
     #name;
     #freq;
     #privacy;
-    #streak = 0;
+    #streak;
+    #completed;
     #grouping = [];
 
-    constructor(name, freq, privacy) {
+    constructor(name, freq, privacy, streak=0, completed=false) {
         this.#name = name;
         this.#freq = freq;
         this.#privacy = privacy;
+        this.#streak = streak;
+        this.#completed = completed;
     }
 
     get name() { return this.#name; }
@@ -20,7 +23,12 @@ export default class Habit {
     get privacy() { return this.#privacy; }
     set privacy(privacy) { this.#privacy = privacy; }
 
+    get completed() { return this.#completed; }
+    set completed(completed) { this.#completed = completed; }
+    complete() { this.#completed = true; }
+
     get streak() { return this.#streak; }
+    set streak(streak) { this.#streak = streak; }
     incrementStreak = () => this.#streak++;
     resetStreak = () => this.#streak = 0;
 
