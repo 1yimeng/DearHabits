@@ -5,9 +5,14 @@ const Home = (props) => {
   const { loggedIn, email } = props;
   const navigate = useNavigate();
 
-  const onButtonClick = () => {
+  const onLoginButtonClick = () => {
     // update later to scan for loggedin or not
     navigate("/login");
+  };
+
+  const onRegistrationButtonClick = () => {
+    // update later to scan for loggedin or not
+    navigate("/registration");
   };
 
   return (
@@ -20,10 +25,17 @@ const Home = (props) => {
         <input
           className={"inputButton"}
           type="button"
-          onClick={onButtonClick}
+          onClick={onLoginButtonClick}
           value={loggedIn ? "Log out" : "Log in"}
         />
         {loggedIn ? <div>Your email address is {email}</div> : <div />}
+
+        <input
+          className={"inputButton"}
+          type="button"
+          onClick={onRegistrationButtonClick}
+          value="Registration"
+        />
       </div>
     </div>
   );

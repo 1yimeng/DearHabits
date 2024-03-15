@@ -14,34 +14,13 @@ const Login = (props) => {
     setEmailError("");
     setPasswordError("");
 
-    // Check if the user has entered both fields correctly
-    if ("" === email) {
-      setEmailError("Please enter your email");
-      return;
-    }
-
-    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-      setEmailError("Please enter a valid email");
-      return;
-    }
-
-    if ("" === password) {
-      setPasswordError("Please enter a password");
-      return;
-    }
-
-    if (password.length < 7) {
-      setPasswordError("The password must be 8 characters or longer");
-      return;
-    }
-
     // Authentication calls will be made here...
   };
 
   return (
     <div className={"mainContainer"}>
       <div className={"titleContainer"}>
-        <div>Login / Sign Up</div>
+        <div>Login</div>
       </div>
       <br />
       <div className={"inputContainer"}>
@@ -69,7 +48,7 @@ const Login = (props) => {
           className={"inputButton"}
           type="button"
           onClick={onButtonClick}
-          value={"Login / Sign Up"}
+          value={"Login"}
         />
       </div>
     </div>

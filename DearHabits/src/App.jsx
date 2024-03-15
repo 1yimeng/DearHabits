@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
+import Registration from "./pages/registration";
 import "./App.css";
 import { useEffect, useState } from "react";
 
@@ -25,6 +26,12 @@ function App() {
           <Route
             path="/login"
             element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />}
+          />
+          <Route
+            path="/registration"
+            element={
+              <Registration setLoggedIn={setLoggedIn} setEmail={setEmail} />
+            }
           />
         </Routes>
       </BrowserRouter>
