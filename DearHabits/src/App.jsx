@@ -11,6 +11,7 @@ import Habit from './habits/classes/Habit'
 import HabitGrouping from './habits/classes/HabitGrouping'
 import ListHabits from './habits/ListHabits'
 import Home from './Home'
+import Hotbar from './Hotbar'
 
 const group = [new HabitGrouping("Running", "Numerical"), 
                new HabitGrouping("Mood", "Scale", "Good", "Bad", 3), 
@@ -57,7 +58,8 @@ function App() {
         {/* <MainCreate />
         <MainView habit={habit} /> */}
         {/* <ListHabits habits={habits} /> */}
-        <Home habits={habits} />
+        {/* <Home habits={habits} /> */}
+        <Hotbar habits={habits} />
       </section>
     </>
   )
