@@ -51,6 +51,7 @@ const Registration = (props) => {
 
       // Pull out user's data from the userCredential property
       const user = userCredential.user;
+      navigate("/main");
 
       setShowResults(true);
     } catch (err) {

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -15,6 +17,28 @@ const Login = (props) => {
     setPasswordError("");
 
     // Authentication calls will be made here...
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        navigate("/main");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        switch (errorCode) {
+          case("auth/invalid-credential"):
+            setPasswordError("invalid credential!");
+            break;
+          case("auth/too-many-requests"):
+            setPasswordError("Too many requests, please wait a bit before clicking!");
+          default:
+            setPasswordError("Error occured, could not sign in.");
+            break;
+        }
+      });
+
   };
 
   return (
