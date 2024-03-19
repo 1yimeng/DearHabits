@@ -11,7 +11,7 @@ const Login = (props) => {
 
   const navigate = useNavigate();
 
-  const onButtonClick = () => {
+  const onLoginButtonClick = () => {
     // Set initial error values to empty
     setEmailError("");
     setPasswordError("");
@@ -71,7 +71,7 @@ const Login = (props) => {
         <input
           className={"inputButton"}
           type="button"
-          onClick={onButtonClick}
+          onClick={onLoginButtonClick}
           value={"Login"}
         />
       </div>

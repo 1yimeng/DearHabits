@@ -8,7 +8,6 @@ const Registration = (props) => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [showResults, setShowResults] = useState(false);
 
   const navigate = useNavigate();
 
@@ -53,7 +52,6 @@ const Registration = (props) => {
       const user = userCredential.user;
       navigate("/main");
 
-      setShowResults(true);
     } catch (err) {
       // Handle errors here
       const errorMessage = err.message;
@@ -106,7 +104,6 @@ const Registration = (props) => {
           value={"Sign Up"}
         />
       </div>
-      <div>{showResults ? "Account created successfully!" : null}</div>
     </div>
   );
 };

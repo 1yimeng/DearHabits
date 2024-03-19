@@ -1,12 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import SignoutButton from "../components/signoutButton";
+import ChangePasswordButton from "../components/changePasswordButton";
 
 const Main = () => {
 
-    return(<div>
+    return (
+      <div>
         <h1>you've logged in!</h1>
         <h1>HOME PAGE</h1>
-    </div>);
+        <SignoutButton></SignoutButton>
+        <ChangePasswordButton></ChangePasswordButton>
+      </div>
+    );
 
 };
 

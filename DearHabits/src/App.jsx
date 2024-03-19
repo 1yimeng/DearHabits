@@ -5,6 +5,7 @@ import Registration from "./pages/registration";
 import Main from "./pages/main";
 import "./App.css";
 import { useEffect, useState } from "react";
+import ChangePassword from "./pages/changePassword";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -34,10 +35,11 @@ function App() {
               <Registration setLoggedIn={setLoggedIn} setEmail={setEmail} />
             }
           />
+          <Route path="/main" element={<Main />} />
           <Route
-            path="/main"
+            path="/changePassword"
             element={
-              <Main />
+              <ChangePassword />
             }
           />
         </Routes>
