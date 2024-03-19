@@ -3,6 +3,8 @@ import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { Pie, Bar, Line } from "react-chartjs-2";
 
+import './stylesheet/habits.css'
+
 Chart.register(CategoryScale);
 
 export const Stats = ({options, group, ...props}) => {
@@ -23,7 +25,7 @@ export const Stats = ({options, group, ...props}) => {
     return (
         <>
             {/* List available stats for this habit grouping */}
-            <select value={stat} onChange={changeStat}>
+            <select value={stat} onChange={changeStat} className="inputs">
                 {options.map(option => <option key={option} value={option}>{option}</option>)}
             </select>
             {/* Output the chosen stat */}
@@ -77,7 +79,11 @@ export const Visual = ({options, group, ...props}) => {
             datasets: [{
                 label: `${group.label}`, 
                 data: data.map(value => (value[1]) ? parseFloat(value[1]) : 0),
-            }]
+            }],
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
         };
     }
 
@@ -95,16 +101,18 @@ export const Visual = ({options, group, ...props}) => {
     return (
         <>
             {/* Visualization options available to Grouping */}
-            <select onChange={changeVisual}>
+            <select onChange={changeVisual} className="inputs">
                 {options.map(option => <option key={option} value={option}>{option}</option>)}
             </select>
             {/* Time frame options for the visualization */}
-            <select onChange={changeFreq}>
+            <select onChange={changeFreq} className="inputs">
                 {["Daily", "Weekly", "Monthly"].map(option => <option key={option} value={option}>{option}</option>)}
             </select>
             <br />
             {/* Output the selected visualization in the selected time frame */}
-            {calculateVisual(visual, freq)}
+            <div className="graphs">
+                {calculateVisual(visual, freq)}
+            </div>
         </>
     );
 };
@@ -114,7 +122,7 @@ export const Text = ({group, ...props}) => {
     const data = [...group.values].filter(value => value[1]);  // Only show days where a message was recorded
     return (
         <>
-            <table>
+            <table className="graphs">
                 <thead>
                     <tr>
                         <th>Date</th>

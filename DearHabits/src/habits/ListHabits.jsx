@@ -1,5 +1,6 @@
-import { useState } from 'react'
 import Slot from '../utility/Slot.jsx'
+
+import './stylesheet/habits.css'
 
 const ListHabits = ({habits, buttonFunc, ...props}) => {
     const readHabit = habit => {
@@ -9,8 +10,8 @@ const ListHabits = ({habits, buttonFunc, ...props}) => {
         <>
             {habits.map(habit => {
                 return (
-                <Slot key={habit.name} label={habit.name}>
-                    <button onClick={e => buttonFunc(habit)}>View</button>
+                <Slot key={habit.name} label={""}>
+                    <button onClick={() => buttonFunc(habit)} className="sidebar-button">{habit.name}</button>
                 </Slot>)
             })}
         </>
