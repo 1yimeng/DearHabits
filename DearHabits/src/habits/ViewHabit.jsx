@@ -35,12 +35,12 @@ const EditMode = ({original, switchFunc, ...props}) => {
             {/* Button to switch back to Viewing mode */}
             <button type="button" onClick={switchFunc}>Cancel</button>
             {/* Create a new Habit with the old Habit as a base */}
-            <HabitCreate initial={oldHabit} updateFunc={updateHabit} />
+            <HabitCreate key={`Edit-Habit-${original.name}`} initial={oldHabit} updateFunc={updateHabit} />
             <hr />
             <h3>{(oldHabit.group.length > 1) ? "Activities" : "Activity"}</h3>
             <hr />
             {/* Create new Grouping(s) with the old Grouping(s) as a base */}
-            <GroupingCreate initial={oldHabit.group} updateFunc={updateGrouping} />
+            <GroupingCreate key={`Edit-Grouping-${original.name}`} initial={oldHabit.group} updateFunc={updateGrouping} />
             <hr />
             {/* Button to delete the Habit */}
             <button onClick={e => deleteHabit(e, original)}>Delete</button>
@@ -123,10 +123,10 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
                         ) : null}
                         <br />
                         {/* Statistics available to Grouping dependant on its type */}
-                        {(group.type === "Text" || group.type === "Checkmark") ? <Stats options={["Longest Streak"]} group={group}/> : <Stats options={["Longest Streak", "Highest", "Lowest", "Average"]} group={group} />}
+                        {(group.type === "Text" || group.type === "Checkmark") ? <Stats key={`Stats-${habit.name}-${group.label}`} options={["Longest Streak"]} group={group}/> : <Stats key={`Stats-${habit.name}-${group.label}`} options={["Longest Streak", "Highest", "Lowest", "Average"]} group={group} />}
                         <br />
                         {/* Visualizations available to Grouping dependant on its type */}
-                        {(group.type === "Text") ? <Text group={group} /> : <Visual options={group.visual} group={group}/>}
+                        {(group.type === "Text") ? <Text key={`Visual-${habit.name}-${group.label}`} group={group}/> : <Visual key={`Visual-${habit.name}-${group.label}`} options={group.visual} group={group}/>}
                         <hr />
                     </section>
                 )
@@ -147,7 +147,7 @@ const MainView = ({habit, ...props}) => {
     return (
         <>
             <form>
-                {mode ? (<EditMode original={habit} switchFunc={switchMode} {...props}/>) : (<ViewMode habit={habit} switchFunc={switchMode} {...props}/>)}
+                {mode ? (<EditMode key={`View-${habit.name}`} original={habit} switchFunc={switchMode} {...props}/>) : (<ViewMode key={`Edit-${habit.name}`} habit={habit} switchFunc={switchMode} {...props}/>)}
             </form>
         </>
     )

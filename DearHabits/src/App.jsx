@@ -1,11 +1,4 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-
-// import CreateHabit from './habits/CreateHabit'
-import { MainCreate } from './habits/CreateHabit'
-import MainView from './habits/ViewHabit'
 
 import Habit from './habits/classes/Habit'
 import HabitGrouping from './habits/classes/HabitGrouping'
@@ -28,10 +21,6 @@ group[3].values = [["2024-03-13", "1"], ["2024-03-14", "1"], ["2024-03-15", "0"]
 habit.updateGroup(group);
 
 function App() {
-  const [count, setCount] = useState(0)
-
-
-
   return (
     <>
       <Hotbar habits={habits} />

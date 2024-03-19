@@ -14,7 +14,7 @@ const HabitPage = ({habits, ...props}) => {
     }
     const viewScreen = habit => {
         setActive(() => {
-            return (<MainView habit={habit} buttonFunc={viewScreen} submitDelete={deleteHabit} submitUpdate={updateHabit}/>)}
+            return (<MainView key={`Selected-${habit.name}`} habit={habit} buttonFunc={viewScreen} submitDelete={deleteHabit} submitUpdate={updateHabit}/>)}
         )
     }
 
@@ -48,14 +48,14 @@ const HabitPage = ({habits, ...props}) => {
     }
 
     const [list, setList] = useState(habits);
-    const [active, setActive] = useState((<MainView habit={habits[0]} buttonFunc={viewScreen} submitDelete={deleteHabit} submitUpdate={updateHabit}/>));
+    const [active, setActive] = useState((<MainView key={`Selected-${habits[0].name}`} habit={habits[0]} buttonFunc={viewScreen} submitDelete={deleteHabit} submitUpdate={updateHabit}/>));
 
     return (
         <div className="flex-habit">
             <section className="sidebar">
                 <button name="createHabit" onClick={createScreen}>+</button>
                 <hr />
-                <ListHabits habits={list} buttonFunc={viewScreen} submitDelete={deleteHabit} submitUpdate={updateHabit}/>
+                <ListHabits key={"List-Habits"} habits={list} buttonFunc={viewScreen} submitDelete={deleteHabit} submitUpdate={updateHabit}/>
             </section>
             <section className="habit">
                 {active}
