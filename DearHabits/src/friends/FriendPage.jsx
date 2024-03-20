@@ -4,9 +4,12 @@ import FriendList from './FriendList'
 import SearchList from './SearchList'
 import RequestList from './RequestList'
 
+import './stylesheets/friends.css'
+
 const FriendPage = ({friends, requests, ...props}) => {
+    console.log(friends);
     // Show the User's friends
-    const viewFriends = () => (<FriendList friends={friends} buttonFunc={removeFriend}/>);
+    const viewFriends = () => (<FriendList key={"FriendList"} friends={friends} buttonFunc={removeFriend}/>);
     // Remove a User from the User's friend list
     const removeFriend = friend => {
         // TODO: Remove friend from friend list in the database
@@ -38,7 +41,7 @@ const FriendPage = ({friends, requests, ...props}) => {
     }
 
     // List all of the User's pending invites
-    const viewRequests = () => (<RequestList requests={requests} acceptFunc={acceptRequest} removeFunc={removeRequest}/>)
+    const viewRequests = () => (<RequestList key={"RequestList"} requests={requests} acceptFunc={acceptRequest} removeFunc={removeRequest}/>)
     // Remove a Request from the User's pending invites
     const removeRequest = request => {
         // TODO: Add database logic to remove request from database
@@ -56,8 +59,8 @@ const FriendPage = ({friends, requests, ...props}) => {
     const [invites, setInvites] = useState(viewRequests());
 
     return (
-        <>
-            <section>
+        <section className="flex-friend">
+            <section className="sidebar">
                 <h2>Friends</h2>
                 <form>
                     <input name="searchField" placeholder="friend@gmail.com"/>
@@ -66,15 +69,15 @@ const FriendPage = ({friends, requests, ...props}) => {
                 <hr />
                 {mode}
             </section>
-            <section>
+            <section className="feed">
                 {/* TODO: Add Feed component */}
                 Feed
             </section>
-            <section>
+            <section className="sidebar">
                 <h2>Invites</h2>
                 {invites}
             </section>
-        </>
+        </section>
     )
 
 }
