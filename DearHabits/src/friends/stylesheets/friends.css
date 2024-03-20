@@ -19,9 +19,14 @@
 .feed {
     flex: 2 1 auto;
     overflow-y: auto;
-    padding: 2rem;
     margin: 1rem;
-    background-color: #242424;
+    background-color: white;
+}
+
+.feed-slot {
     border-radius: 25px;
-    text-align: center;
+    overflow-y: auto;
+    background-color: #242420;
+    padding: 1rem;
+    margin: 1rem;
 }

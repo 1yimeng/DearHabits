@@ -3,6 +3,7 @@ import { useState } from 'react'
 import FriendList from './FriendList'
 import SearchList from './SearchList'
 import RequestList from './RequestList'
+import { Feed } from './HabitPost'
 
 import './stylesheets/friends.css'
 
@@ -71,7 +72,7 @@ const FriendPage = ({friends, requests, ...props}) => {
             </section>
             <section className="feed">
                 {/* TODO: Add Feed component */}
-                Feed
+                <Feed shared={[]} className="feed-slot"/>
             </section>
             <section className="sidebar">
                 <h2>Invites</h2>
