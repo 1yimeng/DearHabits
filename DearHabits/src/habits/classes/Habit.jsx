@@ -14,6 +14,12 @@ export default class Habit {
         this.#completed = completed;
     }
 
+    verifyHabit = () => {
+        if (this.#name === "") { return false; }
+        else if (this.#grouping.filter(group => !group.verifyGrouping()).length > 0) { return false; }
+        return true;
+    };
+
     get name() { return this.#name; }
     set name(name) { this.#name = name; }
 

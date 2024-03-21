@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import Home from './Home';
+import HabitPage from './habits/HabitPage';
+import Profile from './profile/Profile';
+
+import './Hotbar.css'
 
 const Hotbar = props => {
     const [page, setPage] = useState("Habits");
@@ -7,21 +10,23 @@ const Hotbar = props => {
 
     const showPage = selected => {
         console.log(selected);
-        if (selected === "Habits") {return (<Home habits={props.habits} />); }
+        if (selected === "Habits") {return (<HabitPage key={"Habits"} habits={props.habits} className="flex-body"/>); }
         if (selected === "Friends") { return (<>Friends</>); }
         if (selected === "Feed") { return (<>Feed</>); }
-        if (selected === "Profile") { return (<>Profile</>); }
+        if (selected === "Profile") { return (<Profile />); }
     }
 
     return (
-        <>
-            <section>
-                {["Habits", "Friends", "Profile"].map(cur => <button key={cur} name={cur} onClick={e => changePage(e)}>{cur}</button>)}
+        <div className="flex appearance">
+            <section className="flex-header">
+                <div className='hotbar'>
+                    {["Habits", "Friends", "Profile"].map(cur => <button key={cur} name={cur} onClick={e => changePage(e)}>{cur}</button>)}
+                </div>
             </section>
-            <section>
+            <section className="flex-body">
                 {showPage(page)}
             </section>
-        </>
+        </div>
 
     )
 }

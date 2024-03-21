@@ -19,6 +19,17 @@ export default class HabitGrouping {
         this.determineVisual();
     }
 
+    verifyGrouping = () => {
+        console.log(this.#label);
+        if (this.#label === "") { return false; }
+        else if (this.#type === "Scale") {
+            if (this.#low === "" || this.#high === "" || this.#interval < 2) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     get label() { return this.#label; }
     set label(label) { this.#label = label; }
 
