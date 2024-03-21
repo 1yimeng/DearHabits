@@ -1,0 +1,47 @@
+.appearance {
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    height: 90%;
+    max-height: 100vh;
+    width: 100%;
+    position: absolute;
+  }
+  
+.flex-header {
+    flex: 1 1 auto;
+}
+
+.flex-body {
+    flex: 2 1 auto;
+    height: 100%;
+}
+
+.hotbar {
+    text-align: center;
+}
+
+.hotbar > button {
+    margin: 0 1em;
+    background-color: #242424;
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+}
+button:hover {
+    border-color: white;
+}

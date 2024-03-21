@@ -60,32 +60,3 @@
   border: 1px solid grey;
   padding-left: 8px;
 }
-
-.flex {
-  display: flex;
-  flex-direction: column;
-  top: 0;
-  left: 0;
-  height: 90%;
-  max-height: 100vh;
-  width: 100%;
-  position: absolute;
-}
-
-.flex-header {
-  flex: 1 1 auto;
-}
-
-.flex-body {
-  flex: 2 1 auto;
-  height: 100%;
-}
-
-.hotbar {
-  text-align: center;
-}
-
-.hotbar > button {
-  margin: 0 1rem;
-  background-color: #242424;
-}
