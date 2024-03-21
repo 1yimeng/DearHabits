@@ -1,1 +1,1 @@
-web: vite preview --port $PORT
+web: node backend/server.jsx
