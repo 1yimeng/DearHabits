@@ -2,29 +2,45 @@ import { useState } from 'react'
 import Habit from './classes/Habit.jsx'
 import HabitGrouping from './classes/HabitGrouping.jsx'
 
+import './stylesheet/habits.css'
+
 export const MainCreate = props => {
-    let habit = new Habit("", "Daily", "Private");  // Create a fresh Habit
+    const [err, setErr] = useState(false);
+    let [habit, setHabit] = useState(new Habit("", "Daily", "Private"))  // Create a fresh Habit
+
+    // let habit = new Habit("", "Daily", "Private");  
     let grouping = [new HabitGrouping("", "Text")];  // Create a fresh Grouping
+    // habit.updateGroup(grouping);
 
     const updateHabit = newHabit => { habit = newHabit; }  // Replace fresh Habit with created Habit
-    const updateGrouping = newGrouping => { habit.updateGroup(newGrouping); }  // Replace fresh Grouping with created Grouping
+    const updateGrouping = newGrouping => { grouping = newGrouping; }  // Replace fresh Grouping with created Grouping
 
     const submissionHandler = e => {
-        props.submitCreate(habit);  // Add new Habit to the database
+        // Check if new Habit is correctly filled out
+        // If verified then submit new Habit to the database
+        // If not then inform User of their errors
+        habit.updateGroup(grouping);
+        console.log(habit);
+        if (habit.verifyHabit()) { props.submitCreate(habit); }
+        else {
+            setHabit(() => habit);
+            setErr(() => true);
+        }
         e.preventDefault();
     }
 
     return (
         <>
             <h2>Create a Habit</h2>
+            {(err) ? (<h3 className="error">Please fill in all Fields</h3>) : null}
             <form onSubmit={e => submissionHandler(e)}>
                 {/* Create a new Habit with the fresh Habit as a base */}
-                <HabitCreate initial={habit} updateFunc={updateHabit} />
+                <HabitCreate key={"Create-Habit"} initial={habit} updateFunc={updateHabit} error={err}/>
                 <hr />
                 <h3>Activities</h3>
                 <hr />
                 {/* Create a new Grouping with the fresh Grouping as a base */}
-                <GroupingCreate initial={grouping} updateFunc={updateGrouping} />
+                <GroupingCreate key={"Create-Habit-Grouping"} initial={grouping} updateFunc={updateGrouping} error={err}/>
                 <hr />
                 <button onClick={e => submissionHandler(e)} type="button">Submit</button>
             </form>
@@ -59,6 +75,7 @@ export const HabitCreate = ({initial, updateFunc, ...props}) => {
                         required 
                         name="habitName"
                         placeholder="Habit Name"
+                        className={(props.error && habit.name === "") ? "error-field" : null}
                         value={habit.name}
                         onChange={habitHandler}
                     />
@@ -161,6 +178,7 @@ export const GroupingCreate = ({initial, updateFunc, ... props}) => {
                         required
                         name="groupLabel"
                         placeholder="Activity Name"
+                        className={(props.error && group.label === "") ? "error-field" : null}
                         value={group.label}
                         onChange={e => groupHandler(e, index)} />
                     </label>
@@ -185,6 +203,7 @@ export const GroupingCreate = ({initial, updateFunc, ... props}) => {
                                 required
                                 name="groupHigh"
                                 placeholder="Upper Bound"
+                                className={(props.error && group.high === "") ? "error-field" : null}
                                 value={group.high}
                                 onChange={e => groupHandler(e, index)} />
                             </label>
@@ -195,6 +214,7 @@ export const GroupingCreate = ({initial, updateFunc, ... props}) => {
                                 required
                                 name="groupLow"
                                 placeholder="Lower Bound"
+                                className={(props.error && group.low === "") ? "error-field" : null}
                                 value={group.low}
                                 onChange={e => groupHandler(e, index)} />
                             </label>
@@ -205,6 +225,7 @@ export const GroupingCreate = ({initial, updateFunc, ... props}) => {
                                 type="number" 
                                 required
                                 name="groupInter"
+                                className={(props.error && group.interval < 2) ? "error-field" : null}
                                 value={group.interval}
                                 min="2"
                                 max="10"

@@ -14,11 +14,9 @@ export default class Habit {
         this.#completed = completed;
     }
 
-    verify = () => {
+    verifyHabit = () => {
         if (this.#name === "") { return false; }
-        this.#grouping.filter(group => {
-            if (group.label === "") { return true; }
-        });
+        else if (this.#grouping.filter(group => !group.verifyGrouping()).length > 0) { return false; }
         return true;
     };
 

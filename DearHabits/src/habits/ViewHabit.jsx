@@ -2,16 +2,19 @@ import { useState } from 'react'
 import { HabitCreate, GroupingCreate } from './CreateHabit.jsx'
 import { Stats, Visual, Text } from './Calculations.jsx'
 
+import './stylesheet/habits.css'
+
 const EditMode = ({original, switchFunc, ...props}) => {
-    let oldHabit = original;
-    let oldGroup = original.group;
+    const [err, setErr] = useState(false);
+    let [updated, setUpdated] = useState(original);
+    let grouping = updated.group;
     
     const updateHabit = newHabit => {
-        oldHabit = newHabit;  // Replace original Habit with updated Habit
+        updated = newHabit;  // Replace original Habit with updated Habit
     }
 
     const updateGrouping = newGrouping => {
-        oldGroup = newGrouping;  // Replace original Groupings with updated Groupings
+        grouping = newGrouping;  // Replace original Groupings with updated Groupings
     }
 
     const deleteHabit = (e, habit) => {
@@ -23,10 +26,17 @@ const EditMode = ({original, switchFunc, ...props}) => {
         e.preventDefault();
     }
 
-    const submissionHandler = (e, old, updatedHabit, updatedGroup) => {
-        updatedHabit.updateGroup(updatedGroup);  // Merge updated Habit with updated Grouping(s)
-        props.submitUpdate(old, updatedHabit);  // Update Habit in the database
-        switchFunc() // Return to Viewing mode
+    const submissionHandler = (e, previous) => {
+        updated.updateGroup(grouping);  // Merge updated Habit with updated Grouping(s)
+        if (updated.verifyHabit()) {
+            props.submitUpdate(previous, updated);  // Update Habit in the database
+            switchFunc() // Return to Viewing mode
+        } 
+        else {
+            setUpdated(() => updated);
+            setErr(() => true);
+            e.preventDefault();
+        }
         e.preventDefault();
     }
 
@@ -34,18 +44,20 @@ const EditMode = ({original, switchFunc, ...props}) => {
         <>
             {/* Button to switch back to Viewing mode */}
             <button type="button" onClick={switchFunc}>Cancel</button>
+            {/* Error message if a field is incomplete */}
+            {(err) ? (<h3 className="error">Please fill in all Fields</h3>) : null}
             {/* Create a new Habit with the old Habit as a base */}
-            <HabitCreate key={`Edit-Habit-${original.name}`} initial={oldHabit} updateFunc={updateHabit} />
+            <HabitCreate key={`Edit-Habit-${original.name}`} initial={updated} updateFunc={updateHabit} error={err}/>
             <hr />
-            <h3>{(oldHabit.group.length > 1) ? "Activities" : "Activity"}</h3>
+            <h3>{(updated.group.length > 1) ? "Activities" : "Activity"}</h3>
             <hr />
             {/* Create new Grouping(s) with the old Grouping(s) as a base */}
-            <GroupingCreate key={`Edit-Grouping-${original.name}`} initial={oldHabit.group} updateFunc={updateGrouping} />
+            <GroupingCreate key={`Edit-Grouping-${original.name}`} initial={updated.group} updateFunc={updateGrouping} error={err}/>
             <hr />
             {/* Button to delete the Habit */}
             <button onClick={e => deleteHabit(e, original)}>Delete</button>
             {/* Button to save changed Habit to database */}
-            <button onClick={e => submissionHandler(e, original, oldHabit, oldGroup)}>Save</button>
+            <button onClick={e => submissionHandler(e, original)}>Save</button>
         </>
     )
 };

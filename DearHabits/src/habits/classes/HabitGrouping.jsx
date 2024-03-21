@@ -19,16 +19,13 @@ export default class HabitGrouping {
         this.determineVisual();
     }
 
-    verify = () => {
-        if (this.#label === "") { 
-            alert("Please Provide Activity a Proper Label")
-            return false; 
-        }
+    verifyGrouping = () => {
+        console.log(this.#label);
+        if (this.#label === "") { return false; }
         else if (this.#type === "Scale") {
             if (this.#low === "" || this.#high === "" || this.#interval < 2) {
-                alert("Please Provide Proper bounds for Activity");
                 return false;
-        }
+            }
         }
         return true;
     };
