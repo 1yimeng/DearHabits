@@ -1,16 +1,27 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import SignoutButton from "../components/signoutButton";
-import ChangePasswordButton from "../components/changePasswordButton";
+import Hotbar from '../Hotbar.jsx'
+
+import Habit from "../habits/classes/Habit.jsx";
+import HabitGrouping from "../habits/classes/HabitGrouping.jsx";
+const group = [new HabitGrouping("Running", "Numerical"), 
+               new HabitGrouping("Mood", "Scale", "Good", "Bad", 3), 
+               new HabitGrouping("Weights", "Text"),
+               new HabitGrouping("Plank", "Checkmark")];
+const habit = new Habit("Exercise", "Weekly", "Private");
+const habits = [habit, new Habit("Sleep", "Daily", "Private"), new Habit("Eating", "Daily", "Public")];
+// group[0].values = [["2024-03-13", "2"], ["2024-03-14", "5"], ["2024-03-15", "3"], ["2024-03-16", "6"]];
+for (let i = 1; i < 66; i++) {
+  const date = new Date(2023, 1, i);
+  group[0].incrementValue([`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`, "2"]);
+}
+group[3].values = [["2024-03-13", "1"], ["2024-03-14", "1"], ["2024-03-15", "0"], ["2024-03-16", "1"]];
+habit.updateGroup(group);
 
 const Main = () => {
 
     return (
       <div>
-        <h1>you've logged in!</h1>
-        <h1>HOME PAGE</h1>
-        <SignoutButton></SignoutButton>
-        <ChangePasswordButton></ChangePasswordButton>
+        <Hotbar habits={habits} />
       </div>
     );
 
