@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { MainCreate } from './CreateHabit';
 import MainView from './ViewHabit';
@@ -18,8 +18,47 @@ const HabitPage = ({habits, ...props}) => {
         )
     }
 
+    // const makeAPICall = async () => {
+    //     try {
+    //         const response = await fetch('https://dear-habits-c60eea4fae63.herokuapp.com/', {mode:'cors'});
+    //         const data = await response.json();
+    //         console.log({ data })
+    //     }
+    //     catch (e) {
+    //         console.log(e)
+    //     }
+    // };
+
     const createHabit = created => {
         //TODO: Database logic to create habit and groupings in database
+        // get habit
+        let result = created.getHabitInfo();
+        // console.log("habit_json:", habit_json);
+        console.log("created: ", created);
+        console.log("result: ", result);
+        let grouping = created.group;
+        console.log("group: ", grouping);
+        // get groupings
+        // let groups = created.getGroupsInfo();
+
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: {'Content-Type':'application/json'},
+        //     body: JSON.stringify({habit: created.getHabitInfo(), groupings: groups})
+        // };
+        // fetch("https://dear-habits-c60eea4fae63.herokuapp.com/", requestOptions)
+        //     .then(response => response.json())
+        //     .then(data => console.log(data));
+        // https://dear-habits-c60eea4fae63.herokuapp.com/
+        fetch("http://localhost:5001",)
+            .then((res) => {
+                console.log("res: ", res);
+            });
+        // useEffect(() => {
+        //     makeAPICall();
+        // }, []);
+            // .then(data => console.log(data));
+
         setList(oldList => {
             const newList = [...oldList];
             newList.push(created);

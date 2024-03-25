@@ -48,4 +48,21 @@ export default class Habit {
     delGroup = grouping => this.#grouping.filter(group => group.Label() != grouping.Label());
     // Replace the Habit's groupings entirely
     updateGroup = grouping => this.#grouping = grouping;
+
+    getHabitInfo = () => {
+        return JSON.stringify({
+            "name": this.#name,
+            "frequency": this.#freq,
+            "privacy": this.#privacy,
+        });
+    }
+    getGroupsInfo = () => {
+        let count = 0;
+        let resp = {};
+        this.#grouping.forEach( group => {
+            resp[count] = group.getGroupingInfo();
+            count++;
+        });
+        return resp;
+    }
 }

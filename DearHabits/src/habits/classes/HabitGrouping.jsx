@@ -68,4 +68,14 @@ export default class HabitGrouping {
     set values(values) { this.#values = values; }
     // Add a new value to existing value array
     incrementValue = value => this.#values.push(value);
+
+    getGroupingInfo = () => {
+        return JSON.stringify({
+            "label": this.#label,
+            "type": this.#type,
+            "low": this.#low,
+            "high": this.#high,
+            "interval": this.#interval
+        });
+    }
 }
