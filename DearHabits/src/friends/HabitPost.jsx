@@ -27,9 +27,9 @@ export const HabitPost = ({habit, ...props}) => {
                         ) : null}
                         {(group.type === "Scale") ? (
                             <label>
-                                {group.low}
-                                <input type="range" min="1" max={group.interval} step="1" value={(group.values.length === 0) ? 1 : group.values.at(-1)[1]} disabled={true}/>
                                 {group.high}
+                                <input type="range" min="1" max={group.interval} step="1" value={(group.values.length === 0) ? 1 : group.values.at(-1)[1]} disabled={true}/>
+                                {group.low}
                             </label>
                         ) : null}
                         {(group.type === "Checkmark") ? (
