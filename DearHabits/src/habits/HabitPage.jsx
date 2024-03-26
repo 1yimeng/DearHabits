@@ -9,14 +9,14 @@ import './stylesheet/habits.css';
 
 const getHabitsData = () => {
     axios
-    .get("http://localhost:5001/api/habits")
+    .get("https://dear-habits-c60eea4fae63.herokuapp.com/api/habits")
     .then(data => {
       console.log("received: \n", data.data);
       data.data.forEach((result) => {
         console.log("result: ", result);
         console.log("name: ", result["Name"]);
         habits.push(new Habit(result["Name"], result["Frequency"], result["Privacy"], result["Streak_Num"]));
-        console.log("habits: ", habits);
+        // console.log("habits: ", habits);
       });
     })
     .catch(error => console.log(error));
