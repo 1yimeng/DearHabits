@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import SignoutButton from "../components/signoutButton";
-import ChangePasswordButton from "../components/changePasswordButton";
+import SignoutButton from "../components/signoutButton.jsx";
+import ChangePasswordButton from "../components/changePasswordButton.jsx";
 
 const Profile = props => {
     return (

@@ -1,10 +1,26 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import { MainCreate } from './CreateHabit';
-import MainView from './ViewHabit';
-import ListHabits from './ListHabits';
+import { MainCreate } from './CreateHabit.jsx';
+import MainView from './ViewHabit.jsx';
+import ListHabits from './ListHabits.jsx';
 
-import './stylesheet/habits.css'
+import './stylesheet/habits.css';
+
+const getHabitsData = () => {
+    axios
+    .get("http://localhost:5001/api/habits")
+    .then(data => {
+      console.log("received: \n", data.data);
+      data.data.forEach((result) => {
+        console.log("result: ", result);
+        console.log("name: ", result["Name"]);
+        habits.push(new Habit(result["Name"], result["Frequency"], result["Privacy"], result["Streak_Num"]));
+        console.log("habits: ", habits);
+      });
+    })
+    .catch(error => console.log(error));
+  };
 
 const HabitPage = ({habits, ...props}) => {
     const createScreen = () => {
@@ -18,20 +34,10 @@ const HabitPage = ({habits, ...props}) => {
         )
     }
 
-    // const makeAPICall = async () => {
-    //     try {
-    //         const response = await fetch('https://dear-habits-c60eea4fae63.herokuapp.com/', {mode:'cors'});
-    //         const data = await response.json();
-    //         console.log({ data })
-    //     }
-    //     catch (e) {
-    //         console.log(e)
-    //     }
-    // };
-
     const createHabit = created => {
         //TODO: Database logic to create habit and groupings in database
         // get habit
+        getHabits();
         let result = created.getHabitInfo();
         // console.log("habit_json:", habit_json);
         console.log("created: ", created);
