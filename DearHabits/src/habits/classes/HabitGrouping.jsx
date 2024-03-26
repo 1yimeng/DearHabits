@@ -1,4 +1,5 @@
 export default class HabitGrouping {
+    #hid;
     #label;  // Name of the Grouping
     #type;  // What task the User wants to do for the Grouping
 
@@ -10,12 +11,13 @@ export default class HabitGrouping {
     #stats = [0, 0];  // Current Streak and Highest Streak of consecutive completion
     #values = [];  // 2D array for User's data containing the date and inputted value
 
-    constructor(label, type, high="", low="", interval=2) {
+    constructor(label, type, high="", low="", interval=2, hid=-1) {
         this.#label = label;
         this.#type = type;
         this.#low = low;
         this.#high = high;
         this.#interval = interval;
+        this.#hid = hid;
         this.determineVisual();
     }
 
@@ -29,6 +31,8 @@ export default class HabitGrouping {
         }
         return true;
     };
+
+    get hid() { return this.#hid; }
 
     get label() { return this.#label; }
     set label(label) { this.#label = label; }
@@ -68,14 +72,24 @@ export default class HabitGrouping {
     set values(values) { this.#values = values; }
     // Add a new value to existing value array
     incrementValue = value => this.#values.push(value);
+    valueJSON = () => { 
+        const json = {};
+        this.#values.forEach(value => json[`${value[0]}`] = value[1]) 
+        return json;
+    };
+    JSONValue = (json) => { this.#values = Object.keys(json).map(key => [key, json[key]]) };
 
-    getGroupingInfo = () => {
-        return JSON.stringify({
-            "label": this.#label,
-            "type": this.#type,
-            "low": this.#low,
-            "high": this.#high,
-            "interval": this.#interval
-        });
+    getGroupingInfo = id => {
+        return {
+            "Hid": (this.#hid === -1) ? id : this.#hid,
+            "Label": this.#label,
+            "Type": this.#type,
+            "Lower_Bound": this.#low,
+            "Upper_Bound": this.#high,
+            "Num_Intervals": this.#interval,
+            "Values": this.valueJSON(),
+            "Streak_Num": this.#stats[0],
+            "Longest_Streak": this.#stats[1]
+        };
     }
 }

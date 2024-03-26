@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase.jsx";
 
@@ -47,6 +48,8 @@ const Registration = (props) => {
         email,
         password
       );
+
+      await axios.post('http://localhost:5001/user/create', {"Email": email, "Password_Hash": password});
 
       // Pull out user's data from the userCredential property
       const user = userCredential.user;

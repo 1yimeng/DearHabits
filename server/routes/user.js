@@ -1,6 +1,9 @@
 const express = require("express");
+const cors = require("cors")
 const router = express.Router();
 const db = require("../config/db");
+router.use(cors());
+router.use(express.json());
 
 /* GET users listing. */
 router.get("/", (req, res, next) => {
@@ -17,5 +20,14 @@ router.get("/", (req, res, next) => {
         }
     );
 });
+
+router.post("/create", (req, res) => {
+  const query = "INSERT INTO `users` (`Email`, `Password_Hash`) VALUES (?)";
+  const values = [req.body.Email, req.body.Password_Hash];
+  db.query(query, [values], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  })
+})
 
 module.exports = router;
