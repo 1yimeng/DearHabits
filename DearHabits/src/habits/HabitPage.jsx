@@ -5,11 +5,58 @@ import { auth } from "../firebase.jsx";
 import { MainCreate } from './CreateHabit.jsx';
 import MainView from './ViewHabit.jsx';
 import ListHabits from './ListHabits.jsx';
+import Error from '../utility/Error.jsx';
 
 import Habit from "../habits/classes/Habit.jsx";
 import HabitGrouping from "../habits/classes/HabitGrouping.jsx";
 
 import './stylesheet/habits.css';
+
+const getPosts = async friends => {
+    const ids = [];
+    await axios.get(`http://localhost:5001/api/habits/read/posts/${friends.reduce((sum, cur) => `${sum} ${cur}`)}`, {emails:friends})
+            .then(res => {res.data.forEach(result => ids.push(result.Hid))})
+            .catch(err => console.log(err));
+
+    const shared = [];
+    await axios.get(`http://localhost:5001/api/habits/read/habits/${ids.reduce((sum, cur) => `${sum}+${cur}`)}`)
+                .then(res => {
+                    res.data.forEach(result => {
+                        shared.push([result.User_Name, new Habit(
+                            result.Name, 
+                            result.Frequency, 
+                            result.Privacy, 
+                            result.Streak_Num, 
+                            (result.Is_Completed) ? true : false,
+                            result.id)]);
+                    })
+                })
+                .catch(err => console.log(err));
+
+    const groupings = [];
+    await axios.get(`http://localhost:5001/api/habits/read/groupings/${ids.reduce((sum, cur) => `${sum}+${cur}`)}`)
+                .then(res => {
+                    res.data.forEach(result => {
+                    const group = new HabitGrouping(
+                        result.Label,
+                        result.Type,
+                        result.Upper_Bound,
+                        result.Lower_Bound,
+                        result.Num_Intervals,
+                        result.Hid,
+                    );
+                    (result.Value) ? group.JSONValue(JSON.parse(result.Value)) : group.values = [];
+                    group.stats = [result.Streak_Num, result.Longest_Streak];
+                    groupings.push(group)
+                    })
+                })
+                .catch(err => console.log(err))
+
+    return shared.map(habit => {
+        groupings.forEach(group => (habit[1].id === group.hid) ? habit[1].addGroup(group) : null);
+        return habit;
+    });
+};
 
 const getHabits = async (user) => {
     const habits = [];
