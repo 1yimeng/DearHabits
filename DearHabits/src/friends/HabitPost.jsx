@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Facebook from "./ReactionCounter";
 
 export const HabitPost = ({ habit, ...props }) => {
   // Snapshot of a completed Habit that is set to be shared with friends
@@ -71,18 +72,19 @@ export const HabitPost = ({ habit, ...props }) => {
 
 export const Feed = ({ shared, ...props }) => {
   const [feed, setFeed] = useState(() => {
-      return shared.map((habit) => { 
-        return (
-          <section
-            key={`${habit[0]}-${habit[1].name}`}
-            className={props.className}
-          >
-            <h3>{habit[0]}</h3>
-            <HabitPost habit={habit[1]} />
-            <br />
-          </section>
-        );
-      });
+    return shared.map((habit) => {
+      return (
+        <section
+          key={`${habit[0]}-${habit[1].name}`}
+          className={props.className}
+        >
+          <h3>{habit[0]}</h3>
+          <HabitPost habit={habit[1]} />
+          <br />
+          <Facebook counters={habit[2]}></Facebook>
+        </section>
+      );
+    });
   });
 
   // not used?

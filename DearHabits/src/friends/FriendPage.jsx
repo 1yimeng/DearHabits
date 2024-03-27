@@ -67,9 +67,30 @@ const FriendPage = ({friends, requests, ...props}) => {
         var grouping = new HabitGrouping("ye", "text");
         var grouping3 = new HabitGrouping("ye1", "text");
         var myhabit1 = new Habit("yes", "Daily", "Private");
+        const reacts1 = [
+        {
+            emoji: "like",
+            by: "Case",
+        },
+        {
+            emoji: "like",
+            by: "Henry",
+        }];
+
+        const reacts2 = [
+        {
+            emoji: "love",
+            by: "yimeng",
+        },
+        {
+            emoji: "haha",
+            by: "jr",
+        },
+        ];
+
         myhabit1.addGroup(grouping);
         myhabit1.addGroup(grouping3);
-        setPosts([["yimeng", myhabit1], ["sony", myhabit1]]);  
+        setPosts([["yimeng", myhabit1, reacts1], ["sony", myhabit1, reacts2]]);  
         console.log(posts);
     }
 
