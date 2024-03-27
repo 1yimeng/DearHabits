@@ -9,7 +9,6 @@ const Hotbar = props => {
     const changePage = e => setPage(() => e.target.name);
 
     const showPage = selected => {
-        console.log(selected);
         if (selected === "Habits") {return (<HabitPage key={"Habits"} className="flex-body"/>); }
         if (selected === "Friends") { return (<>Friends</>); }
         if (selected === "Feed") { return (<>Feed</>); }
