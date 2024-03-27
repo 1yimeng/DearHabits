@@ -8,6 +8,7 @@ const webpack = require('webpack');
 const config = require('./webpack.config');
 const compiler = webpack(config);
 require("dotenv").config();
+const neo4jSessionCleanup = require("./middlewares/neo4jSessionCleanup")
 
 // const fs = require("fs");
 // const react = require("react");
@@ -19,6 +20,7 @@ require("dotenv").config();
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/user");
 const habitsRouter = require("./routes/habit");
+const friendsRouter = require("./routes/friends");
 
 // connection to database
 // const db = require("./config/db");
@@ -41,15 +43,32 @@ const cors = require("cors");
 //   origin: process.env.CLIENT_ORIGIN || "http://localhost:8081"
 // };
 // app.use(cors(corsOptions));
+
+//enable CORS
+api.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 app.use(cors());
 // app.use(logger("dev"));
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
+app.use(neo4jSessionCleanup);
 
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/api/habits", habitsRouter);
+app.use("/api/friends", friendsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -67,8 +86,8 @@ app.use((req, res, next) => {
     res.send("error");
   });  
 
-app.listen(process.env.PORT, () => {
-    console.log("Port used: ", process.env.PORT);
+app.listen(PORT, () => {
+    console.log("Port used: ", PORT);
   });
 
 module.exports = app;
