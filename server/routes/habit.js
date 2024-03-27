@@ -66,6 +66,14 @@ router.post('/create/groupings', (req, res) => {
     return res.json(result);
   })
 })
+router.post('/create/post', (req, res) => {
+  const query = "INSERT INTO posts (`Hid`, `User_email`) VALUES (?)"
+  const values = [req.body.hid, req.body.email];
+  db.query(query, [values], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  })
+});
 
 // Update a Habit in the Database
 router.put('/update/:id', (req, res) => {

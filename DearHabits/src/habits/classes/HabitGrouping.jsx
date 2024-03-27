@@ -22,7 +22,6 @@ export default class HabitGrouping {
     }
 
     verifyGrouping = () => {
-        console.log(this.#label);
         if (this.#label === "") { return false; }
         else if (this.#type === "Scale") {
             if (this.#low === "" || this.#high === "" || this.#interval < 2) {

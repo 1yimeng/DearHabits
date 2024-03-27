@@ -90,7 +90,7 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
         }));
         newHabit.complete();  // Flag Habit as completed
         newHabit.incrementStreak();  // Increment Habit's Streak
-        props.submitUpdate(habit, newHabit);  // Submit new Habit to database
+        props.submitUpdate(habit, newHabit, true);  // Submit new Habit to database
         e.preventDefault();
     }
 

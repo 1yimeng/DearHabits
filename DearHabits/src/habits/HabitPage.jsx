@@ -11,21 +11,6 @@ import HabitGrouping from "../habits/classes/HabitGrouping.jsx";
 
 import './stylesheet/habits.css';
 
-const getHabitsData = () => {
-    axios
-    .get("https://dear-habits-c60eea4fae63.herokuapp.com/api/habits")
-    .then(data => {
-      console.log("received: \n", data.data);
-      data.data.forEach((result) => {
-        console.log("result: ", result);
-        console.log("name: ", result["Name"]);
-        habits.push(new Habit(result["Name"], result["Frequency"], result["Privacy"], result["Streak_Num"]));
-        // console.log("habits: ", habits);
-      });
-    })
-    .catch(error => console.log(error));
-};
-
 const getHabits = async (user) => {
     const habits = [];
     const ids = [];
@@ -119,7 +104,7 @@ const HabitPage = (props) => {
             return newList;
         })
     }
-    const updateHabit = async (previous, updated) => {
+    const updateHabit = async (previous, updated, completed=false) => {
         //TODO: Database logic to update habit and grouping in database
         await axios.put(`http://localhost:5001/api/habits/update/${previous.id}`, updated.getHabitInfo())
                     .then(res => console.log(res))
@@ -131,7 +116,13 @@ const HabitPage = (props) => {
 
         await axios.post('http://localhost:5001/api/habits/create/groupings', updated.getGroupsInfo())
                     .then(res => console.log(res))
-                    .catch(err => console.log(err))
+                    .catch(err => console.log(err));
+
+        if (completed) {
+            await axios.post("http://localhost:5001/api/habits/create/post", {"hid":previous.id, "email":auth.currentUser.email})
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
+        }
 
         setList(oldList => {
             const newList = oldList.map(habit => (habit === previous) ? updated : habit);
@@ -145,7 +136,6 @@ const HabitPage = (props) => {
 
     useEffect(() => {
         const retrieve = async () => {
-            console.log(auth.currentUser.email);
             let response = await getHabits(auth.currentUser.email);
             setList(() => response);
             setActive(() => (response.length > 0) ?
