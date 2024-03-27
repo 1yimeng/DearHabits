@@ -10,6 +10,7 @@
     "build": "webpack"
   },
   "dependencies": {
+    "dotenv": "^10.0.0",
     "@babel/register": "^7.23.7",
     "@svgr/webpack": "^8.1.0",
     "@types/react-router-dom": "^5.3.3",

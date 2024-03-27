@@ -7,6 +7,7 @@ const logger = require("morgan");
 const webpack = require('webpack');
 const config = require('./webpack.config');
 const compiler = webpack(config);
+require("dotenv").config();
 
 // const fs = require("fs");
 // const react = require("react");
@@ -22,9 +23,6 @@ const habitsRouter = require("./routes/habit");
 // connection to database
 // const db = require("./config/db");
 
-// ??
-const cors = require("cors");
-
 const app = express();
 
 app.use(require('webpack-dev-middleware')(compiler, {
@@ -36,8 +34,13 @@ app.use(express.static(path.resolve(__dirname, "dist")));
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "pug");
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 8080;
 
+const cors = require("cors");
+// var corsOptions = {
+//   origin: process.env.CLIENT_ORIGIN || "http://localhost:8081"
+// };
+// app.use(cors(corsOptions));
 app.use(cors());
 // app.use(logger("dev"));
 // app.use(express.json());
@@ -47,20 +50,6 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/api/habits", habitsRouter);
-
-// An api endpoint that returns a short list of items
-// app.get('/api/habits', (req,res) => {
-//   var list = ["item1", "item2", "item3"];
-//   res.json(list);
-//   console.log('Sent list of items');
-// });
-// app.get('*', (req, res) => {
-//   res.sendFile('dist/index.html', { root: __dirname });
-// });
-
-// app.get('*', function(res,req){
-//   res.sendFile(path.resolve(__dirname ,'/dist/index.html'));
-// });
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -78,9 +67,8 @@ app.use((req, res, next) => {
     res.send("error");
   });  
 
-app.listen(PORT, () => {
-    // console.log(process.env);
-    console.log("Port used: ", PORT);
+app.listen(process.env.PORT, () => {
+    console.log("Port used: ", process.env.PORT);
   });
 
 module.exports = app;
