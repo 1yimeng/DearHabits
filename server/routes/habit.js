@@ -97,8 +97,8 @@ router.delete('/delete/groupings/:hid', (req, res) => {
 
 // Create a Post in the Database when a Habit is completed
 router.post('/create/post', (req, res) => {
-  const query = "INSERT INTO posts (`Hid`, `User_email`) VALUES (?)"
-  const values = [req.body.hid, req.body.email];
+  const query = "INSERT INTO posts (`Time`, `Hid`, `User_email`, `Reactions`) VALUES (?)"
+  const values = [req.body.time, req.body.hid, req.body.email, JSON.stringify({})];
   db.query(query, [values], (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
@@ -106,7 +106,7 @@ router.post('/create/post', (req, res) => {
 });
 // Get all Post's Hids from Friends
 router.get('/read/posts/:emails', (req, res) => {
-  const query = "SELECT `Hid` FROM posts WHERE `User_email` IN (?)";
+  const query = "SELECT `Hid`, `Pid`, `Reactions` FROM posts WHERE `User_email` IN (?)";
   const emails = req.params.emails.split(" ");
   db.query(query, [emails], (err, result) => {
     if (err) return res.json(err);
@@ -122,5 +122,14 @@ router.get('/read/habits/:ids', (req, res) => {
     return res.json(result);
   })
 });
+// Update post's Reactions in the Database
+router.put('/posts/update/:pid', (req, res) => {
+  const query = "UPDATE `posts` SET `Reactions` = ? WHERE `Pid` = ?"
+  const values = [JSON.stringify(req.body.update), req.params.pid];
+  db.query(query, values, (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  })
+})
 
 module.exports = router;

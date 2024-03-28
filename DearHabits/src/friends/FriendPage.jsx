@@ -1,13 +1,68 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import FriendList from './FriendList.jsx'
 import SearchList from './SearchList.jsx'
 import RequestList from './RequestList.jsx'
 import { Feed } from './HabitPost.jsx'
+
+import axios from 'axios';
+import { auth } from "../firebase.jsx";
 import Habit from '../habits/classes/Habit.jsx';
 import HabitGrouping from '../habits/classes/HabitGrouping.jsx';
 
 import './stylesheets/friends.css'
+
+const getPosts = async friends => {
+    const posts = [];
+    await axios.get(`http://localhost:5001/api/habits/read/posts/${friends.reduce((sum, cur) => `${sum} ${cur}`)}`, {emails:friends})
+            .then(res => {res.data.forEach(result => {
+                const storedReactions = (result.Reactions) ? JSON.parse(result.Reactions) : {}
+                const reactions = Object.keys(storedReactions).map(key => storedReactions[key]);
+                posts.push([result.Hid, result.Pid, reactions]);
+            })})
+            .catch(err => console.log(err));
+    console.log(posts);
+    const shared = [];
+    await axios.get(`http://localhost:5001/api/habits/read/habits/${posts.reduce((sum, cur) => `${sum}+${cur[0]}`)}`)
+                .then(res => {
+                    res.data.forEach(result => {
+                        shared.push([result.User_Name, new Habit(
+                            result.Name, 
+                            result.Frequency, 
+                            result.Privacy, 
+                            result.Streak_Num, 
+                            (result.Is_Completed) ? true : false,
+                            result.id)]);
+                    })
+                })
+                .catch(err => console.log(err));
+
+    const groupings = [];
+    await axios.get(`http://localhost:5001/api/habits/read/groupings/${posts.reduce((sum, cur) => `${sum}+${cur[0]}`)}`)
+                .then(res => {
+                    res.data.forEach(result => {
+                    const group = new HabitGrouping(
+                        result.Label,
+                        result.Type,
+                        result.Upper_Bound,
+                        result.Lower_Bound,
+                        result.Num_Intervals,
+                        result.Hid,
+                    );
+                    (result.Value) ? group.JSONValue(JSON.parse(result.Value)) : group.values = [];
+                    group.stats = [result.Streak_Num, result.Longest_Streak];
+                    groupings.push(group)
+                    })
+                })
+                .catch(err => console.log(err))
+
+    return shared.map(habit => {
+        groupings.forEach(group => (habit[1].id === group.hid) ? habit[1].addGroup(group) : null);
+        posts.forEach(id => (id[0] === habit[1].id) ? habit.push(id[2], id[1]) : null);
+        return habit;
+    });
+};
+
 
 const FriendPage = ({friends, requests, ...props}) => {
     console.log(friends);
@@ -62,37 +117,46 @@ const FriendPage = ({friends, requests, ...props}) => {
     const [invites, setInvites] = useState(viewRequests());
     const [posts, setPosts] = useState([]);
 
-    const getFeed = () => {
+    const getFeed = async () => {
         // TODO : FIX with database call
-        var grouping = new HabitGrouping("ye", "text");
-        var grouping3 = new HabitGrouping("ye1", "text");
-        var myhabit1 = new Habit("yes", "Daily", "Private");
-        const reacts1 = [
-        {
-            emoji: "like",
-            by: "Case",
-        },
-        {
-            emoji: "like",
-            by: "Henry",
-        }];
+        // var grouping = new HabitGrouping("ye", "text");
+        // var grouping3 = new HabitGrouping("ye1", "text");
+        // var myhabit1 = new Habit("yes", "Daily", "Private");
+        // const reacts1 = [
+        // {
+        //     emoji: "like",
+        //     by: "Case",
+        // },
+        // {
+        //     emoji: "like",
+        //     by: "Henry",
+        // }];
 
-        const reacts2 = [
-        {
-            emoji: "love",
-            by: "yimeng",
-        },
-        {
-            emoji: "haha",
-            by: "jr",
-        },
-        ];
+        // const reacts2 = [
+        // {
+        //     emoji: "love",
+        //     by: "yimeng",
+        // },
+        // {
+        //     emoji: "haha",
+        //     by: "jr",
+        // },
+        // ];
 
-        myhabit1.addGroup(grouping);
-        myhabit1.addGroup(grouping3);
-        setPosts([["yimeng", myhabit1, reacts1], ["sony", myhabit1, reacts2]]);  
+        // myhabit1.addGroup(grouping);
+        // myhabit1.addGroup(grouping3);
+        const response = await getPosts(["test@gmail.com", "testemail@gmail.com"])
+        setPosts(response);  
         console.log(posts);
     }
+
+    useEffect(() => {
+        const retrieve = async () => {
+            let response = await getPosts(["test@gmail.com", "testemail@gmail.com"]);
+            setPosts(() => response);
+        }
+        retrieve();
+    }, []);
 
     return (
       <section className="flex-friend">
