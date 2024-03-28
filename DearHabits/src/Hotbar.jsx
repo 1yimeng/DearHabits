@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import HabitPage from './habits/HabitPage.jsx';
-import FriendPage from './friends/FriendPage.jsx';
+import FriendPage from './friends/FriendPage.jsx'
 import Profile from './profile/Profile.jsx';
 
 import './Hotbar.css'

@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "http://server:8000",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,8 +13,8 @@
   "dependencies": {
     "axios": "^1.6.8",
     "@charkour/react-reactions": "^0.11.0",
-    "chart.js": "^4.4.2",
     "firebase": "^10.9.0",
+    "chart.js": "^4.4.2",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

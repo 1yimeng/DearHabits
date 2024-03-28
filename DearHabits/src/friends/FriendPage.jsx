@@ -64,22 +64,83 @@ const getPosts = async friends => {
 };
 
 
-const FriendPage = ({friends, requests, ...props}) => {
-    console.log(friends);
+const getFriends = async (user) => {
+    const friends = [];
+    const sent = [];
+
+    await axios.get(`http://localhost:5001/api/friends/${user}`)
+        .then(res => {
+            res.data.forEach( item => {
+                friends.push(item);
+            });
+        })
+        .catch(err => console.log(err));
+
+    if (friends.length == 0) {
+        return [];
+    } else {
+        await axios.get(`http://localhost:5001/api/friends/${user}/requests/sent`)
+        .then(res => {
+            res.data.forEach( item => {
+                sent_reqs.push(item);
+            });
+        })
+        .catch(err => console.log(err));        
+    }
+    
+    return friends.concat(sent);
+};
+
+// const getSentRequests = async (user) => {
+//     const sent_reqs = [];
+
+//     await axios.get(`http://localhost:5001/api/friends/${user}/requests/sent`)
+//         .then(res => {
+//             res.data.forEach( item => {
+//                 sent_reqs.push(item);
+//             });
+//         })
+//         .catch(err => console.log(err));
+
+//     return sent_reqs;
+// };
+
+const getRecvRequests = async (user) => {
+    const recv_reqs = [];
+
+    await axios.get(`http://localhost:5001/api/friends/${user}/requests/received`)
+        .then(res => {
+            res.data.forEach( item => {
+                recv_reqs.push(item);
+            });
+        })
+        .catch(err => console.log(err));
+
+    return recv_reqs;
+};
+
+const FriendPage = (props) => {
+    // console.log(friends);
     // Show the User's friends
-    const viewFriends = () => (<FriendList key={"FriendList"} friends={friends} buttonFunc={removeFriend}/>);
+    const viewFriends = (friend_list) => {
+        if (friend_list.length > 0) {
+            return (<FriendList key={"FriendList"} friends={friend_list} buttonFunc={removeFriend}/>);
+        } else {
+            return (<></>);
+        }
+    };
     // Remove a User from the User's friend list
     const removeFriend = friend => {
         // TODO: Remove friend from friend list in the database
         friends = friends.filter(cur => cur[0] != friend);
-        setMode(() => viewFriends());
+        // setMode(() => viewFriends());
     }
     // Add a User to the User's friend list as a pending friend
     const addFriend = friend => {
         // TODO: Add friend to database as pending
         // TODO: Notify friend about request
         friends.push([friend, 0]);
-        setMode(() => viewFriends());
+        // setMode(() => viewFriends());
     }
     // List all Users that match User's criteria
     const searchFriends = e => {
@@ -89,9 +150,9 @@ const FriendPage = ({friends, requests, ...props}) => {
         setMode(() => {
             return (
                 <>
-                    <SearchList search={search} friends={friends.map(friend => friend[0])} buttonFunc={addFriend}/>
+                    {/* <SearchList search={search} friends={all_friends.map(friend => friend[0])} buttonFunc={addFriend}/>
                     <br />
-                    <button onClick={() => setMode(() => viewFriends())}>Back</button>
+                    <button onClick={() => setMode(() => viewFriends(all_friends))}>Back</button> */}
                 </>
             )
         })
@@ -99,13 +160,19 @@ const FriendPage = ({friends, requests, ...props}) => {
     }
 
     // List all of the User's pending invites
-    const viewRequests = () => (<RequestList key={"RequestList"} requests={requests} acceptFunc={acceptRequest} removeFunc={removeRequest}/>)
+    const viewRequests = (req_list) => {
+        if (req_list.length > 0) {
+            return (<RequestList key={"RequestList"} requests={req_list} acceptFunc={acceptRequest} removeFunc={removeRequest}/>);
+        } else {
+            return (<></>);
+        }
+    };
     // Remove a Request from the User's pending invites
     const removeRequest = request => {
         // TODO: Add database logic to remove request from database
         requests = requests.filter(r => r != request);
-        setMode(() => viewFriends());
-        setInvites(() => viewRequests());
+        // setMode(() => viewFriends());
+        // setInvites(() => viewRequests());
     }
     // Add User to the User's friend list and remove them from the User's invites
     const acceptRequest = request => {
@@ -113,9 +180,32 @@ const FriendPage = ({friends, requests, ...props}) => {
         removeRequest(request);
     }
 
-    const [mode, setMode] = useState(viewFriends());
-    const [invites, setInvites] = useState(viewRequests());
+    const [mode, setMode] = useState(null);
+    const [all_friends, setFriends] = useState([]);
+    const [invites, setInvites] = useState(null);
     const [posts, setPosts] = useState([]);
+    const [recvReqs, setRecvReqs] = useState([]);
+
+    useEffect(() => {
+        const retrieveFriends = async () => {
+            let friends = await getFriends(auth.currentUser.email);
+            console.log("client friends: ", friends);
+            // let sent_requests = await getSentRequests(auth.currentUser.email);
+            // console.log("client sent_requests: ", sent_requests);
+            // let combined_list = confirmed_friends.concat(sent_requests);
+            setFriends(() => friends);
+            setMode(()=> viewFriends(all_friends));
+        };
+
+        const retrieveInvites = async () => {
+            let received_reqs = await getRecvRequests(auth.currentUser.email);
+            console.log("client received_reqs: ", received_reqs);
+            setRecvReqs(() => received_reqs);
+            setInvites(()=>viewRequests(recvReqs));
+        };
+        retrieveFriends();
+        retrieveInvites();
+    }, []);
 
     const getFeed = async () => {
         // TODO : FIX with database call
