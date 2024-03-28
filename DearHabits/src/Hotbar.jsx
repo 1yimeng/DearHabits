@@ -12,7 +12,9 @@ const Hotbar = props => {
     const showPage = selected => {
         console.log(selected);
         if (selected === "Habits") {return (<HabitPage key={"Habits"} habits={props.habits} className="flex-body"/>); }
-        if (selected === "Friends") { return (<FriendPage key={"Friends"} friends={[["Ralph", 1], ["Yi Meng", 1], ["Jordan", 0]]} requests={["Josh", "Alphonso", "Harrison"]} className="flex-body"/>); }
+        // friends={[["Ralph", 1], ["Yi Meng", 1], ["Jordan", 0]]}
+        // requests={["Josh", "Alphonso", "Harrison"]}
+        if (selected === "Friends") { return (<FriendPage key={"Friends"} className="flex-body"/>); }
         if (selected === "Feed") { return (<>Feed</>); }
         if (selected === "Profile") { return (<Profile />); }
     }

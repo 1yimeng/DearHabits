@@ -24,7 +24,12 @@ const _singleUserWithDetails = function (record) {
 
   // return many people
 function manyUsers(neo4jResult) {
-    return neo4jResult.records.map(r => new User(r.get('user')))
+    let map = [];
+    neo4jResult.records.forEach(r => {
+        map.push( r.get("email"))
+    });
+    // console.log(neo4jResult.records.fo)
+    return map;
 }
 
 const getAllRelations = function (session, email) {
@@ -53,14 +58,16 @@ const getAllRelations = function (session, email) {
 };
 
 const getAllFriends = function(session, email) {
+    console.log("user function received: ", email);
     const query = [
         'MATCH (user:User {email: $email})-[:FRIENDS]-(friend:User)',
-        'RETURN DISTINCT friend'
+        'RETURN DISTINCT friend.email AS email'
     ].join('\n');
 
+    // console.log("query: ". query);
     return session.readTransaction(txc => 
         txc.run(query, {email: email})   
-    ).then(result => manyUsers(result)) 
+        ).then(result => manyUsers(result)); 
     // ).then(result => {
     //     if (!_.isEmpty(result.records)) {
     //         return _singleUserWithDetails(result.records[0]);
@@ -72,14 +79,15 @@ const getAllFriends = function(session, email) {
 };
 
 const getAllRecvRequests = function(session, email) {
+    console.log("user getAllRecvRequests received: ", email);
     const query = [
-        'MATCH (user:User {email: $email})<-[:REQUESTS]-(requester:User),',
-        'RETURN DISTINCT requester'
+        'MATCH (user:User {email: $email})<-[:REQUESTS]-(requester:User)',
+        'RETURN DISTINCT requester.email AS email'
     ].join('\n');
 
     return session.readTransaction(txc => 
         txc.run(query, {email: email})    
-    ).then(result => manyUsers(result))
+    ).then(result => manyUsers(result));
     // ).then(result => {
     //     if (!_.isEmpty(result.records)) {
     //         return _singleUserWithDetails(result.records[0]);
@@ -93,12 +101,12 @@ const getAllRecvRequests = function(session, email) {
 const getAllSentRequests = function(session, email) {
     const query = [
         'MATCH (user:User {email: $email})-[:REQUESTS]->(requestee:User),',
-        'RETURN DISTINCT requestee'
+        'RETURN DISTINCT requestee.email AS email'
     ].join('\n');
 
     return session.readTransaction(txc => 
         txc.run(query, {email: email})    
-    ).then(result => manyUsers(result))
+    ).then(result => manyUsers(result));
     // ).then(result => {
     //     if (!_.isEmpty(result.records)) {
     //         return _singleUserWithDetails(result.records[0]);

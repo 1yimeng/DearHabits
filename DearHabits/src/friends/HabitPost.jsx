@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Facebook from "./ReactionCounter";
+import Facebook from "./ReactionCounter.jsx";
 
 export const HabitPost = ({ habit, ...props }) => {
   // Snapshot of a completed Habit that is set to be shared with friends

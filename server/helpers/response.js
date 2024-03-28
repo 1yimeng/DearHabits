@@ -2,6 +2,7 @@
 var _ = require("lodash");
 
 exports.writeResponse = function writeResponse(res, response, status) {
+  console.log("writeResponse: ", JSON.stringify(response));
   // sw.setHeaders(res);
   res.status(status || 200).send(JSON.stringify(response));
 };
