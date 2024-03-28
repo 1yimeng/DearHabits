@@ -1,11 +1,13 @@
+import React from "react";
+import { ReactDOM } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/home";
-import Login from "./pages/login";
-import Registration from "./pages/registration";
-import Main from "./pages/main";
+import Home from "./pages/home.jsx";
+import Login from "./pages/login.jsx";
+import Registration from "./pages/registration.jsx";
+import Main from "./pages/main.jsx";
 import "./App.css";
 import { useEffect, useState } from "react";
-import ChangePassword from "./pages/changePassword";
+import ChangePassword from "./pages/changePassword.jsx";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);

@@ -59,7 +59,8 @@ export const HabitCreate = ({initial, updateFunc, ...props}) => {
                 (e.target.name === "habitFreq") ? e.target.value : oldHabit.frequency, 
                 (e.target.name === "habitPrivacy") ? e.target.value : oldHabit.privacy,
                 oldHabit.streak,
-                oldHabit.completed
+                oldHabit.completed,
+                oldHabit.id
             )
             updateFunc(newHabit);  // Send new Habit back to parent
             return newHabit;
@@ -153,7 +154,8 @@ export const GroupingCreate = ({initial, updateFunc, ... props}) => {
                 (e.target.name === "groupType") ? e.target.value : oldGroup.type,
                 (e.target.name === "groupHigh") ? e.target.value : oldGroup.high,
                 (e.target.name === "groupLow") ? e.target.value : oldGroup.low,
-                (e.target.name === "groupInter") ? e.target.value : oldGroup.interval
+                (e.target.name === "groupInter") ? e.target.value : oldGroup.interval,
+                oldGroup.hid
             );
             // Add back in existing values if Grouping is the same type
             if (newGroup.type === oldGroup.type) { newGroup.values = [...oldGroup.values]; }

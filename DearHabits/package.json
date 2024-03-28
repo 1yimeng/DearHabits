@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "http://server:8000",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,14 +11,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@charkour/react-reactions": "^0.11.0",
     "firebase": "^10.9.0",
     "chart.js": "^4.4.2",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",

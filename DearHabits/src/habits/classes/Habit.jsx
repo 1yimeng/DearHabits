@@ -1,4 +1,5 @@
 export default class Habit {
+    #id;
     #name;  // Name of the Habit
     #freq;  // How often the User wants to complete the Habit
     #privacy;  // Who can see the Habit, only the User or also their Friends
@@ -6,12 +7,13 @@ export default class Habit {
     #completed;  // If the User has submitted the Habit
     #grouping = [];  // The tasks/activities of the Habit
 
-    constructor(name, freq, privacy, streak=0, completed=false) {
+    constructor(name, freq, privacy, streak=0, completed=false, id=-1) {
         this.#name = name;
         this.#freq = freq;
         this.#privacy = privacy;
         this.#streak = streak;
         this.#completed = completed;
+        this.#id = id;
     }
 
     verifyHabit = () => {
@@ -19,6 +21,9 @@ export default class Habit {
         else if (this.#grouping.filter(group => !group.verifyGrouping()).length > 0) { return false; }
         return true;
     };
+
+    get id() { return this.#id; }
+    set id(id) { this.#id = id; }
 
     get name() { return this.#name; }
     set name(name) { this.#name = name; }
@@ -48,4 +53,26 @@ export default class Habit {
     delGroup = grouping => this.#grouping.filter(group => group.Label() != grouping.Label());
     // Replace the Habit's groupings entirely
     updateGroup = grouping => this.#grouping = grouping;
+
+    getHabitInfo = (user) => {
+        return {
+            User_Name: user,
+            Name: this.#name,
+            Privacy: this.#privacy,
+            Frequency: this.#freq,
+            Streak_Num: this.#streak,
+            Is_Completed: this.#completed,
+            Id: this.#id
+        };
+    }
+    getGroupsInfo = () => {
+        let count = 1;
+        let resp = {};
+        this.#grouping.forEach( group => {
+            resp[count] = group.getGroupingInfo(this.#id);
+            count++;
+        });
+        resp["count"] = count;
+        return resp;
+    }
 }

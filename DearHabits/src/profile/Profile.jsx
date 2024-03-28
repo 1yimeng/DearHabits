@@ -1,8 +1,9 @@
 import React from "react";
-import SignoutButton from "../components/signoutButton";
-import ChangePasswordButton from "../components/changePasswordButton";
-import { auth } from "../firebase";
-import NotificationDropdown from "../components/notificationDropdown";
+import { useNavigate } from "react-router-dom";
+import SignoutButton from "../components/signoutButton.jsx";
+import ChangePasswordButton from "../components/changePasswordButton.jsx";
+import { auth } from "../firebase.jsx";
+import NotificationDropdown from "../components/notificationDropdown.jsx";
 
 const Profile = props => {
     const user = auth.currentUser;

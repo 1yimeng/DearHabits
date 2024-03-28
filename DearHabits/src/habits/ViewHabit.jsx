@@ -19,7 +19,7 @@ const EditMode = ({original, switchFunc, ...props}) => {
 
     const deleteHabit = (e, habit) => {
         // Get User confirmation
-        if (confirm(`Remove ${habit.name}\nAre You Sure?`)) {
+        if (confirm(`Delete ${habit.name}\nAre You Sure?`)) {
             switchFunc() // Switch back to Viewing mode
             props.submitDelete(habit)  // Delete Habit from the database
         }
@@ -90,7 +90,7 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
         }));
         newHabit.complete();  // Flag Habit as completed
         newHabit.incrementStreak();  // Increment Habit's Streak
-        props.submitUpdate(habit, newHabit);  // Submit new Habit to database
+        props.submitUpdate(habit, newHabit, true);  // Submit new Habit to database
         e.preventDefault();
     }
 
