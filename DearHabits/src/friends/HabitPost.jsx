@@ -4,7 +4,6 @@ import Facebook from "./ReactionCounter.jsx";
 export const HabitPost = ({ habit, ...props }) => {
   // Snapshot of a completed Habit that is set to be shared with friends
   // Only shows the latest value, not any older values
-  console.log(habit);
   return (
     <>
       <h2>{habit.name}</h2>
@@ -81,32 +80,11 @@ export const Feed = ({ shared, ...props }) => {
           <h3>{habit[0]}</h3>
           <HabitPost habit={habit[1]} />
           <br />
-          <Facebook counters={habit[2]}></Facebook>
+          <Facebook counters={habit[2]} pid={habit[3]}></Facebook>
         </section>
       );
     });
   });
 
-  // not used?
-  const getShared = async () => {
-    // TODO: Handle webhook to retrive any shared habits
-    shared = shared;
-    setFeed(() => {
-      return shared.map((habit) => {
-        return (
-          <section
-            key={`${habit[0]}-${habit[1].name}`}
-            className={props.className}
-          >
-            <h3>{habit[0]}</h3>
-            <HabitPost habit={habit[1]} />
-            <br />
-          </section>
-        );
-      });
-    });
-  };
-
-  // getShared();
   return <>{feed}</>;
 };

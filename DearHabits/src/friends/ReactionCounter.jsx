@@ -1,13 +1,21 @@
 import { Component } from "react";
 import { FacebookCounter, FacebookSelector } from "@charkour/react-reactions";
+import { auth } from "../firebase.jsx";
+import axios from 'axios';
 import _ from "lodash";
 
 export class Facebook extends Component {
   //['like', 'love', 'haha', 'wow', 'sad', 'angry']
   state = {
     counters: this.props.counters,
-    user: "yimeng",
+    user: auth.currentUser.email,
     showSelector: false,
+  };
+
+  getJSON = reactions => {
+    const json = {};
+    reactions.forEach((value, index) => json[`${index+1}`] = value); 
+    return json;
   };
 
   handleAdd = () => {
@@ -18,21 +26,29 @@ export class Facebook extends Component {
     }
   };
 
-  handleSelect = (emoji) => {
+  handleSelect = async (emoji) => {
+    let updated = [];
+
     const index = _.findIndex(this.state.counters, { by: this.state.user });
     if (index > -1) {
-      this.setState({
+      const newState = {
         counters: [
           ...this.state.counters.slice(0, index),
           { emoji, by: this.state.user },
           ...this.state.counters.slice(index + 1),
         ],
-      });
+      };
+      updated = [...newState.counters];
+      this.setState(() => newState);
     } else {
-      this.setState({
-        counters: [...this.state.counters, { emoji, by: this.state.user }],
-      });
+      const newState = { counters: [...this.state.counters, { emoji, by: this.state.user }], };
+      updated = [...newState.counters];
+      this.setState(() => newState);
     }
+
+    await axios.put(`http://localhost:5001/api/habits/posts/update/${this.props.pid}`, {"update":this.getJSON(updated)})
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
   };
 
   showListOfReactions = () => {

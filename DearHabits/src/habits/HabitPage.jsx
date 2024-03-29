@@ -5,6 +5,7 @@ import { auth } from "../firebase.jsx";
 import { MainCreate } from './CreateHabit.jsx';
 import MainView from './ViewHabit.jsx';
 import ListHabits from './ListHabits.jsx';
+import Error from '../utility/Error.jsx';
 
 import Habit from "../habits/classes/Habit.jsx";
 import HabitGrouping from "../habits/classes/HabitGrouping.jsx";
@@ -119,7 +120,8 @@ const HabitPage = (props) => {
                     .catch(err => console.log(err));
 
         if (completed) {
-            await axios.post("http://localhost:5001/api/habits/create/post", {"hid":previous.id, "email":auth.currentUser.email})
+            const date = (new Date()).toISOString().split("T");
+            await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date[0]} ${date[1].split(".")[0]}`, "hid":previous.id, "email":auth.currentUser.email})
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
         }
