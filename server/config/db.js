@@ -12,6 +12,15 @@ const connection = mysql.createConnection({
     database: NAME
 });
 
+const pool = mysql.createPool({
+    host: HOST,
+    user: USER,
+    password: PW,
+    database: NAME,
+    port: 3306,
+    connectionLimit: 25
+});
+
 // connection.connect((err) => {
 //     if (!err) {
 //       console.log("Connected");
@@ -21,7 +30,8 @@ const connection = mysql.createConnection({
 //     }
 // });
 
-module.exports = connection;
+module.exports = pool;
+// module.exports = connection;
 
 // module.exports = {
 //     HOST: process.env.DB_HOST,

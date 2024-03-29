@@ -64,18 +64,9 @@ const getAllFriends = function(session, email) {
         'RETURN DISTINCT friend.email AS email'
     ].join('\n');
 
-    // console.log("query: ". query);
     return session.readTransaction(txc => 
         txc.run(query, {email: email})   
         ).then(result => manyUsers(result)); 
-    // ).then(result => {
-    //     if (!_.isEmpty(result.records)) {
-    //         return _singleUserWithDetails(result.records[0]);
-    //       }
-    //       else {
-    //         throw {message: 'person not found', status: 404}
-    //       }
-    // });
 };
 
 const getAllRecvRequests = function(session, email) {
@@ -88,33 +79,17 @@ const getAllRecvRequests = function(session, email) {
     return session.readTransaction(txc => 
         txc.run(query, {email: email})    
     ).then(result => manyUsers(result));
-    // ).then(result => {
-    //     if (!_.isEmpty(result.records)) {
-    //         return _singleUserWithDetails(result.records[0]);
-    //       }
-    //       else {
-    //         throw {message: 'person not found', status: 404}
-    //       }
-    // });
 };
 
 const getAllSentRequests = function(session, email) {
     const query = [
-        'MATCH (user:User {email: $email})-[:REQUESTS]->(requestee:User),',
+        'MATCH (user:User {email: $email})-[:REQUESTS]->(requestee:User)',
         'RETURN DISTINCT requestee.email AS email'
     ].join('\n');
 
     return session.readTransaction(txc => 
         txc.run(query, {email: email})    
-    ).then(result => manyUsers(result));
-    // ).then(result => {
-    //     if (!_.isEmpty(result.records)) {
-    //         return _singleUserWithDetails(result.records[0]);
-    //       }
-    //       else {
-    //         throw {message: 'person not found', status: 404}
-    //       }
-    // });    
+    ).then(result => manyUsers(result)); 
 };
 
 const newFriendRequest = function(session, sender, receiver) {
@@ -130,7 +105,7 @@ const newFriendRequest = function(session, sender, receiver) {
 
 const deleteFriendRequest = function(session, sender, receiver) {
     const query = [
-        'MATCH (sender:User {email: $sender}) -[r:REQUESTS]->(receiver:User {email: $receiver})',
+        'MATCH (sender:User {email: $sender})-[r:REQUESTS]->(receiver:User {email: $receiver})',
         'DELETE r;'
     ].join('\n');
 
