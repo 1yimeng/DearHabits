@@ -82,8 +82,13 @@ router.delete('/requests/:sender/:receiver', (req, res, next) => {
     const sender = req.params.sender;
     const receiver = req.params.receiver;
     User.deleteFriendRequest(dbUtils.getSession(req), sender, receiver)
-    .then(_ => writeResponse(res, {}))
-    .catch(next);
+    .then(response => {
+        console.log("Delete Request - server response: ",response);
+        return res.json(response);
+    })
+    .catch(err => {
+        return res.json(err);
+    });
 });
 
 // Add new friend
@@ -91,8 +96,13 @@ router.post('/:user/:user2', (req, res, next) => {
     const user = req.params.user;
     const user2 = req.params.user2;
     User.newFriend(dbUtils.getSession(req), user, user2)
-        .then(_ => writeResponse(res, {}))
-        .catch(next);
+    .then(response => {
+        console.log("Add Friend - server response: ",response);
+        return res.json(response);
+    })
+    .catch(err => {
+        return res.json(err);
+    });
 });
 
 // remove a friend
@@ -100,16 +110,26 @@ router.delete('/delete/:user/:user2', (req, res, next) => {
     const user = req.params.user;
     const user2 = req.params.user2;
     User.removeFriend(dbUtils.getSession(req), user, user2)
-        .then(_ => writeResponse(res, {}))
-        .catch(next);
+    .then(response => {
+        console.log("Remove Friend - server response: ",response);
+        return res.json(response);
+    })
+    .catch(err => {
+        return res.json(err);
+    });
 });
 
 // delete a user from the social graph and remove their relationships
 router.delete('/delete/:user', (req, res, next) => {
     const user = req.params.user;
     User.deleteUser(dbUtils.getSession(req), user)
-        .then(_ => writeResponse(res, {}))
-        .catch(next);
+    .then(response => {
+        console.log("Delete User - server response: ",response);
+        return res.json(response);
+    })
+    .catch(err => {
+        return res.json(err);
+    });
 });
 
 module.exports = router;

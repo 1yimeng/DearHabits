@@ -104,6 +104,7 @@ const newFriendRequest = function(session, sender, receiver) {
 };
 
 const deleteFriendRequest = function(session, sender, receiver) {
+    console.log("sender: ",sender,", receiver: ",receiver);
     const query = [
         'MATCH (sender:User {email: $sender})-[r:REQUESTS]->(receiver:User {email: $receiver})',
         'DELETE r;'

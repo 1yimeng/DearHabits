@@ -83,6 +83,7 @@ const getFriendsAndPending = async (user) => {
             });
         })
         .catch(err => console.log(err));
+    console.log("post get friends: ", friends);
     
     const pending = [];
     await axios.get(`http://localhost:5001/api/friends/${user}/requests/sent`)
@@ -93,15 +94,14 @@ const getFriendsAndPending = async (user) => {
     })
     .catch(err => console.log(err));        
     
+    let results = [];
     if (friends.length == 0) {
-        if (pending.length == 0) {
-            return [];
-        } else {
-            return pending;
-        }
+        results = pending;
     } else {
-        return friends.concat(pending);
+        results = friends.concat(pending);
     }
+    console.log("getAllFriendsAndPending results: ", results);
+    return results;
 };
 
 const getRecvRequests = async (user) => {
@@ -114,7 +114,7 @@ const getRecvRequests = async (user) => {
             });
         })
         .catch(err => console.log(err));
-
+    console.log("getRecvRequests received: ", received);
     return received;
 };
 
@@ -125,12 +125,13 @@ const FriendPage = (props) => {
     const [post_users, setPostUsers] = useState([auth.currentUser.email]);
 
     // Show the User's friends
-    const viewFriends = () => {
-        if (all_friends.length > 0) {
-            return (<FriendList key={"FriendList"} friends={all_friends} buttonFunc={removeFriend}/>);
-        } else {
-            return (<></>);
-        }
+    const viewFriends = (friends) => {
+        // if (all_friends.length > 0) {
+            console.log("viewFriends : ", friends);
+            return (<FriendList key={"FriendList"} friends={friends} buttonFunc={removeFriend}/>);
+        // } else {
+        //     return (<></>);
+        // }
     };
 
     // Remove a User from the User's friend list
@@ -152,7 +153,7 @@ const FriendPage = (props) => {
             return newPostUsers;
         });
 
-        setMode(() => viewFriends());
+        setMode(() => viewFriends(all_friends));
         setPosts(() => getPosts(post_users));
         // friends = friends.filter(cur => cur[0] != friend);
         // setMode(() => viewFriends());
@@ -172,7 +173,7 @@ const FriendPage = (props) => {
             return newFriends;
         });
         // friends.push([friend, 0]);
-        setMode(() => viewFriends());
+        setMode(() => viewFriends(all_friends));
     };
 
     // List all Users that match User's criteria
@@ -193,17 +194,17 @@ const FriendPage = (props) => {
     };
 
     // List all of the User's pending invites
-    const viewRequests = () => {
-        if (recvReqs.length > 0) {
-            return (<RequestList key={"RequestList"} requests={recvReqs} acceptFunc={acceptRequest} removeFunc={removeRequest}/>);
-        } else {
-            return (<></>);
-        }
+    const viewRequests = (requests) => { return (<RequestList key={"RequestList"} requests={requests} acceptFunc={acceptRequest} removeFunc={removeRequest}/>);
+        // if (recvReqs.length > 0) {
+        //     return (<RequestList key={"RequestList"} requests={recvReqs} acceptFunc={acceptRequest} removeFunc={removeRequest}/>);
+        // } else {
+        //     return (<></>);
+        // }
     };
     // Remove a Request from the User's pending invites
     const removeRequest = async request => {
         // TODO: Add database logic to remove request from database
-        await axios.delete(`http://localhost:5001/api/friends/requests/${auth.currentUser.email}/${request}`)
+        await axios.delete(`http://localhost:5001/api/friends/requests/${request}/${auth.currentUser.email}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
@@ -213,7 +214,7 @@ const FriendPage = (props) => {
             return newReqs;
         });
 
-        setInvites(() => viewRequests());
+        setInvites(() => viewRequests(recvReqs));
         // requests = requests.filter(r => r != request);
         // setMode(() => viewFriends());
         // setInvites(() => viewRequests());
@@ -243,23 +244,24 @@ const FriendPage = (props) => {
             return newPostUsers;
         });
 
-        setMode(() => viewFriends());
+        setMode(() => viewFriends(all_friends));
         setPosts(() => getPosts(post_users));
         // friends.push([request, 1]);
         // removeRequest(request);
     }
 
-    const [mode, setMode] = useState(viewFriends);
-    const [invites, setInvites] = useState(viewRequests);
+    const [mode, setMode] = useState(null);
+    const [invites, setInvites] = useState(null);
 
     useEffect(() => {
         const retrieveFriends = async () => {
             let friends = await getFriendsAndPending(auth.currentUser.email);
             console.log("client friends: ", friends);
             setFriends(() => friends);
-            // setMode(()=> viewFriends());
+            setMode(()=> viewFriends(friends));
         };
         retrieveFriends();
+        // setMode(()=> viewFriends());
     }, []);
 
     useEffect(() => {
@@ -267,9 +269,10 @@ const FriendPage = (props) => {
             let received_reqs = await getRecvRequests(auth.currentUser.email);
             console.log("client received_reqs: ", received_reqs);
             setRecvReqs(() => received_reqs);
-            // setInvites(()=>viewRequests());
+            setInvites(()=>viewRequests(received_reqs));
         };
         retrieveInvites();
+        // setInvites(()=>viewRequests());
     }, []);
 
     const getFeed = async () => {
@@ -277,7 +280,7 @@ const FriendPage = (props) => {
         const response = await getPosts(post_users);
         setPosts(response);  
         console.log(posts);
-    }
+    };
 
     useEffect(() => {
         const retrieve = async () => {
