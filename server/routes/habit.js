@@ -55,11 +55,11 @@ router.post('/create', (req, res) => {
   })
 })
 router.post('/create/groupings', (req, res) => {
-  const query = "INSERT INTO `habit_groupings` (`Hid`, `Label`, `Type`, `Value`, `Upper_Bound`, `Lower_Bound`, `Num_Intervals`) VALUES ?"
+  const query = "INSERT INTO `habit_groupings` (`Hid`, `Label`, `Type`, `Value`, `Upper_Bound`, `Lower_Bound`, `Num_Intervals`, `Streak_Num`, `Longest_Streak`) VALUES ?"
   const count = req.body.count;
   const values = [];
   for (let i=1; i<count; i++) {
-    values.push([req.body[i].Hid, req.body[i].Label, req.body[i].Type, JSON.stringify(req.body[i].Values), req.body[i].Upper_Bound, req.body[i].Lower_Bound, req.body[i].Num_Intervals])
+    values.push([req.body[i].Hid, req.body[i].Label, req.body[i].Type, JSON.stringify(req.body[i].Values), req.body[i].Upper_Bound, req.body[i].Lower_Bound, req.body[i].Num_Intervals, req.body[i].Streak_Num, req.body[i].Longest_Streak])
   }
   db.query(query, [values], (err, result) => {
     if (err) return res.json(err);
@@ -75,6 +75,13 @@ router.put('/update/:id', (req, res) => {
     if (err) return res.json(err);
     return res.json(result);
   })
+});
+router.put('/update/groupings/:id', (req, res) => {
+  const query = "UPDATE `habit_groupings` SET `Value` = ? WHERE `Gid` = ?";
+  db.query(query, [req.body.values, req.params.id], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
 });
 
 // Delete Habit and it's Groupings from the Database
