@@ -64,7 +64,7 @@ const EditMode = ({original, switchFunc, ...props}) => {
 
 const ViewMode = ({habit, switchFunc, ...props}) => {
     const today = new Date();  // Get today's date to add to value array
-    const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`; // Format today's date
+    const date = `${today.toISOString().split("T")[0]}`; // Format today's date
 
     // Create a new value for each Grouping
     const [activity, setActivity] = useState(() => habit.group.map(g => [date, (g.type === "Scale") ? 1 : ""]));
@@ -100,7 +100,7 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
             <button type="button" onClick={switchFunc}>Edit</button>
             {/* Habit's details */}
             <h2>{habit.name}</h2>
-            <h3>{"Streak: " + habit.streak}</h3>
+            {(habit.streak >= 3) ? <h3>{"Streak: " + habit.streak}</h3> : null}
             <h4>{"Frequency: " + habit.frequency}</h4>
             <h4>{"Privacy: " + habit.privacy}</h4>
             <hr />

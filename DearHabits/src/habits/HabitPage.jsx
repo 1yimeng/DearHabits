@@ -118,10 +118,10 @@ const HabitPage = (props) => {
         await axios.post('http://localhost:5001/api/habits/create/groupings', updated.getGroupsInfo())
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
-
-        if (completed) {
+        
+        if (completed && updated.privacy === "Public") {
             const date = (new Date()).toISOString().split("T");
-            await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date[0]} ${date[1].split(".")[0]}`, "hid":previous.id, "email":auth.currentUser.email})
+            await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date[0]}`, "hid":previous.id, "email":auth.currentUser.email})
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
         }

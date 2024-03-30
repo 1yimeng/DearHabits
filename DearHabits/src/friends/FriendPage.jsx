@@ -22,7 +22,7 @@ const getPosts = async (users) => {
         res.data.forEach(result => {
             const storedReactions = (result.Reactions) ? JSON.parse(result.Reactions) : {}
             const reactions = Object.keys(storedReactions).map(key => storedReactions[key]);
-            posts.push([result.Hid, result.Pid, reactions]);
+            posts.push([result.Hid, result.Pid, reactions, result.Time.split("T")[0]]);
     })})
     .catch(err => console.log(err));
     console.log("posts: ", posts);
@@ -64,7 +64,16 @@ const getPosts = async (users) => {
     
         return shared.map(habit => {
             groupings.forEach(group => (habit[1].id === group.hid) ? habit[1].addGroup(group) : null);
-            posts.forEach(id => (id[0] === habit[1].id) ? habit.push(id[2], id[1]) : null);
+            posts.forEach(id => {
+                if (id[0] === habit[1].id) { 
+                    habit.push(id[2], id[1]);
+                    habit[1].group.forEach(g => {
+                        const json = g.valueJSON();
+                        g.values = [id[3].split("T")[0], json[id[3].split("T")[0]]];
+                    })
+                }
+            });
+            console.log(habit);
             return habit;
         });
     } else {
@@ -123,6 +132,8 @@ const FriendPage = (props) => {
     const [posts, setPosts] = useState([]);
     const [recvReqs, setRecvReqs] = useState([]);
     const [post_users, setPostUsers] = useState([auth.currentUser.email]);
+    const [mode, setMode] = useState(null);
+    const [invites, setInvites] = useState(null);
 
     // Show the User's friends
     const viewFriends = (friends) => {
@@ -250,41 +261,48 @@ const FriendPage = (props) => {
         // removeRequest(request);
     }
 
-    const [mode, setMode] = useState(null);
-    const [invites, setInvites] = useState(null);
+    // useEffect(() => {
+    //     const retrieveFriends = async () => {
+    //         let friends = await getFriendsAndPending(auth.currentUser.email);
+    //         console.log("client friends: ", friends);
+    //         setFriends(() => friends);
+    //         setMode(()=> viewFriends(friends));
+    //     };
+    //     retrieveFriends();
+    // }, []);
 
-    useEffect(() => {
-        const retrieveFriends = async () => {
-            let friends = await getFriendsAndPending(auth.currentUser.email);
-            console.log("client friends: ", friends);
-            setFriends(() => friends);
-            setMode(()=> viewFriends(friends));
-        };
-        retrieveFriends();
-        // setMode(()=> viewFriends());
-    }, []);
-
-    useEffect(() => {
-        const retrieveInvites = async () => {
-            let received_reqs = await getRecvRequests(auth.currentUser.email);
-            console.log("client received_reqs: ", received_reqs);
-            setRecvReqs(() => received_reqs);
-            setInvites(()=>viewRequests(received_reqs));
-        };
-        retrieveInvites();
-        // setInvites(()=>viewRequests());
-    }, []);
+    // useEffect(() => {
+    //     const retrieveInvites = async () => {
+    //         let received_reqs = await getRecvRequests(auth.currentUser.email);
+    //         console.log("client received_reqs: ", received_reqs);
+    //         setRecvReqs(() => received_reqs);
+    //         setInvites(()=>viewRequests(received_reqs));
+    //     };
+    //     retrieveInvites();
+    // }, []);
 
     const getFeed = async () => {
         // ["test@gmail.com", "testemail@gmail.com"]
         const response = await getPosts(post_users);
         setPosts(response);  
-        console.log(posts);
     };
 
     useEffect(() => {
         const retrieve = async () => {
-            let response = await getPosts(post_users);
+            let friends = await getFriendsAndPending(auth.currentUser.email);
+            setFriends(() => friends);
+            setMode(()=> viewFriends(friends));
+
+            const posters = [auth.currentUser.email];
+            friends.forEach(friend => (friend[1] === 1) ? posters.push(friend[0]) : null);
+            setPostUsers(() => posters);
+
+            let received_reqs = await getRecvRequests(auth.currentUser.email);
+            setRecvReqs(() => received_reqs);
+            setInvites(()=>viewRequests(received_reqs));
+
+            console.log(friends);
+            let response = await getPosts(posters);
             setPosts(() => response);
         }
         retrieve();
