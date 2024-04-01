@@ -26,12 +26,10 @@
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "neo4j-driver": "^5.18.0",
-    "pug": "^3.0.2",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
-    "sequelize": "^6.37.1",
     "url": "^0.11.3",
     "webpack-dev-middleware": "^7.1.1"
   },

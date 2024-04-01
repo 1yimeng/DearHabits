@@ -10,12 +10,6 @@ const compiler = webpack(config);
 require("dotenv").config();
 const neo4jSessionCleanup = require("./middlewares/neo4jSessionCleanup")
 
-// const fs = require("fs");
-// const react = require("react");
-// const reactDOMserver = require("react-dom/server");
-// // const App = require("../../DearHabits/src/App");
-// import App from "../DearHabits/src/App";
-
 // implementing routing
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/user");
