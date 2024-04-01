@@ -17,7 +17,7 @@ const Profile = props => {
     }
 
     // call database to check current frequency
-    const currentFrequency = "Weekly";
+    // const currentFrequency = "Weekly";
 
     return (
       <div className="mainContainer">
@@ -25,13 +25,7 @@ const Profile = props => {
           <div>Email: {userEmail}</div>
         </div>
 
-        <div className="buttonContainer">
-          <h3>Your current notification setting: {currentFrequency}</h3>
-          <h3>Set Frequency: </h3>
-          <NotificationDropdown
-            frequency={currentFrequency}
-          ></NotificationDropdown>
-        </div>
+        <NotificationDropdown />
 
         <ChangePasswordButton></ChangePasswordButton>
         <SignoutButton></SignoutButton>

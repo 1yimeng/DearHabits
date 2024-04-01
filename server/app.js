@@ -21,6 +21,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/user");
 const habitsRouter = require("./routes/habit");
 const friendsRouter = require("./routes/friends");
+const notificationRouter = require("./routes/notification");
 
 // connection to database
 // const db = require("./config/db");
@@ -69,6 +70,7 @@ app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/api/habits", habitsRouter);
 app.use("/api/friends", friendsRouter);
+app.use("/api/notification", notificationRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
