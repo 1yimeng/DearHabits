@@ -94,6 +94,14 @@ router.delete('/delete/groupings/:hid', (req, res) => {
     return res.json(result);
   })
 });
+router.delete('/delete/posts/:hid', (req, res) => {
+  const query = "DELETE FROM `posts` WHERE Hid = ?"
+  const hid = req.params.hid;
+  db.query(query, [hid], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  })
+});
 
 // Create a Post in the Database when a Habit is completed
 router.post('/create/post', (req, res) => {
