@@ -51,7 +51,7 @@ const Registration = (props) => {
         password
       );
 
-      await axios.post('http://localhost:5001/user/create', {"Email": email, "Password_Hash": password});
+      await axios.post('http://localhost:5001/user/create', {"Email": email});
       await axios.post(`http://localhost:5001/friends/api/create_user/${email}`);
       // Pull out user's data from the userCredential property
       const user = userCredential.user;

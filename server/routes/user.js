@@ -22,7 +22,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/create", (req, res) => {
-  const query = "INSERT INTO `users` (`Email`, `Password_Hash`) VALUES (?)";
+  const query = "INSERT INTO `users` (`Email`) VALUES (?)";
   const values = [req.body.Email, req.body.Password_Hash];
   db.query(query, [values], (err, result) => {
     if (err) return res.json(err);
