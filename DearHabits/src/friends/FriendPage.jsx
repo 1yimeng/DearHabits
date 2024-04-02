@@ -188,16 +188,26 @@ const FriendPage = (props) => {
     };
 
     // List all Users that match User's criteria
-    const searchFriends = e => {
-        // TODO: Get Users from database that match search and their 
-        const search = ["Example1", "Example2", "Example3"]
-        console.log(e.target.form[0].value);
+    const searchFriends = async e => {
+        const search = [];
+        await axios.get(`http://localhost:5001/api/friends/search/${e.target.form[0].value}`)
+        .then(res => {
+            res.data.forEach( item => {
+                search.push(item);
+            });
+        })
+        .catch(err => console.log(err));
+
         setMode(() => {
             return (
                 <>
                     <SearchList search={search} friends={all_friends.map(friend => friend[0])} buttonFunc={addFriend}/>
                     <br />
-                    <button onClick={() => setMode(() => viewFriends())}>Back</button>
+                    <button type="button" onClick={() => {
+                        setMode(() => viewFriends(all_friends));
+                        // clear the search term from the input form
+                        e.target.form[0].value='';
+                        }}>Back</button>
                 </>
             )
         })
@@ -205,13 +215,7 @@ const FriendPage = (props) => {
     };
 
     // List all of the User's pending invites
-    const viewRequests = (requests) => { return (<RequestList key={"RequestList"} requests={requests} acceptFunc={acceptRequest} removeFunc={removeRequest}/>);
-        // if (recvReqs.length > 0) {
-        //     return (<RequestList key={"RequestList"} requests={recvReqs} acceptFunc={acceptRequest} removeFunc={removeRequest}/>);
-        // } else {
-        //     return (<></>);
-        // }
-    };
+    const viewRequests = (requests) => { return (<RequestList key={"RequestList"} requests={requests} acceptFunc={acceptRequest} removeFunc={removeRequest}/>);};
     // Remove a Request from the User's pending invites
     const removeRequest = async request => {
         // TODO: Add database logic to remove request from database
@@ -226,9 +230,6 @@ const FriendPage = (props) => {
         });
 
         setInvites(() => viewRequests(recvReqs));
-        // requests = requests.filter(r => r != request);
-        // setMode(() => viewFriends());
-        // setInvites(() => viewRequests());
     };
 
     // Add User to the User's friend list and remove them from the User's invites
@@ -257,29 +258,7 @@ const FriendPage = (props) => {
 
         setMode(() => viewFriends(all_friends));
         setPosts(() => getPosts(post_users));
-        // friends.push([request, 1]);
-        // removeRequest(request);
-    }
-
-    // useEffect(() => {
-    //     const retrieveFriends = async () => {
-    //         let friends = await getFriendsAndPending(auth.currentUser.email);
-    //         console.log("client friends: ", friends);
-    //         setFriends(() => friends);
-    //         setMode(()=> viewFriends(friends));
-    //     };
-    //     retrieveFriends();
-    // }, []);
-
-    // useEffect(() => {
-    //     const retrieveInvites = async () => {
-    //         let received_reqs = await getRecvRequests(auth.currentUser.email);
-    //         console.log("client received_reqs: ", received_reqs);
-    //         setRecvReqs(() => received_reqs);
-    //         setInvites(()=>viewRequests(received_reqs));
-    //     };
-    //     retrieveInvites();
-    // }, []);
+    };
 
     const getFeed = async () => {
         // ["test@gmail.com", "testemail@gmail.com"]
@@ -314,7 +293,7 @@ const FriendPage = (props) => {
           <h2>Friends</h2>
           <form>
             <input name="searchField" placeholder="friend@gmail.com" />
-            <button onClick={searchFriends}>Search</button>
+            <button type="button" onClick={searchFriends}>Search</button>
           </form>
           <hr />
           {mode}

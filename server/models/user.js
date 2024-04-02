@@ -148,6 +148,27 @@ const deleteUser = function(session, user) {
       );  
 };
 
+const createUser = function(session, user) {
+    const query = [
+        'CREATE (user:User {email: $user});'
+    ].join('\n');
+
+    return session.writeTransaction(txc =>
+        txc.run(query, {user: user})    
+    );
+};
+
+const searchUser = function(session, user) {
+    const query = [
+        'MATCH (user:User {email: $user})',
+        'RETURN DISTINCT user.email AS email;'
+    ].join(`\n`);
+
+    return session.readTransaction(txc =>
+        txc.run(query, {user: user})
+    ).then(result => manyUsers(result)); 
+};
+
 module.exports = {
     getAllRelations: getAllRelations,
     getAllFriends: getAllFriends,
@@ -158,4 +179,6 @@ module.exports = {
     newFriend: newFriend,
     removeFriend: removeFriend,
     deleteUser: deleteUser,
+    createUser: createUser,
+    searchUser: searchUser
 };

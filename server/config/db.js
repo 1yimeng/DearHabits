@@ -5,12 +5,12 @@ const USER = process.env.DB_USER || 'root';
 const PW = process.env.DB_PW || '';
 const NAME = process.env.DB_NAME || 'dear_habits';
 
-const connection = mysql.createConnection({
-    host: HOST,
-    user: USER,
-    password: PW,
-    database: NAME
-});
+// const connection = mysql.createConnection({
+//     host: HOST,
+//     user: USER,
+//     password: PW,
+//     database: NAME
+// });
 
 const pool = mysql.createPool({
     host: HOST,
