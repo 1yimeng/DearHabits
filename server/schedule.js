@@ -19,6 +19,7 @@ const getEmails = async freq => {
     return emails;
 };
 
+// Backend portion to restart habits to they can be completed again and reset incompleted habits (FR18)
 const resetHabits = async freq => {
     await axios.put(`http://localhost:5001/api/notification/habits/reset/${freq}`);
     await axios.put(`http://localhost:5001/api/notification/habits/restart/${freq}`);
@@ -40,6 +41,7 @@ const incrementValues = (value, type, low) => {
     return value;
 };
 
+// Mailer to send out reminder emails (FR19)
 const mailer = emails => {
     const sender = nodemailer.createTransport({
         service: 'gmail',
@@ -65,11 +67,12 @@ const mailer = emails => {
 };
 
 // Daily Tasks
-// Reset Habits for Daily habits
+// Restart Habits for Daily habits and reset habits that haven't been completed (FR18)
+// FR18. Update Streak
 cron.schedule('0 0 * * *', () => {
     const retrieve = async () => {
         const groups = await getIncomplete("Daily");
-        resetHabits("Daily");
+        resetHabits("Daily");  // Resets streaks and increment values for incomplete habits (FR18)
         const updated = groups.map(group => {
             group[1] = incrementValues(group[1], group[2], group[3]);
             return [JSON.stringify(group[1]), group[0]];
@@ -79,20 +82,22 @@ cron.schedule('0 0 * * *', () => {
     retrieve();
 });
 
+// FR19. Send Notifications
 cron.schedule('0 12 * * *', () => {
     const retrieve = async () => {
         const groups = await getEmails("Daily");
-        mailer(groups);
+        mailer(groups);  // Send out reminder emails for users who have set notifications to daily (FR19)
     };
     retrieve();
 });
 
 // Weekly Tasks
-// Reset Habits for Weekly habits
+// Restart Habits for Weekly habits and reset habits that haven't been completed (FR18)
+// FR18. Update Streak
 cron.schedule('0 0 * * 1', () => {
     const retrieve = async () => {
         const groups = await getIncomplete("Weekly");
-        resetHabits("Weekly");
+        resetHabits("Weekly");  // Resets streaks and increment values for incomplete habits (FR18)
         const updated = groups.map(group => {
             group[1] = incrementValues(group[1], group[2], group[3]);
             return [JSON.stringify(group[1]), group[0]];
@@ -102,20 +107,22 @@ cron.schedule('0 0 * * 1', () => {
     retrieve();
 });
 
+// FR19. Send Notifications
 cron.schedule('0 12 * * 1', () => {
     const retrieve = async () => {
         const groups = await getEmails("Weekly");
-        mailer(groups);
+        mailer(groups);  // Send out reminder emails for users who have set notifications to weekly (FR19)
     };
     retrieve();
 });
 
 // Monthly Tasks
-// Reset Habits for Monthly habits
+// Restart Habits for Monthly habits reset habits that haven't been completed (FR18)
+// FR18. Update Streak
 cron.schedule('0 0 1 * *', () => {
     const retrieve = async () => {
         const groups = await getIncomplete("Monthly");
-        resetHabits("Monthly");
+        resetHabits("Monthly");  // Resets streaks and increment values for incomplete habits (FR18)
         const updated = groups.map(group => {
             group[1] = incrementValues(group[1], group[2], group[3]);
             return [JSON.stringify(group[1]), group[0]];
@@ -125,10 +132,11 @@ cron.schedule('0 0 1 * *', () => {
     retrieve();
 });
 
+// FR19. Send Notifications
 cron.schedule('0 12 1 * *', () => {
     const retrieve = async () => {
         const groups = await getEmails("Monthly");
-        mailer(groups);
+        mailer(groups);  // Send out reminder emails for users who have set notifications to monthly (FR19)
     };
     retrieve();
 });

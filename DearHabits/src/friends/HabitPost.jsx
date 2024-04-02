@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Facebook from "./ReactionCounter.jsx";
 
+// FR16. View Feed
 export const HabitPost = ({ habit, ...props }) => {
-  // Snapshot of a completed Habit that is set to be shared with friends
+  // Snapshot of a completed Habit that is set to be shared with friends (FR16)
   // Only shows the latest value, not any older values
   return (
     <>
@@ -13,7 +14,7 @@ export const HabitPost = ({ habit, ...props }) => {
       <h3>{habit.group.length > 1 ? "Activities" : "Activity"}</h3>
       {habit.group.map((group, index) => {
         return (
-          <section key={group.label}>
+          <section key={`${group.label}-${index}`}>
             <h4>{group.label}</h4>
             {group.type === "Text" ? (
               <label>
@@ -69,7 +70,9 @@ export const HabitPost = ({ habit, ...props }) => {
   );
 };
 
+// FR16. View Feed, FR17. React to Friend's Post
 export const Feed = ({ shared, ...props }) => {
+  // Map all Posts to a HabitPost (FR16)
   const [feed, setFeed] = useState(() => {
     return shared.map((habit) => {
       return (
@@ -80,11 +83,13 @@ export const Feed = ({ shared, ...props }) => {
           <h3>{habit[0]}</h3>
           <HabitPost habit={habit[1]} />
           <br />
+          {/* Display all reactions to Post and allow Users to add their own reactions (FR17) */}
           <Facebook counters={habit[2]} pid={habit[3]}></Facebook>
         </section>
       );
     });
   });
 
+  // Display all Posts (FR16)
   return <>{feed}</>;
 };

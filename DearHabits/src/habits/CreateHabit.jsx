@@ -4,13 +4,11 @@ import HabitGrouping from './classes/HabitGrouping.jsx'
 
 import './stylesheet/habits.css'
 
+// FR8. Creat Habit Grouping, FR9. Create Habit
 export const MainCreate = props => {
     const [err, setErr] = useState(false);
     let [habit, setHabit] = useState(new Habit("", "Daily", "Private"))  // Create a fresh Habit
-
-    // let habit = new Habit("", "Daily", "Private");  
     let grouping = [new HabitGrouping("", "Text")];  // Create a fresh Grouping
-    // habit.updateGroup(grouping);
 
     const updateHabit = newHabit => { habit = newHabit; }  // Replace fresh Habit with created Habit
     const updateGrouping = newGrouping => { grouping = newGrouping; }  // Replace fresh Grouping with created Grouping
@@ -34,12 +32,12 @@ export const MainCreate = props => {
             <h2>Create a Habit</h2>
             {(err) ? (<h3 className="error">Please fill in all Fields</h3>) : null}
             <form onSubmit={e => submissionHandler(e)}>
-                {/* Create a new Habit with the fresh Habit as a base */}
+                {/* Create a new Habit with the fresh Habit as a base (FR9)*/}
                 <HabitCreate key={"Create-Habit"} initial={habit} updateFunc={updateHabit} error={err}/>
                 <hr />
                 <h3>Activities</h3>
                 <hr />
-                {/* Create a new Grouping with the fresh Grouping as a base */}
+                {/* Create a new Grouping with the fresh Grouping as a base (FR8)*/}
                 <GroupingCreate key={"Create-Habit-Grouping"} initial={grouping} updateFunc={updateGrouping} error={err}/>
                 <hr />
                 <button onClick={e => submissionHandler(e)} type="button">Submit</button>
@@ -48,6 +46,7 @@ export const MainCreate = props => {
     )
 }
 
+// FR9. Create Habit
 export const HabitCreate = ({initial, updateFunc, ...props}) => {
     const [habit, setHabit] = useState(initial);  // Habit being created
 
@@ -115,6 +114,7 @@ export const HabitCreate = ({initial, updateFunc, ...props}) => {
     );
 };
 
+// FR8. Creat Habit Grouping
 export const GroupingCreate = ({initial, updateFunc, ... props}) => {
     const [grouping, setGrouping] = useState(initial);  // Grouping being created
 

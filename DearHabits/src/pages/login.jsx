@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase.jsx";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
+// FR2. Login - The system shall check if the provided Username and Password are matched with the registered users.
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

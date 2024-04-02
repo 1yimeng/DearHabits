@@ -4,6 +4,7 @@ import { auth } from "../firebase.jsx";
 import axios from 'axios';
 import _ from "lodash";
 
+// FR17. React to Friend's Post
 export class Facebook extends Component {
   //['like', 'love', 'haha', 'wow', 'sad', 'angry']
   state = {
@@ -46,11 +47,13 @@ export class Facebook extends Component {
       this.setState(() => newState);
     }
 
+    // Backend portion to add a reaction to the Post in the database (FR17)
     await axios.put(`http://localhost:5001/api/habits/posts/update/${this.props.pid}`, {"update":this.getJSON(updated)})
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
   };
 
+  // Show the list of reactions on a Post (FR17)
   showListOfReactions = () => {
     return this.state.counters.map((reaction, i) => {
       return (
@@ -61,6 +64,7 @@ export class Facebook extends Component {
     });
   };
 
+  // Show list of available reactions and a list of Users who have already reacted (FR17)
   render() {
     return (
       <div style={{ position: "relative" }}>

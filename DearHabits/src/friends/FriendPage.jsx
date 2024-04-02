@@ -12,6 +12,7 @@ import HabitGrouping from '../habits/classes/HabitGrouping.jsx';
 
 import './stylesheets/friends.css'
 
+// Backend portion to retrieve all of Users and their friends posts (FR16)
 const getPosts = async (users) => {
     const posts = [];
     // ${users.reduce((sum, cur) => `${sum} ${cur}`)}`, {emails:users}
@@ -67,7 +68,7 @@ const getPosts = async (users) => {
                     habit.push(id[2], id[1]);
                     habit[1].group.forEach(g => {
                         const json = g.valueJSON();
-                        g.values = [id[3].split("T")[0], json[id[3].split("T")[0]]];
+                        (g.values.length > 0) ? g.values = [id[3].split("T")[0], json[id[3].split("T")[0]]] : g.values = [];
                     })
                 }
             });
@@ -120,6 +121,8 @@ const getRecvRequests = async (user) => {
     return received;
 };
 
+// FR4. Search Friends, FR5. Send Friends Request, FR6. Decide Friends Request, FR7. Remove Friend, FR16. View Feed,
+// FR17. React to Friend's Post
 const FriendPage = (props) => {
     const [all_friends, setFriends] = useState([]);
     const [posts, setPosts] = useState([]);
@@ -128,11 +131,15 @@ const FriendPage = (props) => {
     const [mode, setMode] = useState(null);
     const [invites, setInvites] = useState(null);
 
+    // FR7. Remove Friend
+    // Shows the button to use FR7
     // Show the User's friends
     const viewFriends = (friends) => {
             return (<FriendList key={"FriendList"} friends={friends} buttonFunc={removeFriend}/>);
     };
 
+    // FR7. Remove Friend
+    // Handles the backend portion of FR7
     // Remove a User from the User's friend list
     const removeFriend = async friend => {
         await axios.delete(`http://localhost:5001/api/friends/delete/${auth.currentUser.email}/${friend[0]}`)
@@ -155,6 +162,8 @@ const FriendPage = (props) => {
         setPosts(() => getPosts(post_users));
     };
 
+    // FR5. Send Friends Request
+    // Handles the backend portion of FR5
     // Add a User to the User's friend list as a pending friend
     const addFriend = async friend => {
         // TODO: Notify friend about request
@@ -170,6 +179,8 @@ const FriendPage = (props) => {
         setMode(() => viewFriends(all_friends));
     };
 
+    // FR4. Search Friends
+    // Handles the backend portion of FR4
     // List all Users that match User's criteria
     const searchFriends = e => {
         // TODO: Get Users from database that match search and their 
@@ -186,10 +197,13 @@ const FriendPage = (props) => {
         e.preventDefault();
     };
 
+    // FR6. Decide Friends Request
     // List all of the User's pending invites
     const viewRequests = (requests) => { 
         return (<RequestList key={"RequestList"} requests={requests} acceptFunc={acceptRequest} removeFunc={removeRequest}/>);
     };
+    // FR6. Decide Friends Request
+    // Handles the backend portion to remove a friend request (FR6)
     // Remove a Request from the User's pending invites
     const removeRequest = async request => {
         await axios.delete(`http://localhost:5001/api/friends/requests/${request}/${auth.currentUser.email}`)
@@ -204,6 +218,8 @@ const FriendPage = (props) => {
 
         setInvites(() => viewRequests(recvReqs));
     };
+    // FR6. Decide Friends Request
+    // Handles the backend portion to accept a friend request (FR6)
     // Add User to the User's friend list and remove them from the User's invites
     const acceptRequest = async request => {
         removeRequest(request);
@@ -228,6 +244,7 @@ const FriendPage = (props) => {
         setPosts(() => getPosts(post_users));
     }
 
+    // Button refresh the Posts from the database (FR16)
     const getFeed = async () => {
         const response = await getPosts(post_users);
         setPosts(response);  
@@ -239,10 +256,12 @@ const FriendPage = (props) => {
             setFriends(() => friends);
             setMode(()=> viewFriends(friends));
 
+            // Get all the relevant posts (FR16)
             const posters = [auth.currentUser.email];
             friends.forEach(friend => (friend[1] === 1) ? posters.push(friend[0]) : null);
             setPostUsers(() => posters);
 
+            // Get the requests sent to the User so they can decide to accept or reject them for FR6
             let received_reqs = await getRecvRequests(auth.currentUser.email);
             setRecvReqs(() => received_reqs);
             setInvites(()=>viewRequests(received_reqs));
@@ -257,19 +276,23 @@ const FriendPage = (props) => {
       <section className="flex-friend">
         <section className="sidebar">
           <h2>Friends</h2>
+          {/* Search bar required for FR4. Search Friends */}
           <form>
             <input name="searchField" placeholder="friend@gmail.com" />
             <button onClick={searchFriends}>Search</button>
           </form>
           <hr />
+          {/* Output for FR4. Search Friends, button for FR5. Send Friends Request, and button for FR7. Remove Friend*/}
           {mode}
         </section>
         <section className="feed">
+          {/* Display all Posts and reactions from the User and their friends (FR16 and FR17) */}
           <button className="feed-button" onClick={() => getFeed()}>Refresh</button>
           <Feed shared={posts} key={posts} className="feed-slot" />
         </section>
         <section className="sidebar">
           <h2>Invites</h2>
+          {/* Show all available requests for users and option to decide on requests for FR6 */}
           {invites}
         </section>
       </section>
