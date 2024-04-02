@@ -179,15 +179,26 @@ const FriendPage = (props) => {
     // FR4. Search Friends
     // Handles the backend portion of FR4
     // List all Users that match User's criteria
-    const searchFriends = e => {
-        // TODO: Get Users from database that match search and their 
-        const search = ["Example1", "Example2", "Example3"]
+    const searchFriends = async e => {
+        const search = [];
+        await axios.get(`http://localhost:5001/api/friends/search/${e.target.form[0].value}`)
+        .then(res => {
+            res.data.forEach( item => {
+                search.push(item);
+            });
+        })
+        .catch(err => console.log(err));
+
         setMode(() => {
             return (
                 <>
                     <SearchList search={search} friends={all_friends.map(friend => friend[0])} buttonFunc={addFriend}/>
                     <br />
-                    <button onClick={() => setMode(() => viewFriends())}>Back</button>
+                    <button type="button" onClick={() => {
+                        setMode(() => viewFriends(all_friends));
+                        // clear the search term from the input form
+                        e.target.form[0].value='';
+                        }}>Back</button>
                 </>
             )
         })
@@ -239,7 +250,7 @@ const FriendPage = (props) => {
 
         setMode(() => viewFriends(all_friends));
         setPosts(() => getPosts(post_users));
-    }
+    };
 
     // Button refresh the Posts from the database (FR16)
     const getFeed = async () => {
@@ -277,7 +288,7 @@ const FriendPage = (props) => {
           {/* Search bar required for FR4. Search Friends */}
           <form>
             <input name="searchField" placeholder="friend@gmail.com" />
-            <button onClick={searchFriends}>Search</button>
+            <button type="button" onClick={searchFriends}>Search</button>
           </form>
           <hr />
           {/* Output for FR4. Search Friends, button for FR5. Send Friends Request, and button for FR7. Remove Friend*/}

@@ -132,4 +132,28 @@ router.delete('/delete/:user', (req, res, next) => {
     });
 });
 
+router.post(`/create_user/:user`, (req,res) => {
+    const user = req.params.user;
+    User.createUser(dbUtils.getSession(req), user)
+    .then(response => {
+        console.log("Create User - server response: ",response);
+        return res.json(response);
+    })
+    .catch(err => {
+        return res.json(err);
+    });
+});
+
+router.get(`/search/:user`, (req, res) => {
+    const user = req.params.user;
+    User.searchUser(dbUtils.getSession(req), user)
+    .then(response => {
+        console.log("Search User - server response: ",response);
+        return res.json(response);
+    })
+    .catch(err => {
+        return res.json(err);
+    });
+});
+
 module.exports = router;

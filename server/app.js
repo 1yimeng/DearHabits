@@ -10,12 +10,6 @@ const compiler = webpack(config);
 require("dotenv").config();
 const neo4jSessionCleanup = require("./middlewares/neo4jSessionCleanup")
 
-// const fs = require("fs");
-// const react = require("react");
-// const reactDOMserver = require("react-dom/server");
-// // const App = require("../../DearHabits/src/App");
-// import App from "../DearHabits/src/App";
-
 // implementing routing
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/user");
@@ -23,19 +17,14 @@ const habitsRouter = require("./routes/habit");
 const friendsRouter = require("./routes/friends");
 const notificationRouter = require("./routes/notification");
 
-// connection to database
-// const db = require("./config/db");
-
 const app = express();
 
 app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath
 }));
 
+// the static frontend files are bundled in the dist folder
 app.use(express.static(path.resolve(__dirname, "dist")));
-// view engine setup
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "pug");
 
 const PORT = process.env.PORT || 5001;
 
@@ -72,6 +61,14 @@ app.use("/api/habits", habitsRouter);
 app.use("/api/friends", friendsRouter);
 app.use("/api/notification", notificationRouter);
 
+// app.get("/*", function (req, res) {
+//   console.log("path.join: ",path.join(__dirname, "dist/index.html"));
+//   res.sendFile(path.join(__dirname, "dist/index.html"), function (err) {
+//     if (err) {
+//       res.status(500).send(err);
+//     }
+//   });
+// });
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     next(createError(404));
@@ -87,9 +84,12 @@ app.use((req, res, next) => {
     res.status(err.status || 500);
     res.send("error");
   });  
+  
 
 app.listen(PORT, () => {
     console.log("Port used: ", PORT);
+    console.log("path: ", __dirname);
+    console.log("path.join: ",path.join(__dirname, "dist/index.html"));
   });
 
 module.exports = app;
