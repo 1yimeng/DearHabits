@@ -19,7 +19,7 @@ const EditMode = ({original, switchFunc, ...props}) => {
 
     const deleteHabit = (e, habit) => {
         // Get User confirmation
-        if (confirm(`Delete ${habit.name}\nAre You Sure?`)) {
+        if (confirm(`Delete ${habit.name}?\nAre You Sure?`)) {
             switchFunc() // Switch back to Viewing mode
             props.submitDelete(habit)  // Delete Habit from the database
         }
@@ -84,6 +84,7 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
         newHabit.updateGroup(habit.group.map((g, index) => {
             // Check if a Grouping was completed and increment it's Streak if it was
             if (activity[index][1]) { g.incrementStreak(); }
+            else { g.resetStreak(); }
             // Add new value to Grouping
             g.incrementValue(activity[index]);
             return g;

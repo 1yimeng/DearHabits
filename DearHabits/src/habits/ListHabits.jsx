@@ -8,9 +8,9 @@ const ListHabits = ({habits, buttonFunc, ...props}) => {
     }
     return (
         <>
-            {habits.map(habit => {
+            {habits.map((habit, index) => {
                 return (
-                <Slot key={habit.name} label={""}>
+                <Slot key={`${habit.name}-${index}`} label={""}>
                     <button onClick={() => buttonFunc(habit)} className="sidebar-button">{habit.name}</button>
                 </Slot>)
             })}

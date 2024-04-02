@@ -7,7 +7,7 @@ export const HabitPost = ({ habit, ...props }) => {
   return (
     <>
       <h2>{habit.name}</h2>
-      <h3>{"Streak: " + habit.streak}</h3>
+      {(habit.streak >= 3) ? <h3>{"Streak: " + habit.streak}</h3> : null}
       <h4>{"Frequency: " + habit.frequency}</h4>
       <hr />
       <h3>{habit.group.length > 1 ? "Activities" : "Activity"}</h3>
