@@ -30,50 +30,47 @@ const getPosts = async (users) => {
         const shared = [];
         await axios.get(`http://localhost:5001/api/habits/read/habits/${posts.reduce((sum, cur) => `${sum}+${cur[0]}`)}`)
                     .then(res => {
-                        res.data.forEach(result => {
-                            shared.push([result.User_Name, new Habit(
-                                result.Name, 
-                                result.Frequency, 
-                                result.Privacy, 
-                                result.Streak_Num, 
-                                (result.Is_Completed) ? true : false,
-                                result.id)]);
-                        })
+                        posts.forEach(post => {
+                            res.data.forEach(result => {
+                                if (result.id != post[0]) {return null;}
+                                shared.push([result.User_Name, new Habit(
+                                    result.Name, 
+                                    result.Frequency, 
+                                    result.Privacy, 
+                                    result.Streak_Num, 
+                                    (result.Is_Completed) ? true : false,
+                                    result.id), post[2], post[1]]);
+                            })
+                        });
                     })
                     .catch(err => console.log(err));
-    
-        const groupings = [];
+        
         await axios.get(`http://localhost:5001/api/habits/read/groupings/${posts.reduce((sum, cur) => `${sum}+${cur[0]}`)}`)
                     .then(res => {
-                        res.data.forEach(result => {
-                        const group = new HabitGrouping(
-                            result.Label,
-                            result.Type,
-                            result.Upper_Bound,
-                            result.Lower_Bound,
-                            result.Num_Intervals,
-                            result.Hid,
-                        );
-                        (result.Value) ? group.JSONValue(JSON.parse(result.Value)) : group.values = [];
-                        group.stats = [result.Streak_Num, result.Longest_Streak];
-                        groupings.push(group)
+                        shared.forEach((habit, index) => {
+                            res.data.forEach(result => {
+                                if (result.Hid != habit[1].id) { return null; }
+                                const group = new HabitGrouping(
+                                    result.Label,
+                                    result.Type,
+                                    result.Upper_Bound,
+                                    result.Lower_Bound,
+                                    result.Num_Intervals,
+                                    result.Hid,
+                                );
+                                if (result.Value) {
+                                    const json = JSON.parse(result.Value);
+                                    const date = posts[index][3].split("T")[0];
+                                    (json[`${date}`]) ? group.values = [[date, json[`${date}`]]] : group.values = [];
+                                }
+                                group.stats = [result.Streak_Num, result.Longest_Streak];
+                                habit[1].addGroup(group);
+                            })
                         })
                     })
                     .catch(err => console.log(err))
-    
-        return shared.map(habit => {
-            groupings.forEach(group => (habit[1].id === group.hid) ? habit[1].addGroup(group) : null);
-            posts.forEach(id => {
-                if (id[0] === habit[1].id) { 
-                    habit.push(id[2], id[1]);
-                    habit[1].group.forEach(g => {
-                        const json = g.valueJSON();
-                        (g.values.length > 0) ? g.values = [id[3].split("T")[0], json[id[3].split("T")[0]]] : g.values = [];
-                    })
-                }
-            });
-            return habit;
-        });
+
+        return shared;
     } else {
         return [];
     }
@@ -267,6 +264,7 @@ const FriendPage = (props) => {
             setInvites(()=>viewRequests(received_reqs));
 
             let response = await getPosts(posters);
+            console.log(response);
             setPosts(() => response);
         }
         retrieve();

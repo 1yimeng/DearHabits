@@ -103,7 +103,7 @@ export const HabitCreate = ({initial, updateFunc, ...props}) => {
                     <select
                         required
                         name="habitPrivacy"
-                        value={Habit.privacy}
+                        value={habit.privacy}
                         onChange={habitHandler}>
                         <option value="Private">Private</option>
                         <option value="Public">Public</option>

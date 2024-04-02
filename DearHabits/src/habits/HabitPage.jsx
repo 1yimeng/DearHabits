@@ -102,6 +102,10 @@ const HabitPage = (props) => {
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
 
+        await axios.delete(`http://localhost:5001/api/habits/delete/posts/${deleted.id}`)
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
+
         await axios.delete(`http://localhost:5001/api/habits/delete/${deleted.id}`)
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
@@ -128,7 +132,7 @@ const HabitPage = (props) => {
                     .catch(err => console.log(err));
         
         // Create a post if habit is public (FR15)
-        if (updated.privacy === "Public") {
+        if (completed && updated.privacy === "Public") {
             const date = (new Date()).toISOString().split("T");
             await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date[0]}`, "hid":previous.id, "email":auth.currentUser.email})
                     .then(res => console.log(res))
