@@ -150,7 +150,7 @@ const deleteUser = function(session, user) {
 
 const createUser = function(session, user) {
     const query = [
-        'CREATE (user:User {email: $user});'
+        'CREATE (user:User {email: $user})'
     ].join('\n');
 
     return session.writeTransaction(txc =>

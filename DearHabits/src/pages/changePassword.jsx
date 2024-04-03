@@ -69,7 +69,17 @@ const ChangePassword = () => {
         />
       </div>
 
-      <a href="/main">click here to go back to main</a>
+      <div className={"inputContainer"}>
+        <input
+          className={"inputButton"}
+          type="button"
+          onClick={()=> {navigate("/main")}}
+          value={"Go Back"}
+        />
+      </div>
+
+      {/* <button type="button" onClick={navigate("/main")}>Go Back</button> */}
+      {/* <a href="/main" onClick = {()=>{navigate("/main")}}>click here to go back to main</a> */}
 
       <div>
         {showSuccessMessage

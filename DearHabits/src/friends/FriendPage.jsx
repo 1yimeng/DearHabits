@@ -238,7 +238,7 @@ const FriendPage = (props) => {
         removeRequest(request);
 
         // add new friend relationship
-        await axios.post(`http://localhost:5001/api/friends/${auth.currentUser.email}/${request}`)
+        await axios.post(`http://localhost:5001/api/friends/add/${auth.currentUser.email}/${request}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
 

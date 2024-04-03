@@ -92,7 +92,7 @@ router.delete('/requests/:sender/:receiver', (req, res, next) => {
 });
 
 // Add new friend
-router.post('/:user/:user2', (req, res, next) => {
+router.post('add/:user/:user2', (req, res, next) => {
     const user = req.params.user;
     const user2 = req.params.user2;
     User.newFriend(dbUtils.getSession(req), user, user2)
@@ -132,7 +132,8 @@ router.delete('/delete/:user', (req, res, next) => {
     });
 });
 
-router.post(`/create_user/:user`, (req,res) => {
+router.post(`/create/:user`, (req,res) => {
+    console.log("in create user");
     const user = req.params.user;
     User.createUser(dbUtils.getSession(req), user)
     .then(response => {
