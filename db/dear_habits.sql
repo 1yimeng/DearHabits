@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2024 at 06:38 PM
+-- Generation Time: Apr 03, 2024 at 04:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,13 +42,18 @@ CREATE TABLE `habits` (
 --
 
 INSERT INTO `habits` (`User_Name`, `id`, `Name`, `Privacy`, `Frequency`, `Streak_Num`, `Is_Completed`) VALUES
-('test@gmail.com', 19, 'TestName', 'Private', 'Daily', 0, 0),
-('test@gmail.com', 23, 'TestName2', 'Private', 'Daily', 0, 0),
-('testemail@gmail.com', 26, 'TestHabit', 'Private', 'Daily', 0, 0),
-('test@gmail.com', 27, 'TestName3', 'Private', 'Daily', 1, 1),
-('test@gmail.com', 28, 'TestName4', 'Private', 'Daily', 0, 0),
-('test@gmail.com', 29, 'Elliptical', 'Private', 'Daily', 0, 0),
-('test@gmail.com', 30, 'Weights', 'Private', 'Daily', 0, 0);
+('test@gmail.com', 36, 'Weights2', 'Private', 'Daily', 1, 1),
+('test@gmail.com', 37, 'Elliptical', 'Private', 'Daily', 1, 1),
+('test@gmail.com', 38, 'Public', 'Public', 'Daily', 1, 1),
+('test@gmail.com', 39, 'Test Habit', 'Private', 'Daily', 1, 1),
+('test@gmail.com', 41, 'New new Test (new)', 'Public', 'Weekly', 1, 1),
+('user-4@gmail.com', 43, 'School', 'Public', 'Daily', 1, 1),
+('user-2@gmail.com', 44, 'Meals', 'Public', 'Daily', 1, 1),
+('user-1@gmail.com', 45, 'Exercise', 'Public', 'Daily', 3, 1),
+('user-1@gmail.com', 46, 'Sleep', 'Private', 'Daily', 1, 1),
+('user-1@gmail.com', 47, 'Mood', 'Private', 'Daily', 1, 1),
+('user-2@gmail.com', 48, 'Read Books', 'Public', 'Weekly', 1, 1),
+('user-3@gmail.com', 49, 'Quitting Smoking', 'Public', 'Daily', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -75,14 +80,27 @@ CREATE TABLE `habit_groupings` (
 --
 
 INSERT INTO `habit_groupings` (`Gid`, `Hid`, `Label`, `Type`, `Value`, `Upper_Bound`, `Lower_Bound`, `Num_Intervals`, `Is_Completed`, `Streak_Num`, `Longest_Streak`) VALUES
-(48, 26, 'Test', 'Text', '{\"2024-03-29\":\"\"}', '', '', 2, 0, 0, 0),
-(49, 26, 'Test1', 'Numerical', '{\"2024-03-29\":\"\"}', '', '', 2, 0, 0, 0),
-(55, 28, 'Pull Ups', 'Scale', '{\"2024-3-27\":\"12\",\"2024-03-29\":\"25\"}', '1', '25', 25, 0, 0, 0),
-(57, 29, 'Time', 'Numerical', '{\"2024-3-27\":\"50\",\"2024-03-29\":\"\"}', '', '', 2, 0, 0, 0),
-(58, 19, 'Test', 'Text', '{\"2024-3-27\":\"Hello\",\"2024-03-29\":\"\",\"2024-3-28\":\"Testing\"}', '', '', 2, 0, 0, 0),
-(59, 23, 'Test1', 'Text', '{\"2024-3-27\":\"Hello Again\",\"2024-03-29\":\"\",\"2024-3-28\":\"Test 2\"}', '', '', 2, 0, 0, 0),
-(61, 30, 'Reps', 'Text', '{\"2024-03-29\":\"\"}', '', '', 2, 0, 0, 0),
-(63, 27, 'Test', 'Numerical', '{\"2024-3-27\":\"999\",\"2024-03-29\":\"\",\"2024-3-28\":\"5\"}', '', '', 2, 0, 1, 2);
+(79, 37, 'Mood', 'Scale', '{\"2024-03-30\":\"1\"}', 'Bad', 'Good', 3, 0, 0, 0),
+(80, 37, 'Time', 'Numerical', '{\"2024-03-30\":\"1.5\"}', '', '', 2, 0, 0, 0),
+(82, 38, 'Test', 'Text', '{\"2024-03-30\":\"Test test test\"}', '', '', 2, 0, 0, 0),
+(85, 39, 'Test 1', 'Text', '{\"2024-03-31\":\"Test Test\"}', '', '', 2, 0, 0, 0),
+(86, 39, 'Test 2', 'Text', '{\"2024-03-31\":\"Test 2\"}', '', '', 2, 0, 0, 0),
+(87, 36, 'Pounds', 'Numerical', '{\"2024-03-30\":\"255\"}', '', '', 2, 0, 0, 0),
+(94, 41, 'Hello There', 'Text', '{\"2024-04-02\":\"Why Hello\"}', '', '', 2, 0, 1, 1),
+(101, 43, 'ECE 493', 'Text', '{\"2024-04-03\":\"Completed the Weekly Report\"}', '', '', 2, 0, 1, 1),
+(102, 43, 'ENGG 400', 'Checkmark', '{\"2024-04-03\":1}', '', '', 2, 0, 1, 1),
+(119, 46, 'Hours', 'Numerical', '{\"2024-04-03\":\"7.5\"}', '', '', 2, 0, 1, 1),
+(120, 46, 'Restful?', 'Checkmark', '{\"2024-04-03\":1}', '', '', 2, 0, 1, 1),
+(126, 47, 'How Am I Feeling?', 'Scale', '{\"2024-04-03\":\"2\"}', 'Good', 'Bad', 3, 0, 1, 1),
+(127, 47, 'Thoughts?', 'Text', '{\"2024-04-03\":\"Anxious about school.\"}', '', '', 2, 0, 1, 1),
+(131, 45, 'Weights', 'Text', '{\"2024-04-01\":\"5x5 at 255lbs\",\"2024-04-02\":\"5x5 at 255lbs\",\"2024-04-03\":\"5x5 at 255lbs\"}', '', '', 2, 0, 3, 3),
+(132, 45, 'Cardio (min)', 'Numerical', '{\"2024-04-01\":\"60\",\"2024-04-02\":\"55\",\"2024-04-03\":\"61\"}', '', '', 2, 0, 3, 3),
+(133, 45, 'Fatigue', 'Scale', '{\"2024-04-01\":\"4\",\"2024-04-02\":\"5\",\"2024-04-03\":\"3\"}', 'High', 'Low', 5, 0, 3, 3),
+(134, 44, 'Breakfast', 'Checkmark', '{\"2024-04-03\":1}', '', '', 2, 0, 1, 1),
+(135, 44, 'Lunch', 'Checkmark', '{\"2024-04-03\":1}', '', '', 2, 0, 1, 1),
+(136, 44, 'Dinner', 'Checkmark', '{\"2024-04-03\":1}', '', '', 2, 0, 1, 1),
+(138, 48, 'Chapters', 'Numerical', '{\"2024-04-03\":\"3\"}', '', '', 2, 0, 1, 1),
+(140, 49, 'Cigarettes ', 'Numerical', '{\"2024-04-03\":\"10\"}', '', '', 2, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -110,7 +128,16 @@ INSERT INTO `posts` (`Pid`, `Time`, `Hid`, `User_email`, `Reactions`) VALUES
 (7, '2024-03-29', 23, 'test@gmail.com', '{}'),
 (8, '2024-03-29', 27, 'test@gmail.com', '{}'),
 (9, '2024-03-29', 27, 'test@gmail.com', '{}'),
-(10, '2024-03-29', 27, 'test@gmail.com', '{}');
+(10, '2024-03-29', 27, 'test@gmail.com', '{}'),
+(11, '2024-03-30', 34, 'ralph.w.milford@gmail.com', '{}'),
+(12, '2024-03-30', 35, 'testemail@gmail.com', '{}'),
+(13, '2024-03-30', 38, 'test@gmail.com', '{\"1\":{\"emoji\":\"like\",\"by\":\"testemail@gmail.com\"}}'),
+(17, '2024-04-02', 41, 'test@gmail.com', '{\"1\":{\"emoji\":\"angry\",\"by\":\"test@gmail.com\"}}'),
+(18, '2024-04-03', 43, 'user-4@gmail.com', '{}'),
+(19, '2024-04-03', 45, 'user-1@gmail.com', '{\"1\":{\"emoji\":\"like\",\"by\":\"user-2@gmail.com\"}}'),
+(20, '2024-04-03', 45, 'user-1@gmail.com', '{\"1\":{\"emoji\":\"like\",\"by\":\"user-2@gmail.com\"}}'),
+(21, '2024-04-03', 48, 'user-2@gmail.com', '{\"1\":{\"emoji\":\"love\",\"by\":\"user-1@gmail.com\"}}'),
+(22, '2024-04-03', 49, 'user-3@gmail.com', '{\"1\":{\"emoji\":\"sad\",\"by\":\"user-3@gmail.com\"}}');
 
 -- --------------------------------------------------------
 
@@ -120,7 +147,6 @@ INSERT INTO `posts` (`Pid`, `Time`, `Hid`, `User_email`, `Reactions`) VALUES
 
 CREATE TABLE `users` (
   `Email` varchar(255) NOT NULL,
-  `Password_Hash` varchar(255) NOT NULL,
   `Notif_Time` time NOT NULL DEFAULT '12:00:00',
   `Notif_Frequency` enum('Daily','Weekly','Monthly') NOT NULL DEFAULT 'Weekly'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -129,11 +155,16 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`Email`, `Password_Hash`, `Notif_Time`, `Notif_Frequency`) VALUES
-('Jordan@email.com', 'jordanpass', '12:30:00', 'Daily'),
-('ralph.w.milford@gmail.com', 'testtest', '12:00:00', 'Daily'),
-('test@gmail.com', 'testtest', '12:00:00', 'Weekly'),
-('testemail@gmail.com', 'testpassword', '12:00:00', 'Weekly');
+INSERT INTO `users` (`Email`, `Notif_Time`, `Notif_Frequency`) VALUES
+('Jordan@email.com', '12:30:00', 'Daily'),
+('ralph.w.milford@gmail.com', '12:00:00', 'Daily'),
+('test@gmail.com', '12:00:00', 'Weekly'),
+('test3@gmail.com', '12:00:00', 'Weekly'),
+('testemail@gmail.com', '12:00:00', 'Weekly'),
+('user-1@gmail.com', '12:00:00', 'Weekly'),
+('user-2@gmail.com', '12:00:00', 'Weekly'),
+('user-3@gmail.com', '12:00:00', 'Weekly'),
+('user-4@gmail.com', '12:00:00', 'Weekly');
 
 --
 -- Indexes for dumped tables
@@ -176,19 +207,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `habits`
 --
 ALTER TABLE `habits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `habit_groupings`
 --
 ALTER TABLE `habit_groupings`
-  MODIFY `Gid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `Gid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `Pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables

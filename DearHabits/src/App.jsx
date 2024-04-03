@@ -27,10 +27,12 @@ function App() {
               />
             }
           />
+          {/* Display FR2. Login option */}
           <Route
             path="/login"
             element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />}
           />
+          {/* Display FR1. Registration option */}
           <Route
             path="/registration"
             element={

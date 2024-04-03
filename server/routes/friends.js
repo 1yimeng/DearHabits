@@ -65,7 +65,7 @@ router.get('/:user/requests/received', (req, res) => {
 
 // Create a new request
 router.post('/requests/:sender/:receiver', (req, res) => {
-    const sender = req.params.user;
+    const sender = req.params.sender;
     const receiver = req.params.receiver;
     User.newFriendRequest(dbUtils.getSession(req), sender, receiver)
     .then(response => {
@@ -92,7 +92,7 @@ router.delete('/requests/:sender/:receiver', (req, res, next) => {
 });
 
 // Add new friend
-router.post('add/:user/:user2', (req, res, next) => {
+router.post('/add/:user/:user2', (req, res, next) => {
     const user = req.params.user;
     const user2 = req.params.user2;
     User.newFriend(dbUtils.getSession(req), user, user2)
@@ -106,7 +106,7 @@ router.post('add/:user/:user2', (req, res, next) => {
 });
 
 // remove a friend
-router.delete('/delete/:user/:user2', (req, res, next) => {
+router.delete('/delete/:user/:user2', (req, res) => {
     const user = req.params.user;
     const user2 = req.params.user2;
     User.removeFriend(dbUtils.getSession(req), user, user2)

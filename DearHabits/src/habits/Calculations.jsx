@@ -7,12 +7,13 @@ import './stylesheet/habits.css'
 
 Chart.register(CategoryScale);
 
+// FR10. View Habit, FR13. Toggle Statistics
 export const Stats = ({options, group, ...props}) => {
     const [stat, setStat] = useState(options[0]);  // Set which state to display
 
     const changeStat = e => setStat(() => e.target.value);
 
-    // Output the stat determined by input
+    // Output the stat determined by input (FR13)
     const calculateStat = type => {
         const numbers = group.values.map(num => parseFloat(num[1]));
         if (type === "Longest Streak") { return group.stats[1]; }
@@ -22,18 +23,20 @@ export const Stats = ({options, group, ...props}) => {
         if (type === "Average") { return (numbers.reduce((total, cur) => total + cur) / group.values.length); }
     }
 
+    // Display option to switch statistics and output the selected statistic (FR10)
     return (
         <>
-            {/* List available stats for this habit grouping */}
+            {/* List available stats for this habit grouping (FR13)*/}
             <select value={stat} onChange={changeStat} className="inputs">
                 {options.map(option => <option key={option} value={option}>{option}</option>)}
             </select>
-            {/* Output the chosen stat */}
+            {/* Output the chosen stat (FR10 and FR13)*/}
             {calculateStat(stat)}
         </>
     );
 };
 
+// FR10. View Habit, FR14. Select Visualization
 export const Visual = ({options, group, ...props}) => {
     const [visual, setVisual] = useState(options[0]);  // Set which type of visualization to display
     const [freq, setFreq] = useState("Daily");  // Set which time frame of visualization
@@ -89,7 +92,7 @@ export const Visual = ({options, group, ...props}) => {
 
     const calculateVisual = (type, time) => { 
         const data = calculateData(time);  // Get dataset in the proper time frame
-        // Output the visualization in the selected type
+        // Output the visualization in the selected type (FR14)
         if (type === "Line") { return (<Line data={data} />); }
         if (type === "Bar") { return (<Bar data={data} />); }
         if (type === "Pie") { return (<Pie data={data} />)}
@@ -98,18 +101,19 @@ export const Visual = ({options, group, ...props}) => {
     const changeVisual = e => setVisual(() => e.target.value);
     const changeFreq = e => setFreq(() => e.target.value);
 
+    // Display option to switch visualizations and output the selected visualization (FR10)
     return (
         <>
-            {/* Visualization options available to Grouping */}
+            {/* Visualization options available to Grouping (FR14)*/}
             <select onChange={changeVisual} className="inputs">
                 {options.map(option => <option key={option} value={option}>{option}</option>)}
             </select>
-            {/* Time frame options for the visualization */}
+            {/* Time frame options for the visualization (FR14)*/}
             <select onChange={changeFreq} className="inputs">
                 {["Daily", "Weekly", "Monthly"].map(option => <option key={option} value={option}>{option}</option>)}
             </select>
             <br />
-            {/* Output the selected visualization in the selected time frame */}
+            {/* Output the selected visualization in the selected time frame (FR10 and FR14)*/}
             <div className="graphs">
                 {calculateVisual(visual, freq)}
             </div>
@@ -117,6 +121,7 @@ export const Visual = ({options, group, ...props}) => {
     );
 };
 
+// FR10. View Habit
 export const Text = ({group, ...props}) => {
     // List all messages for a Text type of Grouping
     const data = [...group.values].filter(value => value[1]);  // Only show days where a message was recorded

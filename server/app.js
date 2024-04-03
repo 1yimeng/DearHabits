@@ -15,6 +15,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/user");
 const habitsRouter = require("./routes/habit");
 const friendsRouter = require("./routes/friends");
+const notificationRouter = require("./routes/notification");
 
 const app = express();
 
@@ -58,6 +59,7 @@ app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/api/habits", habitsRouter);
 app.use("/api/friends", friendsRouter);
+app.use("/api/notification", notificationRouter);
 
 // app.get("/*", function (req, res) {
 //   console.log("path.join: ",path.join(__dirname, "dist/index.html"));
