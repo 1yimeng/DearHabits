@@ -74,10 +74,10 @@ export const HabitPost = ({ habit, ...props }) => {
 export const Feed = ({ shared, ...props }) => {
   // Map all Posts to a HabitPost (FR16)
   const [feed, setFeed] = useState(() => {
-    return shared.map((habit) => {
+    return (typeof shared === "undefined") ? <></> : shared.map((habit, index) => {
       return (
         <section
-          key={`${habit[0]}-${habit[1].name}`}
+          key={`${habit[0]}-${habit[1].name}-${index}`}
           className={props.className}
         >
           <h3>{habit[0]}</h3>

@@ -52,7 +52,7 @@ const Registration = (props) => {
       );
 
       await axios.post('http://localhost:5001/user/create', {"Email": email});
-      await axios.post(`http://localhost:5001/friends/api/create_user/${email}`);
+      await axios.post(`http://localhost:5001/api/friends/create_user/${email}`);
       // Pull out user's data from the userCredential property
       const user = userCredential.user;
       navigate("/main");
@@ -97,6 +97,7 @@ const Registration = (props) => {
           placeholder="Enter your password here"
           onChange={(ev) => setPassword(ev.target.value)}
           className={"inputBox"}
+          type="password"
         />
         <label className="errorLabel">{passwordError}</label>
       </div>

@@ -139,31 +139,30 @@ const FriendPage = (props) => {
     // Handles the backend portion of FR7
     // Remove a User from the User's friend list
     const removeFriend = async friend => {
-        await axios.delete(`http://localhost:5001/api/friends/delete/${auth.currentUser.email}/${friend[0]}`)
+        await axios.delete(`http://localhost:5001/api/friends/delete/${auth.currentUser.email}/${friend}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
         setFriends(oldFriends => {
-            const newFriends = [...oldFriends];
-            newFriends.filter(cur => cur[0] != friend);
+            const newFriends = oldFriends.filter(cur => cur[0] != friend);
+            setMode(() => viewFriends(newFriends));
             return newFriends;
         });
 
         setPostUsers(oldPostUsers => {
-            const newPostUsers = [...oldPostUsers];
-            newPostUsers.filter(curr => curr[0] != friend);
+            const newPostUsers = oldPostUsers.filter(curr => curr[0] != friend);
             return newPostUsers;
         });
 
-        setMode(() => viewFriends(all_friends));
-        setPosts(() => getPosts(post_users));
+        const newPostUsers = post_users.filter(curr => curr[0] != friend);
+        const response = await getPosts(newPostUsers);
+        setPosts(() => response);
     };
 
     // FR5. Send Friends Request
     // Handles the backend portion of FR5
     // Add a User to the User's friend list as a pending friend
     const addFriend = async friend => {
-        // TODO: Notify friend about request
         await axios.post(`http://localhost:5001/api/friends/requests/${auth.currentUser.email}/${friend}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
@@ -171,9 +170,9 @@ const FriendPage = (props) => {
         setFriends(oldFriends => {
             const newFriends = [...oldFriends];
             newFriends.push([friend, 0]);
+            setMode(() => viewFriends(newFriends));
             return newFriends;
         });
-        setMode(() => viewFriends(all_friends));
     };
 
     // FR4. Search Friends
@@ -184,6 +183,7 @@ const FriendPage = (props) => {
         await axios.get(`http://localhost:5001/api/friends/search/${e.target.form[0].value}`)
         .then(res => {
             res.data.forEach( item => {
+                console.log(item);
                 search.push(item);
             });
         })
@@ -214,17 +214,16 @@ const FriendPage = (props) => {
     // Handles the backend portion to remove a friend request (FR6)
     // Remove a Request from the User's pending invites
     const removeRequest = async request => {
+        console.log(request);
         await axios.delete(`http://localhost:5001/api/friends/requests/${request}/${auth.currentUser.email}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
         setRecvReqs(oldReqs => {
-            const newReqs = [...oldReqs];
-            newReqs.filter(r => r != request);
+            const newReqs = oldReqs.filter(r => r != request);
+            setInvites(() => viewRequests(newReqs));
             return newReqs;
         });
-
-        setInvites(() => viewRequests(recvReqs));
     };
     // FR6. Decide Friends Request
     // Handles the backend portion to accept a friend request (FR6)
@@ -232,13 +231,14 @@ const FriendPage = (props) => {
     const acceptRequest = async request => {
         removeRequest(request);
         // add new friend relationship
-        await axios.post(`http://localhost:5001/api/friends/${auth.currentUser.email}/${request}`)
+        await axios.post(`http://localhost:5001/api/friends/add/${auth.currentUser.email}/${request}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
         setFriends(oldFriends => {
             const newFriends = [...oldFriends];
             newFriends.push([request, 1]);
+            setMode(() => viewFriends(newFriends));
             return newFriends;
         });
 
@@ -248,8 +248,10 @@ const FriendPage = (props) => {
             return newPostUsers;
         });
 
-        setMode(() => viewFriends(all_friends));
-        setPosts(() => getPosts(post_users));
+        const newPostUsers = [...post_users];
+        newPostUsers.push(request);
+        const response = await getPosts(newPostUsers);
+        setPosts(() => response);
     };
 
     // Button refresh the Posts from the database (FR16)
@@ -275,7 +277,6 @@ const FriendPage = (props) => {
             setInvites(()=>viewRequests(received_reqs));
 
             let response = await getPosts(posters);
-            console.log(response);
             setPosts(() => response);
         }
         retrieve();
