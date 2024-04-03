@@ -4,7 +4,6 @@ const _neo = require("neo4j-driver");
 const router = express.Router();
 const User = require('../models/user')
   , _ = require('lodash')
-  , writeResponse = require('../helpers/response').writeResponse
   , dbUtils = require('../config/cypher_db');
 
 router.use(cors());
