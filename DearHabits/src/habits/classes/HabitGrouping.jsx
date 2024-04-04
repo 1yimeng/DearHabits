@@ -1,3 +1,4 @@
+// FR8. Creat Habit Grouping
 export default class HabitGrouping {
     #hid;
     #label;  // Name of the Grouping
@@ -66,6 +67,8 @@ export default class HabitGrouping {
         this.#stats[0]++;
         if (this.#stats[0] > this.#stats[1]) { this.#stats[1] = this.#stats[0]; }
     }
+    // Reset groupings streak if not completed
+    resetStreak() { this.#stats[0] = 0; }
 
     get values() { return this.#values; }
     set values(values) { this.#values = values; }

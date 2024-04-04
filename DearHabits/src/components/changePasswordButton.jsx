@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase.jsx";
 
+// FR3. Password Update - The system shall allow the user to change the password upon request and update it in the database.
 const ChangePasswordButton = () => {
   const navigate = useNavigate();
 

@@ -4,6 +4,8 @@ import axios from 'axios';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase.jsx";
 
+// FR1. Registration - The system shall provide the option of registering a new uwer, i.e., a new email address, 
+// redirecting to the registration form on request.
 const Registration = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,8 +51,8 @@ const Registration = (props) => {
         password
       );
 
-      await axios.post('http://localhost:5001/user/create', {"Email": email, "Password_Hash": password});
-
+      await axios.post('http://localhost:5001/user/create', {"Email": email});
+      await axios.post(`http://localhost:5001/api/friends/create_user/${email}`);
       // Pull out user's data from the userCredential property
       const user = userCredential.user;
       navigate("/main");
@@ -95,6 +97,7 @@ const Registration = (props) => {
           placeholder="Enter your password here"
           onChange={(ev) => setPassword(ev.target.value)}
           className={"inputBox"}
+          type="password"
         />
         <label className="errorLabel">{passwordError}</label>
       </div>

@@ -5,26 +5,19 @@ const db = require("../config/db");
 router.use(cors());
 router.use(express.json());
 
-/* GET habits listing. */
+/* GET habits listing. For testing purposes only */
 router.get('/', (req,res) => {
   db.query(
     "SELECT * FROM habits",
     (err, results, fields) => {
       if (!err) {
         console.log("server results: \n", results);
-        // console.log()
-        // res.send(results);
         res.json(results);
-        // db.end();
       } else {
         console.log(err);
-        // db.end();
       }
     }
-);
-  // var list = ["item1", "item2", "item3"];
-  // res.json(list);
-  // console.log('Sent list of items');
+  );
 });
 
 // Read Habit and Groupings from the Database
@@ -35,7 +28,7 @@ router.get('/read/:user', (req, res) => {
     if (err) return res.json(err);
     return res.json(result);
   })
-})
+});
 router.get('/read/groupings/:id', (req, res) => {
   const query = "SELECT * FROM `habit_groupings` WHERE `Hid` in (?)";
   const hid = req.params.id.split("+");
@@ -43,7 +36,7 @@ router.get('/read/groupings/:id', (req, res) => {
     if (err) return res.json(err);
     return res.json(result);
   })
-})
+});
 
 // Create Habit and Groupings in the Database
 router.post('/create', (req, res) => {
@@ -53,19 +46,19 @@ router.post('/create', (req, res) => {
     if (err) return res.json(err);
     return res.json(result);
   })
-})
+});
 router.post('/create/groupings', (req, res) => {
-  const query = "INSERT INTO `habit_groupings` (`Hid`, `Label`, `Type`, `Value`, `Upper_Bound`, `Lower_Bound`, `Num_Intervals`) VALUES ?"
+  const query = "INSERT INTO `habit_groupings` (`Hid`, `Label`, `Type`, `Value`, `Upper_Bound`, `Lower_Bound`, `Num_Intervals`, `Streak_Num`, `Longest_Streak`) VALUES ?"
   const count = req.body.count;
   const values = [];
   for (let i=1; i<count; i++) {
-    values.push([req.body[i].Hid, req.body[i].Label, req.body[i].Type, JSON.stringify(req.body[i].Values), req.body[i].Upper_Bound, req.body[i].Lower_Bound, req.body[i].Num_Intervals])
+    values.push([req.body[i].Hid, req.body[i].Label, req.body[i].Type, JSON.stringify(req.body[i].Values), req.body[i].Upper_Bound, req.body[i].Lower_Bound, req.body[i].Num_Intervals, req.body[i].Streak_Num, req.body[i].Longest_Streak])
   }
   db.query(query, [values], (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   })
-})
+});
 
 // Update a Habit in the Database
 router.put('/update/:id', (req, res) => {
@@ -76,6 +69,13 @@ router.put('/update/:id', (req, res) => {
     return res.json(result);
   })
 });
+router.put('/update/groupings/:id', (req, res) => {
+  const query = "UPDATE `habit_groupings` SET `Value` = ? WHERE `Gid` = ?";
+  db.query(query, [req.body.values, req.params.id], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
 
 // Delete Habit and it's Groupings from the Database
 router.delete('/delete/:id', (req, res) => {
@@ -85,7 +85,7 @@ router.delete('/delete/:id', (req, res) => {
     if (err) return res.json(err);
     return res.json(result);
   })
-})
+});
 router.delete('/delete/groupings/:hid', (req, res) => {
   const query = "DELETE FROM `habit_groupings` WHERE Hid = ?"
   const hid = req.params.hid;
@@ -93,7 +93,15 @@ router.delete('/delete/groupings/:hid', (req, res) => {
     if (err) return res.json(err);
     return res.json(result);
   })
-})
+});
+router.delete('/delete/posts/:hid', (req, res) => {
+  const query = "DELETE FROM `posts` WHERE Hid = ?"
+  const hid = req.params.hid;
+  db.query(query, [hid], (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  })
+});
 
 // Create a Post in the Database when a Habit is completed
 router.post('/create/post', (req, res) => {
@@ -104,15 +112,18 @@ router.post('/create/post', (req, res) => {
     return res.json(result);
   })
 });
+
 // Get all Post's Hids from Friends
 router.get('/read/posts/:emails', (req, res) => {
-  const query = "SELECT `Hid`, `Pid`, `Reactions` FROM posts WHERE `User_email` IN (?)";
-  const emails = req.params.emails.split(" ");
+  const query = "SELECT `Hid`, `Pid`, `Reactions`, `Time` FROM posts WHERE `User_email` IN (?) ORDER BY `Pid` DESC";
+  const emails = req.params.emails.split(",");
+  console.log(emails);
   db.query(query, [emails], (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   })
 });
+
 // Get all Habits based upon Id
 router.get('/read/habits/:ids', (req, res) => {
   const query = "SELECT * FROM `habits` WHERE `id` IN (?)";
@@ -122,6 +133,7 @@ router.get('/read/habits/:ids', (req, res) => {
     return res.json(result);
   })
 });
+
 // Update post's Reactions in the Database
 router.put('/posts/update/:pid', (req, res) => {
   const query = "UPDATE `posts` SET `Reactions` = ? WHERE `Pid` = ?"
@@ -130,6 +142,6 @@ router.put('/posts/update/:pid', (req, res) => {
     if (err) return res.json(err);
     return res.json(result);
   })
-})
+});
 
 module.exports = router;

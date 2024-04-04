@@ -5,6 +5,7 @@ import ChangePasswordButton from "../components/changePasswordButton.jsx";
 import { auth } from "../firebase.jsx";
 import NotificationDropdown from "../components/notificationDropdown.jsx";
 
+// FR3. Change Password, FR20. Set Notifications
 const Profile = props => {
     const user = auth.currentUser;
     var userEmail = "";
@@ -16,23 +17,16 @@ const Profile = props => {
       userEmail = user.email;
     }
 
-    // call database to check current frequency
-    const currentFrequency = "Weekly";
-
     return (
       <div className="mainContainer">
         <div className="titleContainer">
           <div>Email: {userEmail}</div>
         </div>
 
-        <div className="buttonContainer">
-          <h3>Your current notification setting: {currentFrequency}</h3>
-          <h3>Set Frequency: </h3>
-          <NotificationDropdown
-            frequency={currentFrequency}
-          ></NotificationDropdown>
-        </div>
+        {/* Dropdown for users to change their notification frequency (FR20) */}
+        <NotificationDropdown />
 
+        {/* Button for users to change their password (FR3) */}
         <ChangePasswordButton></ChangePasswordButton>
         <SignoutButton></SignoutButton>
       </div>

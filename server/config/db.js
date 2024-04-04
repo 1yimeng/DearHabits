@@ -5,11 +5,20 @@ const USER = process.env.DB_USER || 'root';
 const PW = process.env.DB_PW || '';
 const NAME = process.env.DB_NAME || 'dear_habits';
 
-const connection = mysql.createConnection({
+// const connection = mysql.createConnection({
+//     host: HOST,
+//     user: USER,
+//     password: PW,
+//     database: NAME
+// });
+
+const pool = mysql.createPool({
     host: HOST,
     user: USER,
     password: PW,
-    database: NAME
+    database: NAME,
+    port: 3306,
+    connectionLimit: 25
 });
 
 // connection.connect((err) => {
@@ -21,7 +30,8 @@ const connection = mysql.createConnection({
 //     }
 // });
 
-module.exports = connection;
+module.exports = pool;
+// module.exports = connection;
 
 // module.exports = {
 //     HOST: process.env.DB_HOST,

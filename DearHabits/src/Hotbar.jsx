@@ -10,9 +10,14 @@ const Hotbar = props => {
     const changePage = e => setPage(() => e.target.name);
 
     const showPage = selected => {
+        // Responsible for displaying FR8. Creat Habit Grouping, FR9. Create Habit, FR10. View Habit, FR11. Delete Habit, FR12. Edit Habit,
+        // FR13. Toggle Statistics, FR14. Select Visualization, FR15. Share Public Habit with Friends, FR18. Update Streak
         if (selected === "Habits") {return (<HabitPage key={"Habits"} className="flex-body"/>); }
-        if (selected === "Friends") { return (<FriendPage key={"Friends"} friends={[["Ralph", 1], ["Yi Meng", 1], ["Jordan", 0]]} requests={["Josh", "Alphonso", "Harrison"]} className="flex-body"/>); }
-        if (selected === "Profile") { return (<Profile />); }
+        // Responsible for displaying FR4. Search Friends, FR5. Send Friends Request, FR6. Decide Friends Request, FR7. Remove Friend,
+        // FR16. View Feed, FR17. React to Friend's Post
+        if (selected === "Friends") { return (<FriendPage key={"Friends"} className="flex-body"/>); }
+        // Responsible for displaying FR3. Change Password and FR20. Set Notifications
+        if (selected === "Profile") { return (<Profile key={"Profile"}/>); }
     }
 
     return (

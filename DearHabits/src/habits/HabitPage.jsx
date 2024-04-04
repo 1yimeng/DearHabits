@@ -12,6 +12,7 @@ import HabitGrouping from "../habits/classes/HabitGrouping.jsx";
 
 import './stylesheet/habits.css';
 
+// Retrive all of the users existing habits
 const getHabits = async (user) => {
     const habits = [];
     const ids = [];
@@ -58,20 +59,25 @@ const getHabits = async (user) => {
     });
 } 
 
+// FR8. Creat Habit Grouping, FR9. Create Habit, FR10. View Habit, FR11. Delete Habit, FR12. Edit Habit,
+// FR15. Share Public Habit with Friends, FR18. Update Streak
 const HabitPage = (props) => {
+    // Display options for users to create a habit and its groupings (FR8 and FR9)
     const createScreen = () => {
         setActive(() => {
             return (<MainCreate submitCreate={createHabit}/>)}
         )
     }
+    // Display selected habit to the user with options to complete, edit or delete the habit (FR10, FR11, FR12)
     const viewScreen = habit => {
         setActive(() => {
             return (<MainView key={`Selected-${habit.name}`} habit={habit} buttonFunc={viewScreen} submitDelete={deleteHabit} submitUpdate={updateHabit}/>)}
         )
     }
 
+    // FR8. Creat Habit Grouping
+    // Backend portion to add a new habit and its groupings (FR8 and FR9)
     const createHabit = async created => {
-        //TODO: Database logic to create habit and groupings in database
         await axios.post('http://localhost:5001/api/habits/create', created.getHabitInfo(auth.currentUser.email))
                 .then(res => {
                     created.id = res.data.insertId
@@ -89,9 +95,14 @@ const HabitPage = (props) => {
             return newList;
         })
     }
+    // FR11. Delete Habit
+    // Backend portion to delete a habit (FR11)
     const deleteHabit = async deleted => {
-        //TODO: Database logic to delete habit and groupings from database
         await axios.delete(`http://localhost:5001/api/habits/delete/groupings/${deleted.id}`)
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
+
+        await axios.delete(`http://localhost:5001/api/habits/delete/posts/${deleted.id}`)
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
 
@@ -105,8 +116,9 @@ const HabitPage = (props) => {
             return newList;
         })
     }
+    // FR12. Edit Habit, FR15. Share Public Habit with Friends, FR18. Update Streak
+    // Backend portion to update an edited habit in the database and post a habit if public (FR12, FR15, FR18)
     const updateHabit = async (previous, updated, completed=false) => {
-        //TODO: Database logic to update habit and grouping in database
         await axios.put(`http://localhost:5001/api/habits/update/${previous.id}`, updated.getHabitInfo())
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
@@ -118,10 +130,11 @@ const HabitPage = (props) => {
         await axios.post('http://localhost:5001/api/habits/create/groupings', updated.getGroupsInfo())
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
-
-        if (completed) {
+        
+        // Create a post if habit is public (FR15)
+        if (completed && updated.privacy === "Public") {
             const date = (new Date()).toISOString().split("T");
-            await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date[0]} ${date[1].split(".")[0]}`, "hid":previous.id, "email":auth.currentUser.email})
+            await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date[0]}`, "hid":previous.id, "email":auth.currentUser.email})
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
         }
@@ -150,11 +163,14 @@ const HabitPage = (props) => {
     return (
         <div className="flex-habit">
             <section className="sidebar">
+                {/* Button to create a new habit and its groupings (FR8 and FR9) */}
                 <button name="createHabit" onClick={createScreen}>+</button>
                 <hr />
+                {/* Buttons for users to select a specific habit (FR10) */}
                 {(list.length > 0) ? <ListHabits key={"List-Habits"} habits={list} buttonFunc={viewScreen} submitDelete={deleteHabit} submitUpdate={updateHabit}/> : null}
             </section>
             <section className="habit">
+                {/* Display a selected a habit to the user with options to complete, edit or delete the habit (FR10, FR11, FR12, FR18) */}
                 {active}
             </section>            
         </div>
