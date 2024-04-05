@@ -1,3 +1,6 @@
+# Group 01 - Dear Habits
+## Jordan Rusk, Ralph Milford, Yi Meng Wang
+
 # Before Running
 1. In order to run the server and access the database, you will need to have the following installed on your computer:
     - NodeJS
