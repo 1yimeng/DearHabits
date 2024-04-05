@@ -88,8 +88,8 @@ app.use((req, res, next) => {
 
 app.listen(PORT, () => {
     console.log("Port used: ", PORT);
-    console.log("path: ", __dirname);
-    console.log("path.join: ",path.join(__dirname, "dist/index.html"));
+    // console.log("path: ", __dirname);
+    // console.log("path.join: ",path.join(__dirname, "dist/index.html"));
   });
 
 module.exports = app;

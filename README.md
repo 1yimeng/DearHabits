@@ -41,3 +41,6 @@
 8. “React USEEFFECT Hooks.” React useEffect, w3schools, www.w3schools.com/react/react_useeffect.asp. Accessed 26 Mar. 2024. 
 9. Maduabuchi, Chinwike. “Using Chart.Js in React.” LogRocket Blog, LogRocket, 6 Mar. 2023, blog.logrocket.com/using-chart-js-react/. Accessed Mar. 2024.
 10. Javascript Date Reference, w3schools, www.w3schools.com/jsref/jsref_obj_date.asp. Accessed Mar. 2024. 
+11. “Getting Started with Neo4j and Express - Developer Guides.” Neo4j Graph Data Platform, neo4j.com/developer/js-movie-app/. Accessed 5 Apr. 2024. 
+12. Maillard, Valentine. “Implementing Cors in Your Node/Express App.” Medium, Medium, 25 June 2020, medium.com/@valentinemaillard1/implementing-cors-in-your-node-express-app-1bdffc4eaa48. Accessed 5 Apr. 2024. 
+13. Silva, Esau. “How to Use Webpack with React: An in-Depth Tutorial.” freeCodeCamp.Org, freeCodeCamp.org, 9 Apr. 2020, www.freecodecamp.org/news/learn-webpack-for-react-a36d4cac5060/. Accessed 5 Apr. 2024.
