@@ -55,8 +55,8 @@ export const HabitPost = ({ habit, ...props }) => {
               <label>
                 <input
                   type="checkbox"
-                  value={
-                    group.values.length === 0 ? "" : group.values.at(-1)[1]
+                  checked={
+                    group.values.length === 0 ? false : group.values.at(-1)[1]
                   }
                   disabled={true}
                 />
