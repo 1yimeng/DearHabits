@@ -20,7 +20,7 @@ export const Stats = ({options, group, ...props}) => {
         if (group.values.length === 0) { return 0; }
         if (type === "Highest") { return numbers.reduce((largest, cur) => (cur > largest) ? cur : largest); }
         if (type === "Lowest") { return numbers.reduce((lowest, cur) => (cur < lowest) ? cur : lowest); }
-        if (type === "Average") { return (numbers.reduce((total, cur) => total + cur) / group.values.length); }
+        if (type === "Average") { return (numbers.reduce((total, cur) => total + cur) / group.values.length).toFixed(2); }
     }
 
     // Display option to switch statistics and output the selected statistic (FR10)
