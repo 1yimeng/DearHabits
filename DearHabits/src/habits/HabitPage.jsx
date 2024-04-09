@@ -133,8 +133,8 @@ const HabitPage = (props) => {
         
         // Create a post if habit is public (FR15)
         if (completed && updated.privacy === "Public") {
-            const date = (new Date()).toISOString().split("T");
-            await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date[0]}`, "hid":previous.id, "email":auth.currentUser.email})
+            const date = (new Date()).toLocaleDateString('en-CA');
+            await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date}`, "hid":previous.id, "email":auth.currentUser.email})
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
         }

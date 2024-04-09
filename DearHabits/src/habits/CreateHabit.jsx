@@ -18,7 +18,6 @@ export const MainCreate = props => {
         // If verified then submit new Habit to the database
         // If not then inform User of their errors
         habit.updateGroup(grouping);
-        console.log(habit);
         if (habit.verifyHabit()) { props.submitCreate(habit); }
         else {
             setHabit(() => habit);

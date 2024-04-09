@@ -18,7 +18,6 @@ const getPosts = async (users) => {
     // ${users.reduce((sum, cur) => `${sum} ${cur}`)}`, {emails:users}
     await axios.get(`http://localhost:5001/api/habits/read/posts/${users}`)
     .then(res => {
-        console.log("res: ", res);
         res.data.forEach(result => {
             const storedReactions = (result.Reactions) ? JSON.parse(result.Reactions) : {}
             const reactions = Object.keys(storedReactions).map(key => storedReactions[key]);
@@ -183,7 +182,6 @@ const FriendPage = (props) => {
         await axios.get(`http://localhost:5001/api/friends/search/${e.target.form[0].value}`)
         .then(res => {
             res.data.forEach( item => {
-                console.log(item);
                 search.push(item);
             });
         })
@@ -214,7 +212,6 @@ const FriendPage = (props) => {
     // Handles the backend portion to remove a friend request (FR6)
     // Remove a Request from the User's pending invites
     const removeRequest = async request => {
-        console.log(request);
         await axios.delete(`http://localhost:5001/api/friends/requests/${request}/${auth.currentUser.email}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
