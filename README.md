@@ -6,12 +6,12 @@
 2. Be sure to [create a local copy](#installing-xampp-and-downloading-the-database) of the MySQL [database](db/dear_habits.sql) on your computer.
 
 # Run Instructions
-1. Clone the repository to your local machine. Move into the [server](/server/) directory.
+1. Clone the repository to your local machine. Move into the [root](/) project directory.
 2. Run `npm install` in order to ensure that all the dependencies are installed.
-    - If there are any issues with running or compiling, you can also try running `npm install` in both the inner DearHabits and root directories as well.
-3. Run `npm run start` to start running the server.
+    - If there are any issues with running or compiling, you can also try running `npm install` in the inner Dear Habits [directory](/DearHabits/).
+3. Enter `npm run start` in the [root](/) directory to start running the server.
 4. Open your browser and navigate to [localhost:5001](http://localhost:5001) to see the application.
-5. To shutdown the server use `Control C`
+5. To shutdown the server use `Control C` in the terminal.
 
 ## Installing XAMPP and Downloading the Database
 1. Download the XAMPP Installer from  the [XAMPP downloads page](https://www.apachefriends.org/download.html) 
