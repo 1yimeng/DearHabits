@@ -1,24 +1,7 @@
 const express = require("express");
-const cors = require("cors")
 const router = express.Router();
 const db = require("../config/db");
-router.use(cors());
 router.use(express.json());
-
-/* GET habits listing. For testing purposes only */
-router.get('/', (req,res) => {
-  db.query(
-    "SELECT * FROM habits",
-    (err, results, fields) => {
-      if (!err) {
-        console.log("server results: \n", results);
-        res.json(results);
-      } else {
-        console.log(err);
-      }
-    }
-  );
-});
 
 // Read Habit and Groupings from the Database
 router.get('/read/:user', (req, res) => {

@@ -27,7 +27,6 @@ const Login = (props) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode);
         switch (errorCode) {
           case("auth/invalid-credential"):
             setPasswordError("invalid credential!");

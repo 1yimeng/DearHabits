@@ -6,12 +6,10 @@ const Home = (props) => {
   const navigate = useNavigate();
 
   const onLoginButtonClick = () => {
-    // update later to scan for loggedin or not
     navigate("/login");
   };
 
   const onRegistrationButtonClick = () => {
-    // update later to scan for loggedin or not
     navigate("/registration");
   };
 
