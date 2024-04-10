@@ -48,20 +48,23 @@ export const Visual = ({options, group, ...props}) => {
             data = [...group.values];
         // Get the sum of the data for each week
         } else if (type === "Weekly") {
-            let day = 0;
-            group.values.forEach(value => {
-                // Start of a week
-                if (day === 0) { data.push([value[0], parseFloat(value[1])]);} 
-                // End of a week
-                else if (day === 6) {
+            const week = 1000*60*60*24*7;  // The number of milliseconds in a week
+            let day = new Date();  // Define the variable
+            const timezone = day.getTimezoneOffset();
+            group.values.forEach((value, index) => {
+                const date = new Date((new Date(value[0])).getTime() + timezone*60*1000);  // Get the day of the value
+                // Add new week if it's the beginning of the list or if more than 7 days have passed
+                if (index === 0 || (date - day >= week)) { 
+                    // Get the start of the week
+                    day = new Date(date.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1)));
+                    // Get the end of the week
+                    const end = new Date(date.setDate(date.getDate() + 6));
+                    // Add the new week to the data
+                    data.push([`${day.toLocaleDateString('en-CA')}/${end.getDate()}`, parseFloat(value[1])])
+                } else {
                     data.at(-1)[1] += parseFloat(value[1]);
-                    data.at(-1)[0] += `/${value[0].slice(value[0].lastIndexOf('-') + 1)}`;
-                    day = -1; } 
-                // Between start and end of a week
-                else { data.at(-1)[1] += parseFloat(value[1]); }
-                day++;  // Move through each a week
+                }
             });
-            if (data.length > 0) { data.at(-1)[0] += "/Today"; }
         // Get the sum of the data for each month
         } else {
             group.values.forEach(value => {

@@ -79,7 +79,7 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
         setActivity(oldActivity => {
             const newActivity = [...oldActivity];
             // Update value for selected Grouping
-            newActivity[index] = [date, (e.target.type === "checkbox") ? 1 : e.target.value];
+            newActivity[index] = [date, (e.target.type === "checkbox") ? (e.target.checked ? 1 : 0) : e.target.value];
             return newActivity;
         })
     }
