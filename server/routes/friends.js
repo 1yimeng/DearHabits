@@ -82,7 +82,6 @@ router.post('/add/:user/:user2', (req, res) => {
     const user2 = req.params.user2;
     User.newFriend(dbUtils.getSession(req), user, user2)
     .then(response => {
-        console.log("Add Friend - server response: ",response);
         return res.json(response);
     })
     .catch(err => {

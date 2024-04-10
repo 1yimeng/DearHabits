@@ -100,7 +100,6 @@ router.post('/create/post', (req, res) => {
 router.get('/read/posts/:emails', (req, res) => {
   const query = "SELECT `Hid`, `Pid`, `Reactions`, `Time` FROM posts WHERE `User_email` IN (?) ORDER BY `Pid` DESC";
   const emails = req.params.emails.split(",");
-  console.log(emails);
   db.query(query, [emails], (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
