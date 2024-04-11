@@ -1,36 +1,40 @@
 describe("creates habit", () => {
   beforeEach(() => {
-    // log in before each test
-    cy.get('.inputButton').contains("Log in").click();
-    cy.get('[id=input_email]').type("test@gmail.com");
-    cy.get('[id=input_password]').type("testtest");
-    cy.get(".inputButton").contains("Login").click();
+    // log in before tests
+    cy.visit('/');
+    cy.get('[value="Log in"]').click();
+    cy.get(':nth-child(3) > .inputBox').clear('t');
+    cy.get(':nth-child(3) > .inputBox').type('test@gmail.com');
+    cy.get(':nth-child(5) > .inputBox').clear('t');
+    cy.get(':nth-child(5) > .inputBox').type('testtest');
+    cy.get('.inputButton').click();
+    // cy.url().should("include", "/main");
   });
 
-  // delete added data and log out
-  afterEach(() => {
-    
-  });
+  // // delete added data and log out
+  // afterEach(() => {
+
+  // });
   /* ==== Test Created with Cypress Studio ==== */
   it('Create a text activity', function() {
     /* ==== Generated with Cypress Studio ==== */
     // cy.visit('/main');
     cy.get('[name="createHabit"]').click();
     cy.get('h2 > input').clear('T');
-    cy.get('h2 > input').type('Test');
+    cy.get('h2 > input').type('Test1');
     cy.get('section > :nth-child(1) > input').clear('T');
     cy.get('section > :nth-child(1) > input').type('TextActivity');
     cy.get('form > :nth-child(10)').click();
     /* ==== End Cypress Studio ==== */
   });
 
-  /* ==== Test Created with Cypress Studio ==== */
+  // /* ==== Test Created with Cypress Studio ==== */
   it('Create a numerical activity', function() {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit('/main');
+    // cy.visit('/main');
     cy.get('[name="createHabit"]').click();
     cy.get('h2 > input').clear('T');
-    cy.get('h2 > input').type('Test');
+    cy.get('h2 > input').type('Test2');
     cy.get('section > :nth-child(1) > input').clear('T');
     cy.get('section > :nth-child(1) > input').type('TestActivity');
     cy.get(':nth-child(3) > select').select('Numerical');
@@ -38,13 +42,13 @@ describe("creates habit", () => {
     /* ==== End Cypress Studio ==== */
   });
 
-  /* ==== Test Created with Cypress Studio ==== */
+  // /* ==== Test Created with Cypress Studio ==== */
   it('Create a scale activity', function() {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit('/main');
+    // cy.visit('/main');
     cy.get('[name="createHabit"]').click();
     cy.get('h2 > input').clear('T');
-    cy.get('h2 > input').type('Test');
+    cy.get('h2 > input').type('Test3');
     cy.get('section > :nth-child(1) > input').clear('T');
     cy.get('section > :nth-child(1) > input').type('TestActivity');
     cy.get(':nth-child(3) > select').select('Scale');
@@ -59,10 +63,10 @@ describe("creates habit", () => {
   /* ==== Test Created with Cypress Studio ==== */
   it('Create a checkmark activity', function() {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit('/main');
+    // cy.visit('/main');
     cy.get('[name="createHabit"]').click();
     cy.get('h2 > input').clear('T');
-    cy.get('h2 > input').type('Test');
+    cy.get('h2 > input').type('Test4');
     cy.get('section > :nth-child(1) > input').clear('T');
     cy.get('section > :nth-child(1) > input').type('TestActivity');
     cy.get(':nth-child(3) > select').select('Checkmark');
@@ -73,10 +77,10 @@ describe("creates habit", () => {
   /* ==== Test Created with Cypress Studio ==== */
   it('Create multiple activities', function() {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit('/main');
+    // cy.visit('/main');
     cy.get('[name="createHabit"]').click();
     cy.get('h2 > input').clear('t');
-    cy.get('h2 > input').type('test');
+    cy.get('h2 > input').type('testall1');
     cy.get('section > :nth-child(1) > input').clear('t');
     cy.get('section > :nth-child(1) > input').type('testa11');
     cy.get('form > :nth-child(8)').click();
@@ -89,10 +93,10 @@ describe("creates habit", () => {
   /* ==== Test Created with Cypress Studio ==== */
   it('Create multiple activities', function() {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit('/main');
+    // cy.visit('/main');
     cy.get('[name="createHabit"]').click();
     cy.get('h2 > input').clear('t');
-    cy.get('h2 > input').type('test');
+    cy.get('h2 > input').type('testall2');
     cy.get('section > :nth-child(1) > input').clear('a');
     cy.get('section > :nth-child(1) > input').type('a1');
     cy.get('form > :nth-child(8)').click();
@@ -114,4 +118,16 @@ describe("creates habit", () => {
     cy.get('form > :nth-child(13)').click();
     /* ==== End Cypress Studio ==== */
   });
+
+  /* ==== Test Created with Cypress Studio ==== */
+  // it('create_habit', function() {
+  //   /* ==== Generated with Cypress Studio ==== */
+  //   cy.get('.sidebar > button').click();
+  //   cy.get('h2 > input').clear();
+  //   cy.get('h2 > input').type('Test Habit');
+  //   cy.get('section > :nth-child(1) > input').clear('T');
+  //   cy.get('section > :nth-child(1) > input').type('Test Activity');
+  //   cy.get('form > :nth-child(10)').click();
+  //   /* ==== End Cypress Studio ==== */
+  // });
 });
