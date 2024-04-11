@@ -14,6 +14,9 @@ This application was developed and tested using Google Chrome, Opera GX, and Fir
 If you cannot run the application in your Firefox browser, it might be easiest to switch your browser for the purposes of this assignment. Alternatively, you can contact the backend developer Jordan Rusk at rusk@ualberta.ca for assistance.
 
 # Run Instructions
+
+**PLEASE NOTE**: Apache and MySQL must be running in XAMPP to connect to the database.
+
 1. Clone the repository to your local machine. Move into the [root](/) project directory.
 2. Run `npm install` in order to ensure that all the dependencies are installed.
     - If there are any issues with running or compiling, you can also try running `npm install` in the inner Dear Habits [directory](/DearHabits/).
