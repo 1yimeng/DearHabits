@@ -1,25 +1,7 @@
 const express = require("express");
-const cors = require("cors")
 const router = express.Router();
 const db = require("../config/db");
-router.use(cors());
 router.use(express.json());
-
-/* GET users listing. */
-router.get("/", (req, res, next) => {
-    db.query(
-        "SELECT * FROM users",
-        (err, results, fields) => {
-          if (!err) {
-            res.send(results);
-            // db.end();
-          } else {
-            console.log(err);
-            // db.end();
-          }
-        }
-    );
-});
 
 router.post("/create", (req, res) => {
   const query = "INSERT INTO `users` (`Email`) VALUES (?)";

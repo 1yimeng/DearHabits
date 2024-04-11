@@ -35,8 +35,8 @@ const updateValues = async values => {
 };
 
 const incrementValues = (value, type, low) => {
-    const date = (new Date()).toISOString().split("T");
-    if (type === "Scale") { value[`${date[0]}`] = `${low}`; }
+    const date = (new Date()).toLocaleDateString('en-CA');
+    if (type === "Scale") { value[`${date}`] = `${low}`; }
     else { value[`${date[0]}`] = ""; }
     return value;
 };

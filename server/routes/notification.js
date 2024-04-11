@@ -1,8 +1,6 @@
 const express = require("express");
-const cors = require("cors")
 const router = express.Router();
 const db = require("../config/db");
-router.use(cors());
 router.use(express.json());
 
 // Habit Queries
