@@ -5,6 +5,7 @@ const Slot = ({label, children}) => {
             <label>
                 {children}
             </label>
+            {label}
             <hr />
         </>
     )

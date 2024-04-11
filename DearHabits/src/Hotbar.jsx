@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import HabitPage from './habits/HabitPage';
-import FriendPage from './friends/FriendPage';
 import Profile from './profile/Profile';
 
 import './Hotbar.css'
@@ -12,7 +11,7 @@ const Hotbar = props => {
     const showPage = selected => {
         console.log(selected);
         if (selected === "Habits") {return (<HabitPage key={"Habits"} habits={props.habits} className="flex-body"/>); }
-        if (selected === "Friends") { return (<FriendPage key={"Friends"} friends={[["Ralph", 1], ["Yi Meng", 1], ["Jordan", 0]]} requests={["Josh", "Alphonso", "Harrison"]} className="flex-body"/>); }
+        if (selected === "Friends") { return (<>Friends</>); }
         if (selected === "Feed") { return (<>Feed</>); }
         if (selected === "Profile") { return (<Profile />); }
     }
