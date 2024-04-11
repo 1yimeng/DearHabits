@@ -107,7 +107,7 @@ const HabitPage = (props) => {
                     .catch(err => console.log(err));
 
         setList(oldList => {
-            const newList = oldList.filter(habit => habit.name != deleted.name);
+            const newList = oldList.filter(habit => habit.id != deleted.id);
             (newList != 0) ? viewScreen(newList[0]) : createScreen();
             return newList;
         })
