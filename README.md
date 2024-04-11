@@ -9,7 +9,7 @@
 2. Be sure to [create a local copy](#installing-xampp-and-downloading-the-database) of the MySQL [database](db/dear_habits.sql) on your computer.
 
 # Browser Compatibility
-This application was developed and tested using Google Chrome, Opera GX, and Firefox. Please note that, depending on a user's specific security settings and installed ad blockers, <b>some components of the application may fail in Firefox browsers</b>. In particular, some Firefox security policies may cause [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) policy errors when loading Friends information from the Neo4j database. If you suspect that some information may be missing from the rendered page, you can check for a CORS error notice in your browser's console.
+This application was developed and tested using Google Chrome and Firefox. Please note that, depending on a user's specific security settings and installed ad blockers, <b>some components of the application may fail in Firefox browsers</b>. In particular, some Firefox security policies may cause [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) policy errors when loading Friends information from the Neo4j database. If you suspect that some information may be missing from the rendered page, you can check for a CORS error notice in your browser's console.
 
 If you cannot run the application in your Firefox browser, it might be easiest to switch your browser for the purposes of this assignment. Alternatively, you can contact the backend developer Jordan Rusk at rusk@ualberta.ca for assistance.
 
@@ -19,12 +19,12 @@ If you cannot run the application in your Firefox browser, it might be easiest t
 
 1. Clone the repository to your local machine. Move into the [root](/) project directory.
 2. Run `npm install` in order to ensure that all the dependencies are installed.
-3. Run `npm install` in the inner Dear Habits [directory](/DearHabits/).
-3. Enter `npm run start` in the [root](/) directory to start running the server.
+3. Run `npm install` in the inner Dear Habits [directory](/DearHabits/) then navigate back to the [root](/) directory.
+4. Enter `npm run start` in the [root](/) directory to start running the server.
     - Please note that if this is your first time running the server then the compiler may take a moment to build the corresponding frontend webpack, and your browser may take a second to connect.
     - You will know once the webpack is finished building as it will be printed to your terminal.
-4. Open your browser and navigate to [localhost:5001](http://localhost:5001) to see the application.
-5. To shutdown the server use `Control C` in the terminal.
+5. Open your browser and navigate to [localhost:5001](http://localhost:5001) to see the application.
+6. To shutdown the server use `Control C` in the terminal.
 
 ## Installing XAMPP and Downloading the Database
 1. Download the XAMPP Installer from  the [XAMPP downloads page](https://www.apachefriends.org/download.html) 
