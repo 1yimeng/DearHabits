@@ -138,7 +138,6 @@ const FriendPage = (props) => {
     // Remove a User from the User's friend list
     const removeFriend = async friend => {
         await axios.delete(`http://localhost:5001/api/friends/delete/${auth.currentUser.email}/${friend}`)
-            .then(res => console.log(res))
             .catch(err => console.log(err));
 
         setFriends(oldFriends => {
@@ -162,7 +161,6 @@ const FriendPage = (props) => {
     // Add a User to the User's friend list as a pending friend
     const addFriend = async friend => {
         await axios.post(`http://localhost:5001/api/friends/requests/${auth.currentUser.email}/${friend}`)
-            .then(res => console.log(res))
             .catch(err => console.log(err));
 
         setFriends(oldFriends => {
@@ -212,7 +210,6 @@ const FriendPage = (props) => {
     // Remove a Request from the User's pending invites
     const removeRequest = async request => {
         await axios.delete(`http://localhost:5001/api/friends/requests/${request}/${auth.currentUser.email}`)
-            .then(res => console.log(res))
             .catch(err => console.log(err));
 
         setRecvReqs(oldReqs => {
@@ -228,7 +225,6 @@ const FriendPage = (props) => {
         removeRequest(request);
         // add new friend relationship
         await axios.post(`http://localhost:5001/api/friends/add/${auth.currentUser.email}/${request}`)
-            .then(res => console.log(res))
             .catch(err => console.log(err));
 
         setFriends(oldFriends => {

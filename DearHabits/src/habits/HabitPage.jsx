@@ -85,7 +85,6 @@ const HabitPage = (props) => {
                 .catch(err => console.log(err));
 
         await axios.post('http://localhost:5001/api/habits/create/groupings', created.getGroupsInfo())
-                .then(res => console.log(res))
                 .catch(err => console.log(err))
 
         setList(oldList => {
@@ -99,15 +98,12 @@ const HabitPage = (props) => {
     // Backend portion to delete a habit (FR11)
     const deleteHabit = async deleted => {
         await axios.delete(`http://localhost:5001/api/habits/delete/groupings/${deleted.id}`)
-                    .then(res => console.log(res))
                     .catch(err => console.log(err));
 
         await axios.delete(`http://localhost:5001/api/habits/delete/posts/${deleted.id}`)
-                    .then(res => console.log(res))
                     .catch(err => console.log(err));
 
         await axios.delete(`http://localhost:5001/api/habits/delete/${deleted.id}`)
-                    .then(res => console.log(res))
                     .catch(err => console.log(err));
 
         setList(oldList => {
@@ -120,22 +116,18 @@ const HabitPage = (props) => {
     // Backend portion to update an edited habit in the database and post a habit if public (FR12, FR15, FR18)
     const updateHabit = async (previous, updated, completed=false) => {
         await axios.put(`http://localhost:5001/api/habits/update/${previous.id}`, updated.getHabitInfo())
-                    .then(res => console.log(res))
                     .catch(err => console.log(err));
 
         await axios.delete(`http://localhost:5001/api/habits/delete/groupings/${previous.id}`)
-                    .then(res => console.log(res))
                     .catch(err => console.log(err));
 
         await axios.post('http://localhost:5001/api/habits/create/groupings', updated.getGroupsInfo())
-                    .then(res => console.log(res))
                     .catch(err => console.log(err));
         
         // Create a post if habit is public (FR15)
         if (completed && updated.privacy === "Public") {
             const date = (new Date()).toLocaleDateString('en-CA');
             await axios.post("http://localhost:5001/api/habits/create/post", {"time":`${date}`, "hid":previous.id, "email":auth.currentUser.email})
-                    .then(res => console.log(res))
                     .catch(err => console.log(err));
         }
 
