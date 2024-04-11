@@ -19,7 +19,7 @@ If you cannot run the application in your Firefox browser, it might be easiest t
 
 1. Clone the repository to your local machine. Move into the [root](/) project directory.
 2. Run `npm install` in order to ensure that all the dependencies are installed.
-    - If there are any issues with running or compiling, you can also try running `npm install` in the inner Dear Habits [directory](/DearHabits/).
+3. Run `npm install` in the inner Dear Habits [directory](/DearHabits/).
 3. Enter `npm run start` in the [root](/) directory to start running the server.
     - Please note that if this is your first time running the server then the compiler may take a moment to build the corresponding frontend webpack, and your browser may take a second to connect.
     - You will know once the webpack is finished building as it will be printed to your terminal.
