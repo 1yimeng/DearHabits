@@ -70,7 +70,7 @@ const EditMode = ({original, switchFunc, ...props}) => {
 // FR18. Update Streak
 const ViewMode = ({habit, switchFunc, ...props}) => {
     const today = new Date();  // Get today's date to add to value array
-    const date = `${today.toISOString().split("T")[0]}`; // Format today's date
+    const date = `${today.toLocaleDateString('en-CA')}`; // Format today's date
 
     // Create a new value for each Grouping
     const [activity, setActivity] = useState(() => habit.group.map(g => [date, (g.type === "Scale") ? 1 : ""]));
@@ -79,7 +79,7 @@ const ViewMode = ({habit, switchFunc, ...props}) => {
         setActivity(oldActivity => {
             const newActivity = [...oldActivity];
             // Update value for selected Grouping
-            newActivity[index] = [date, (e.target.type === "checkbox") ? 1 : e.target.value];
+            newActivity[index] = [date, (e.target.type === "checkbox") ? (e.target.checked ? 1 : 0) : e.target.value];
             return newActivity;
         })
     }

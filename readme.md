@@ -9,12 +9,12 @@
 2. Be sure to [create a local copy](#installing-xampp-and-downloading-the-database) of the MySQL [database](db/dear_habits.sql) on your computer.
 
 # Run Instructions
-1. Clone the repository to your local machine. Move into the [root](/) project directory.
+1. Clone the repository to your local machine. Move into the [server](/server/) directory.
 2. Run `npm install` in order to ensure that all the dependencies are installed.
-    - If there are any issues with running or compiling, you can also try running `npm install` in the inner Dear Habits [directory](/DearHabits/).
-3. Enter `npm run start` in the [root](/) directory to start running the server.
+    - If there are any issues with running or compiling, you can also try running `npm install` in both the inner DearHabits and root directories as well.
+3. Run `npm run start` to start running the server.
 4. Open your browser and navigate to [localhost:5001](http://localhost:5001) to see the application.
-5. To shutdown the server use `Control C` in the terminal.
+5. To shutdown the server use `Control C`
 
 ## Installing XAMPP and Downloading the Database
 1. Download the XAMPP Installer from  the [XAMPP downloads page](https://www.apachefriends.org/download.html) 
@@ -44,6 +44,4 @@
 8. “React USEEFFECT Hooks.” React useEffect, w3schools, www.w3schools.com/react/react_useeffect.asp. Accessed 26 Mar. 2024. 
 9. Maduabuchi, Chinwike. “Using Chart.Js in React.” LogRocket Blog, LogRocket, 6 Mar. 2023, blog.logrocket.com/using-chart-js-react/. Accessed Mar. 2024.
 10. Javascript Date Reference, w3schools, www.w3schools.com/jsref/jsref_obj_date.asp. Accessed Mar. 2024. 
-11. “Getting Started with Neo4j and Express - Developer Guides.” Neo4j Graph Data Platform, neo4j.com/developer/js-movie-app/. Accessed 5 Apr. 2024. 
-12. Maillard, Valentine. “Implementing Cors in Your Node/Express App.” Medium, Medium, 25 June 2020, medium.com/@valentinemaillard1/implementing-cors-in-your-node-express-app-1bdffc4eaa48. Accessed 5 Apr. 2024. 
-13. Silva, Esau. “How to Use Webpack with React: An in-Depth Tutorial.” freeCodeCamp.Org, freeCodeCamp.org, 9 Apr. 2020, www.freecodecamp.org/news/learn-webpack-for-react-a36d4cac5060/. Accessed 5 Apr. 2024.
+11. Salvadó, Christian C. “JavaScript - Get the First Day of the Week from Current Date.” Edited by Lee Taylor, Stack Overflow, 11 Nov. 2010, stackoverflow.com/questions/4156434/javascript-get-the-first-day-of-the-week-from-current-date. 
