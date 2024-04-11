@@ -1,8 +1,20 @@
 describe("creates habit", () => {
+  beforeEach(() => {
+    // log in before each test
+    cy.get('.inputButton').contains("Log in").click();
+    cy.get('[id=input_email]').type("test@gmail.com");
+    cy.get('[id=input_password]').type("testtest");
+    cy.get(".inputButton").contains("Login").click();
+  });
+
+  // delete added data and log out
+  afterEach(() => {
+    
+  });
   /* ==== Test Created with Cypress Studio ==== */
   it('Create a text activity', function() {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit('/main');
+    // cy.visit('/main');
     cy.get('[name="createHabit"]').click();
     cy.get('h2 > input').clear('T');
     cy.get('h2 > input').type('Test');
