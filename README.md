@@ -43,9 +43,10 @@ If you cannot run the application in your Firefox browser, it might be easiest t
 9. phpMyAdmin will import all the relevant database tables and input some example data. Your local database is now ready.
 10. Keep Apache and MySQL running in the XAMPP Control Panel and [start the server](#run-instructions). Your application will now be able to access a local version of the database, and any updates will be reflected in your local copy. These changes can be seen in your phpMyAdmin window.
 
-# Additional Notes
+## Testing
 - Our plan for a testing suite can be viewed in the [Testing](/Testing/) directory as either a [PDF](/Testing/DearHabits-TestSuite.pdf) or Excel [spreadsheet](/Testing/DearHabits-TestSuite.xlsx).
 - An outline of our Functional Requirements and their corresponding coding components can be viewed [here](/FunctionalRequirements.md).
+- Run our cypress tests by being in the sub-folder DearHabits, make sure you have the application running in the background, and run `npm run e2e:chrome` in another terminal to run all available frontend tests. 
 - As this is a prototype, proper page refresh capabilities have not been prioritized. Reloading the window once you've navigated away from the home screen at localhost:5001 will resolve as an error. You can manually 'reload' your window by entering `localhost:5001` in your address bar.
 
 # References
