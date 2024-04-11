@@ -43,9 +43,10 @@ If you cannot run the application in your Firefox browser, it might be easiest t
 9. phpMyAdmin will import all the relevant database tables and input some example data. Your local database is now ready.
 10. Keep Apache and MySQL running in the XAMPP Control Panel and [start the server](#run-instructions). Your application will now be able to access a local version of the database, and any updates will be reflected in your local copy. These changes can be seen in your phpMyAdmin window.
 
-# Additional Notes
-- Our plan for a testing suite can be viewed in the [Testing](/Testing/) directory as either a [PDF](/Testing/DearHabits-TestSuite.pdf) or Excel [spreadsheet](/Testing/DearHabits-TestSuite.xlsx).
+## Testing
+- Our plan for a testing suite can be viewed in the [Testing](/Testing/) directory as either a [PDF](/Testing/DearHabits-TestSuite.pdf).
 - An outline of our Functional Requirements and their corresponding coding components can be viewed [here](/FunctionalRequirements.md).
+- Run our cypress tests by being in the sub-folder DearHabits, make sure you have the application running in the background, and run `npm run e2e:chrome` in another terminal to run all available frontend tests. 
 - As this is a prototype, proper page refresh capabilities have not been prioritized. Reloading the window once you've navigated away from the home screen at localhost:5001 will resolve as an error. You can manually 'reload' your window by entering `localhost:5001` in your address bar.
 
 # References
@@ -62,3 +63,4 @@ If you cannot run the application in your Firefox browser, it might be easiest t
 11. “Getting Started with Neo4j and Express - Developer Guides.” Neo4j Graph Data Platform, neo4j.com/developer/js-movie-app/. Accessed 5 Apr. 2024. 
 12. Maillard, Valentine. “Implementing Cors in Your Node/Express App.” Medium, Medium, 25 June 2020, medium.com/@valentinemaillard1/implementing-cors-in-your-node-express-app-1bdffc4eaa48. Accessed 5 Apr. 2024. 
 13. Silva, Esau. “How to Use Webpack with React: An in-Depth Tutorial.” freeCodeCamp.Org, freeCodeCamp.org, 9 Apr. 2020, www.freecodecamp.org/news/learn-webpack-for-react-a36d4cac5060/. Accessed 5 Apr. 2024.
+14. Salvadó, Christian C. “JavaScript - Get the First Day of the Week from Current Date.” Edited by Lee Taylor, Stack Overflow, 11 Nov. 2010, stackoverflow.com/questions/4156434/javascript-get-the-first-day-of-the-week-from-current-date. 
