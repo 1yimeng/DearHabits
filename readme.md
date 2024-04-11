@@ -18,6 +18,8 @@ If you cannot run the application in your Firefox browser, it might be easiest t
 2. Run `npm install` in order to ensure that all the dependencies are installed.
     - If there are any issues with running or compiling, you can also try running `npm install` in the inner Dear Habits [directory](/DearHabits/).
 3. Enter `npm run start` in the [root](/) directory to start running the server.
+    - Please note that if this is your first time running the server then the compiler may take a moment to build the corresponding frontend webpack, and your browser may take a second to connect.
+    - You will know once the webpack is finished building as it will be printed to your terminal.
 4. Open your browser and navigate to [localhost:5001](http://localhost:5001) to see the application.
 5. To shutdown the server use `Control C` in the terminal.
 
@@ -38,8 +40,10 @@ If you cannot run the application in your Firefox browser, it might be easiest t
 9. phpMyAdmin will import all the relevant database tables and input some example data. Your local database is now ready.
 10. Keep Apache and MySQL running in the XAMPP Control Panel and [start the server](#run-instructions). Your application will now be able to access a local version of the database, and any updates will be reflected in your local copy. These changes can be seen in your phpMyAdmin window.
 
-# Testing
-Our plan for a testing suite can be viewed in the [Testing](/Testing/) directory as either a [PDF](/Testing/DearHabits-TestSuite.pdf) or Excel [spreadsheet](/Testing/DearHabits-TestSuite.xlsx).
+# Additional Notes
+- Our plan for a testing suite can be viewed in the [Testing](/Testing/) directory as either a [PDF](/Testing/DearHabits-TestSuite.pdf) or Excel [spreadsheet](/Testing/DearHabits-TestSuite.xlsx).
+- An outline of our Functional Requirements and their corresponding coding components can be viewed [here](/FunctionalRequirements.md).
+- As this is a prototype, proper page refresh capabilities have not been prioritized. Reloading the window once you've navigated away from the home screen at localhost:5001 will resolve as an error. You can manually 'reload' your window by entering `localhost:5001` in your address bar.
 
 # References
 1. “Getting Started | Vite.” Vite, Vite, vitejs.dev/guide/. Accessed Mar. 2024. 
