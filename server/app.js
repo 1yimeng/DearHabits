@@ -4,7 +4,7 @@ const path = require("path");
 const webpack = require('webpack');
 const config = require('./webpack.config');
 const compiler = webpack(config);
-require("dotenv").config();
+// require("dotenv").config();
 const neo4jSessionCleanup = require("./middlewares/neo4jSessionCleanup")
 
 // implementing routing
